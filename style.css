@@ -7,23 +7,23 @@
 }
 
 :root {
-    /* 莫兰迪色系 */
-    --logic-color: #9CAFBB;    /* 灰蓝色 */
-    --math-color: #D8B5A0;    /* 灰粉色 */
-    --english-color: #C4D8C7;  /* 灰绿色 */
-    --writing-color: #E3C8D8;  /* 淡紫色 */
-    --bg-color: #F5F3EF;       /* 米白色 */
-    --sidebar-color: #6D7B8C;  /* 深灰蓝色 */
-    --text-dark: #4A4A4A;      /* 深灰色 */
-    --text-light: #7A7A7A;     /* 中灰色 */
-    --text-lighter: #A0A0A0;   /* 浅灰色 */
-    --border-color: #D8D2C9;   /* 浅米灰色 */
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    --hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-    --success-color: #8DB596;  /* 莫兰迪绿 */
-    --warning-color: #D9A566;  /* 莫兰迪橙 */
-    --danger-color: #D19494;   /* 莫兰迪红 */
-    --radius: 16px;
+    /* 可爱马卡龙色系 */
+    --logic-color: #A8D8EA;    /* 淡蓝色 - 云朵蓝 */
+    --math-color: #FFD3B6;    /* 淡橙色 - 桃子橙 */
+    --english-color: #C7F0BD;  /* 淡绿色 - 薄荷绿 */
+    --writing-color: #FFAAA5;  /* 淡粉色 - 樱花粉 */
+    --bg-color: #FFF9F9;       /* 淡粉色背景 */
+    --sidebar-color: #7A9EB8;  /* 浅灰蓝色 */
+    --text-dark: #5A5A5A;      /* 深灰色 */
+    --text-light: #888888;     /* 中灰色 */
+    --text-lighter: #BBBBBB;   /* 浅灰色 */
+    --border-color: #FFE4E1;   /* 淡粉色边框 */
+    --card-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+    --hover-shadow: 0 6px 16px rgba(255, 182, 193, 0.15);
+    --success-color: #A8E6CF;  /* 马卡龙绿 */
+    --warning-color: #FFD3A5;  /* 马卡龙橙 */
+    --danger-color: #FF8B94;   /* 马卡龙红 */
+    --radius: 20px;            /* 更大的圆角更可爱 */
     --transition: all 0.3s ease;
 }
 
@@ -1039,4 +1039,262 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
+
+}
+/* 可爱的按钮样式 */
+.btn-primary, .save-btn {
+    background: linear-gradient(135deg, var(--logic-color) 0%, #92C9E6 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px; /* 胶囊形状更可爱 */
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(168, 216, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover, .save-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(168, 216, 234, 0.4);
+    background: linear-gradient(135deg, #92C9E6 0%, var(--logic-color) 100%);
+}
+
+.btn-primary:active, .save-btn:active {
+    transform: translateY(-1px);
+}
+
+.btn-primary i, .save-btn i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+/* 添加按钮的彩虹效果 */
+.btn-primary::after, .save-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.7s ease;
+}
+
+.btn-primary:hover::after, .save-btn:hover::after {
+    left: 100%;
+}
+
+/* 不同学科的按钮颜色 */
+.math-card .save-btn {
+    background: linear-gradient(135deg, var(--math-color) 0%, #FFC5A1 100%);
+    box-shadow: 0 4px 15px rgba(255, 211, 182, 0.3);
+}
+
+.math-card .save-btn:hover {
+    background: linear-gradient(135deg, #FFC5A1 0%, var(--math-color) 100%);
+    box-shadow: 0 6px 20px rgba(255, 211, 182, 0.4);
+}
+
+.english-card .save-btn {
+    background: linear-gradient(135deg, var(--english-color) 0%, #B3E9A3 100%);
+    box-shadow: 0 4px 15px rgba(199, 240, 189, 0.3);
+}
+
+.english-card .save-btn:hover {
+    background: linear-gradient(135deg, #B3E9A3 0%, var(--english-color) 100%);
+    box-shadow: 0 6px 20px rgba(199, 240, 189, 0.4);
+}
+
+.writing-card .save-btn {
+    background: linear-gradient(135deg, var(--writing-color) 0%, #FF9C96 100%);
+    box-shadow: 0 4px 15px rgba(255, 170, 165, 0.3);
+}
+
+.writing-card .save-btn:hover {
+    background: linear-gradient(135deg, #FF9C96 0%, var(--writing-color) 100%);
+    box-shadow: 0 6px 20px rgba(255, 170, 165, 0.4);
+}
+/* 统计卡片样式 */
+.stats-overview {
+    grid-column: span 12;
+    background-color: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 10px;
+}
+
+.stats-overview h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.stats-overview h3 i {
+    margin-right: 10px;
+    color: var(--warning-color);
+}
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f5ff 100%);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(168, 216, 234, 0.2);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(168, 216, 234, 0.2);
+    border-color: rgba(168, 216, 234, 0.4);
+}
+
+.stat-card i {
+    font-size: 32px;
+    color: var(--logic-color);
+    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(168, 216, 234, 0.1);
+    border-radius: 12px;
+}
+
+.stat-content h4 {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+/* 可爱加载动画 */
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.loading-spinner::before,
+.loading-spinner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    animation: spin 1.5s linear infinite;
+}
+
+.loading-spinner::before {
+    border-top-color: var(--logic-color);
+    border-right-color: var(--math-color);
+}
+
+.loading-spinner::after {
+    border-bottom-color: var(--english-color);
+    border-left-color: var(--writing-color);
+    animation-delay: 0.75s;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 页面切换动画 */
+.page {
+    animation: pageFadeIn 0.5s ease;
+}
+
+@keyframes pageFadeIn {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* 可爱装饰元素 */
+.decorative-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-icon {
+    position: absolute;
+    font-size: 48px;
+    opacity: 0.1;
+    animation: float 15s infinite ease-in-out;
+}
+
+.math-icon {
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+    color: var(--math-color);
+}
+
+.logic-icon {
+    top: 20%;
+    right: 10%;
+    animation-delay: 3s;
+    color: var(--logic-color);
+}
+
+.english-icon {
+    bottom: 15%;
+    left: 15%;
+    animation-delay: 6s;
+    color: var(--english-color);
+}
+
+.writing-icon {
+    bottom: 25%;
+    right: 5%;
+    animation-delay: 9s;
+    color: var(--writing-color);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    66% {
+        transform: translateY(10px) rotate(-5deg);
+    }
 }
