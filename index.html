@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBA可视化学习系统 - 完整版</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -39,93 +41,6 @@
             </button>
         </div>
     </nav>
-
-    <!-- 新手引导遮罩 -->
-    <div id="newbie-guide" class="guide-overlay">
-        <div class="guide-content">
-            <h2><i class="fas fa-handshake"></i> 欢迎使用MBA学习伙伴！</h2>
-            <p>我是您的学习助手，将引导您完成MBA备考之旅。</p>
-            
-            <div class="guide-step active" id="step-1">
-                <h3>第一步：了解您的背景</h3>
-                <p>这有助于我为您推荐最适合的学习路径</p>
-                <div class="background-form">
-                    <div class="form-group">
-                        <label>您的专业背景：</label>
-                        <select id="background-select">
-                            <option value="">请选择...</option>
-                            <option value="liberal-arts">文科背景</option>
-                            <option value="science-engineering">理工科背景</option>
-                            <option value="business">商科背景</option>
-                            <option value="other">其他</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>您的数学基础：</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="math-level" value="weak"> 薄弱（高中后很少接触）</label>
-                            <label><input type="radio" name="math-level" value="average"> 一般（还记得一些基础）</label>
-                            <label><input type="radio" name="math-level" value="good"> 良好（经常使用数学）</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>您的英语水平：</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="english-level" value="cet4"> 四级水平</label>
-                            <label><input type="radio" name="english-level" value="cet6"> 六级水平</label>
-                            <label><input type="radio" name="english-level" value="professional"> 专业八级/留学经历</label>
-                        </div>
-                    </div>
-                </div>
-                <button class="guide-next-btn" onclick="nextGuideStep(2)">下一步</button>
-            </div>
-            
-            <div class="guide-step" id="step-2">
-                <h3>第二步：设定学习目标</h3>
-                <p>明确的目标是成功的第一步</p>
-                <div class="goal-form">
-                    <div class="form-group">
-                        <label>您的考试时间：</label>
-                        <input type="date" id="exam-date" min="2024-01-01">
-                    </div>
-                    <div class="form-group">
-                        <label>目标总分：</label>
-                        <select id="target-score">
-                            <option value="180">180分（国家线）</option>
-                            <option value="200">200分（良好院校）</option>
-                            <option value="220">220分（优秀院校）</option>
-                            <option value="240">240分（顶尖院校）</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>每日可用学习时间：</label>
-                        <select id="study-time">
-                            <option value="1">1小时</option>
-                            <option value="2">2小时</option>
-                            <option value="3">3小时</option>
-                            <option value="4">4小时以上</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="guide-buttons">
-                    <button class="guide-prev-btn" onclick="prevGuideStep(1)">上一步</button>
-                    <button class="guide-next-btn" onclick="nextGuideStep(3)">下一步</button>
-                </div>
-            </div>
-            
-            <div class="guide-step" id="step-3">
-                <h3>第三步：生成个性化学习计划</h3>
-                <p>基于您的背景和目标，我为您推荐以下学习路径：</p>
-                <div id="personalized-plan" class="personalized-plan">
-                    <!-- 个性化计划将在这里动态生成 -->
-                </div>
-                <div class="guide-buttons">
-                    <button class="guide-prev-btn" onclick="prevGuideStep(2)">上一步</button>
-                    <button class="guide-next-btn" onclick="finishGuide()">开始学习！</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- 主内容区域 -->
     <main class="main-content">
@@ -1357,5 +1272,4 @@
     </div>
     <script src="app.js"></script>
 </body>
-
 </html>

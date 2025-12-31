@@ -152,13 +152,9 @@ const learningStages = [
 
 // 页面加载初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 检查是否第一次使用
-    if (!localStorage.getItem('mbaLearningData')) {
-        showNewbieGuide();
-    } else {
-        loadUserData();
-        updateDashboard();
-    }
+    // 加载用户数据
+    loadUserData();
+    updateDashboard();
     
     // 初始化导航按钮
     initNavigation();
@@ -178,144 +174,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化主题切换
     initThemeSwitcher();
     
-    // 更新每日名言
-    updateMotivationQuote();
-    
     // 初始化数学学习记录
     initMathLearningRecords();
 });
-
-// 显示新手引导
-function showNewbieGuide() {
-    document.getElementById('newbie-guide').style.display = 'flex';
-}
-
-// 下一步引导
-function nextGuideStep(step) {
-    // 验证当前步骤数据
-    if (step === 2) {
-        const background = document.getElementById('background-select').value;
-        const mathLevel = document.querySelector('input[name="math-level"]:checked');
-        const englishLevel = document.querySelector('input[name="english-level"]:checked');
-        
-        if (!background || !mathLevel || !englishLevel) {
-            alert('请完成所有选项');
-            return;
-        }
-        
-        // 保存用户背景数据
-        userData.profile.background = background;
-        userData.profile.mathLevel = mathLevel.value;
-        userData.profile.englishLevel = englishLevel.value;
-    }
-    
-    if (step === 3) {
-        const examDate = document.getElementById('exam-date').value;
-        const targetScore = document.getElementById('target-score').value;
-        const studyTime = document.getElementById('study-time').value;
-        
-        if (!examDate) {
-            alert('请选择考试日期');
-            return;
-        }
-        
-        // 保存目标数据
-        userData.profile.examDate = examDate;
-        userData.profile.targetScore = parseInt(targetScore);
-        userData.profile.dailyStudyTime = parseInt(studyTime);
-        
-        // 生成个性化计划
-        generatePersonalizedPlan();
-    }
-    
-    // 切换到下一步
-    document.querySelectorAll('.guide-step').forEach(step => {
-        step.classList.remove('active');
-    });
-    document.getElementById(`step-${step}`).classList.add('active');
-}
-
-// 上一步引导
-function prevGuideStep(step) {
-    document.querySelectorAll('.guide-step').forEach(step => {
-        step.classList.remove('active');
-    });
-    document.getElementById(`step-${step}`).classList.add('active');
-}
-
-// 完成引导
-function finishGuide() {
-    document.getElementById('newbie-guide').style.display = 'none';
-    
-    // 保存用户数据
-    saveUserData();
-    
-    // 更新仪表盘
-    updateDashboard();
-    
-    // 显示欢迎消息
-    showNotification('欢迎使用MBA学习伙伴！已为您生成个性化学习计划。', 'success');
-}
-
-// 生成个性化学习计划
-function generatePersonalizedPlan() {
-    const planContainer = document.getElementById('personalized-plan');
-    const background = userData.profile.background;
-    const mathLevel = userData.profile.mathLevel;
-    const englishLevel = userData.profile.englishLevel;
-    
-    let planHTML = '<div class="plan-summary">';
-    
-    // 根据背景推荐学习重点
-    if (background === 'liberal-arts') {
-        planHTML += `
-            <h4><i class="fas fa-user-graduate"></i> 文科背景学习方案</h4>
-            <p>检测到您是文科背景，建议学习重点：</p>
-            <ul>
-                <li><strong>数学：</strong>从基础概念开始，逐步建立信心，预计投入40%学习时间</li>
-                <li><strong>逻辑：</strong>发挥文科思维优势，重点掌握论证逻辑，预计投入25%学习时间</li>
-                <li><strong>英语：</strong>保持优势，重点提高阅读速度和写作，预计投入25%学习时间</li>
-                <li><strong>写作：</strong>结合逻辑训练，提高论证能力，预计投入10%学习时间</li>
-            </ul>
-        `;
-    } else if (background === 'science-engineering') {
-        planHTML += `
-            <h4><i class="fas fa-flask"></i> 理工科背景学习方案</h4>
-            <p>检测到您是理工科背景，建议学习重点：</p>
-            <ul>
-                <li><strong>数学：</strong>发挥量化分析优势，重点提高解题速度，预计投入20%学习时间</li>
-                <li><strong>逻辑：</strong>形式逻辑有优势，重点学习综合推理，预计投入25%学习时间</li>
-                <li><strong>英语：</strong>重点突破词汇和长难句，预计投入35%学习时间</li>
-                <li><strong>写作：</strong>学习商务写作规范，提高表达能力，预计投入20%学习时间</li>
-            </ul>
-        `;
-    } else {
-        planHTML += `
-            <h4><i class="fas fa-chart-line"></i> 通用学习方案</h4>
-            <p>为您推荐均衡发展学习方案：</p>
-            <ul>
-                <li><strong>数学：</strong>25%学习时间</li>
-                <li><strong>逻辑：</strong>25%学习时间</li>
-                <li><strong>英语：</strong>30%学习时间</li>
-                <li><strong>写作：</strong>20%学习时间</li>
-            </ul>
-        `;
-    }
-    
-    // 根据数学水平调整建议
-    if (mathLevel === 'weak') {
-        planHTML += `<p class="highlight"><i class="fas fa-exclamation-triangle"></i> 检测到数学基础薄弱，建议每天额外增加15分钟数学基础练习</p>`;
-    }
-    
-    // 根据英语水平调整建议
-    if (englishLevel === 'cet4') {
-        planHTML += `<p class="highlight"><i class="fas fa-exclamation-triangle"></i> 检测到英语需要加强，建议每天坚持背诵30个高频词汇</p>`;
-    }
-    
-    planHTML += '</div>';
-    
-    planContainer.innerHTML = planHTML;
-}
 
 // 初始化导航
 function initNavigation() {
@@ -1089,8 +950,8 @@ function closeSettings() {
 
 // 编辑个人资料
 function editProfile() {
-    showNewbieGuide();
     closeSettings();
+    showNotification('个人资料编辑功能将在后续版本中开放', 'info');
 }
 
 // 导出数据
@@ -1276,12 +1137,6 @@ function getNotificationColor(type) {
         case 'danger': return '#f44336';
         default: return '#2196f3';
     }
-}
-
-
-    
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById('motivation-quote').textContent = randomQuote;
 }
 
 // 页面卸载前保存数据
