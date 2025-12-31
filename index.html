@@ -3,150 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBA学习推进看板</title>
+    <title>MBA备考学习推进可视化看板</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head>
 <body>
-    <div class="container">
-        <!-- 顶部导航 -->
-        <header class="header">
+    <div class="app-container">
+        <!-- 侧边导航栏 -->
+        <nav class="sidebar">
             <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <h1>MBA学习推进看板</h1>
+                <i class="fas fa-graduation-cap"></i>
+                <h1>MBA备考</h1>
             </div>
-            <nav class="nav">
-                <button class="nav-btn active" data-page="dashboard">
-                    <i class="fas fa-home"></i> 首页
-                </button>
-                <button class="nav-btn" data-page="logic">
-                    <i class="fas fa-brain"></i> 逻辑
-                </button>
-                <button class="nav-btn" data-page="math">
-                    <i class="fas fa-calculator"></i> 数学
-                </button>
-                <button class="nav-btn" data-page="english">
-                    <i class="fas fa-language"></i> 英语
-                </button>
-                <button class="nav-btn" data-page="writing">
-                    <i class="fas fa-pen-fancy"></i> 写作
-                </button>
-            </nav>
-        </header>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>首页概览</span>
+                </li>
+                <li class="nav-item" data-page="logic">
+                    <i class="fas fa-brain"></i>
+                    <span>逻辑</span>
+                </li>
+                <li class="nav-item" data-page="math">
+                    <i class="fas fa-calculator"></i>
+                    <span>数学</span>
+                </li>
+                <li class="nav-item" data-page="english">
+                    <i class="fas fa-language"></i>
+                    <span>英语</span>
+                </li>
+                <li class="nav-item" data-page="writing">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>写作</span>
+                </li>
+            </ul>
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <p class="username">备考学员</p>
+                    <p class="user-status">今日学习: <span id="today-study-status">未开始</span></p>
+                </div>
+            </div>
+        </nav>
 
-        <!-- 主要内容区域 -->
-        <main class="main-content">
-            <!-- 首页 -->
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <!-- 首页 Dashboard -->
             <section id="dashboard" class="page active">
-                <div class="dashboard-header">
-                    <h2><i class="fas fa-tachometer-alt"></i> 学习仪表板</h2>
-                    <p class="subtitle">你的个人学习推进中心</p>
-                </div>
-
-                <div class="today-status card">
-                    <h3><i class="fas fa-calendar-day"></i> 今日学习状态</h3>
-                    <div class="subject-today-cards">
-                        <!-- 动态生成 -->
+                <header class="page-header">
+                    <h2><i class="fas fa-home"></i> 学习状态概览</h2>
+                    <div class="date-info">
+                        <span id="current-date"></span>
+                        <span id="current-time"></span>
                     </div>
-                </div>
-
-                <div class="dashboard-grid">
-                    <div class="stage-overview card">
-                        <h3><i class="fas fa-map-signs"></i> 当前学习阶段</h3>
-                        <div class="stage-cards">
-                            <!-- 动态生成 -->
+                </header>
+                
+                <div class="dashboard-content">
+                    <!-- 今日学习提示 -->
+                    <div class="today-tip">
+                        <div class="tip-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>今日学习提示</h3>
+                        </div>
+                        <p id="daily-tip">开始今天的学习吧！每天进步一点点，离目标更近一步。</p>
+                        <div class="study-status">
+                            <div class="status-indicator" id="today-status-indicator">
+                                <div class="indicator-dot"></div>
+                                <span>今日学习状态: <strong id="today-status-text">未开始</strong></span>
+                            </div>
+                            <button id="mark-studied-btn" class="btn-primary">
+                                <i class="fas fa-check-circle"></i> 标记今日已学习
+                            </button>
                         </div>
                     </div>
-
-                    <div class="recent-activity card">
-                        <h3><i class="fas fa-history"></i> 最近学习记录</h3>
-                        <div class="recent-list">
-                            <!-- 动态生成 -->
+                    
+                    <!-- 各科进度概览 -->
+                    <div class="progress-overview">
+                        <h3><i class="fas fa-chart-line"></i> 各科学习进度</h3>
+                        <div class="progress-cards">
+                            <div class="progress-card math-card">
+                                <div class="card-header">
+                                    <h4><i class="fas fa-calculator"></i> 数学</h4>
+                                    <span class="progress-percent" id="math-percent">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="math-progress"></div>
+                                </div>
+                                <div class="card-details">
+                                    <p>已完成: <span id="math-completed">0</span>/81 小节</p>
+                                    <p class="stage-info">当前阶段: <span id="math-stage">认识结构</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-card logic-card">
+                                <div class="card-header">
+                                    <h4><i class="fas fa-brain"></i> 逻辑</h4>
+                                    <span class="progress-percent" id="logic-percent">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="logic-progress"></div>
+                                </div>
+                                <div class="card-details">
+                                    <p>已完成: <span id="logic-completed">0</span>/26 小结</p>
+                                    <p class="stage-info">当前阶段: <span id="logic-stage">认识结构</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-card english-card">
+                                <div class="card-header">
+                                    <h4><i class="fas fa-language"></i> 英语</h4>
+                                    <span class="progress-percent" id="english-percent">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="english-progress"></div>
+                                </div>
+                                <div class="card-details">
+                                    <p>已完成: <span id="english-completed">0</span>/14 单元卡</p>
+                                    <p class="stage-info">当前阶段: <span id="english-stage">认识结构</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-card writing-card">
+                                <div class="card-header">
+                                    <h4><i class="fas fa-pen-fancy"></i> 写作</h4>
+                                    <span class="progress-percent" id="writing-percent">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="writing-progress"></div>
+                                </div>
+                                <div class="card-details">
+                                    <p>已完成: <span id="writing-completed">0</span>/11 单元卡</p>
+                                    <p class="stage-info">当前阶段: <span id="writing-stage">认识结构</span></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="motivation card">
-                    <h3><i class="fas fa-heart"></i> 学习提示</h3>
-                    <p class="motivation-text">推进比完美更重要。即使只学习10分钟，也值得记录。</p>
-                    <div class="progress-tip">
-                        <i class="fas fa-lightbulb"></i>
-                        <span>完成一个单元的状态更新，就能在进度条上前进一步。</span>
+                    
+                    <!-- 近期活动 -->
+                    <div class="recent-activity">
+                        <h3><i class="fas fa-history"></i> 近期学习活动</h3>
+                        <div class="activity-list" id="recent-activities">
+                            <div class="activity-item">
+                                <i class="fas fa-info-circle"></i>
+                                <p>暂无学习记录，开始你的第一项学习吧！</p>
+                                <span class="activity-time">--:--</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 心理安抚语 -->
+                    <div class="motivation">
+                        <div class="motivation-content">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <h3>备考路上，你并不孤单</h3>
+                                <p id="motivation-text">每一次努力都不会白费，每一份坚持都有意义。今天的你比昨天更优秀！</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 逻辑页面 -->
+            <!-- 逻辑学科页 -->
             <section id="logic" class="page">
-                <div class="subject-header">
-                    <div class="subject-title">
-                        <h2><i class="fas fa-brain"></i> 逻辑</h2>
-                        <div class="stage-badge logic-color">认识结构</div>
+                <header class="page-header">
+                    <h2><i class="fas fa-brain"></i> 逻辑《逻辑攻略》学习进度</h2>
+                    <div class="page-stats">
+                        <span><i class="fas fa-layer-group"></i> 9个大章节</span>
+                        <span><i class="fas fa-sticky-note"></i> 26个小结</span>
                     </div>
-                    <p class="subject-description">基于《逻辑攻略》结构化学习</p>
-                </div>
-
-                <div class="modules-container">
-                    <!-- 动态生成逻辑模块 -->
+                </header>
+                
+                <div class="subject-content">
+                    <div class="instructions">
+                        <p><i class="fas fa-info-circle"></i> 点击章节标题展开/收起，每个小结包含4个学习阶段记录字段，支持4档学习状态选择。</p>
+                    </div>
+                    
+                    <div id="logic-modules-container" class="modules-container">
+                        <!-- 逻辑模块将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </section>
 
-            <!-- 数学页面 -->
+            <!-- 数学学科页 -->
             <section id="math" class="page">
-                <div class="subject-header">
-                    <div class="subject-title">
-                        <h2><i class="fas fa-calculator"></i> 数学</h2>
-                        <div class="stage-badge math-color">认识结构</div>
+                <header class="page-header">
+                    <h2><i class="fas fa-calculator"></i> 数学《高分指南》学习进度</h2>
+                    <div class="page-stats">
+                        <span><i class="fas fa-layer-group"></i> 11个大章节</span>
+                        <span><i class="fas fa-sticky-note"></i> 81个小节</span>
                     </div>
-                    <p class="subject-description">基于《高分指南》结构化学习</p>
-                </div>
-
-                <div class="modules-container">
-                    <!-- 动态生成数学模块 -->
+                </header>
+                
+                <div class="subject-content">
+                    <div class="instructions">
+                        <p><i class="fas fa-info-circle"></i> 点击章节标题展开/收起，每个小节包含9个学习阶段记录字段，支持4档熟悉度状态选择。</p>
+                    </div>
+                    
+                    <div id="math-modules-container" class="modules-container">
+                        <!-- 数学模块将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </section>
 
-            <!-- 英语页面 -->
+            <!-- 英语学科页 -->
             <section id="english" class="page">
-                <div class="subject-header">
-                    <div class="subject-title">
-                        <h2><i class="fas fa-language"></i> 英语</h2>
-                        <div class="stage-badge english-color">认识结构</div>
+                <header class="page-header">
+                    <h2><i class="fas fa-language"></i> 英语学习进度</h2>
+                    <div class="page-stats">
+                        <span><i class="fas fa-layer-group"></i> 3个模块</span>
+                        <span><i class="fas fa-sticky-note"></i> 14个单元卡</span>
                     </div>
-                    <p class="subject-description">高频词群与阅读句学习</p>
-                </div>
-
-                <div class="modules-container">
-                    <!-- 动态生成英语模块 -->
+                </header>
+                
+                <div class="subject-content">
+                    <div class="instructions">
+                        <p><i class="fas fa-info-circle"></i> 点击模块标题展开/收起，每个单元卡包含2项勾选状态（见过/能猜意思或能替换）。</p>
+                    </div>
+                    
+                    <div id="english-modules-container" class="modules-container">
+                        <!-- 英语模块将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </section>
 
-            <!-- 写作页面 -->
+            <!-- 写作学科页 -->
             <section id="writing" class="page">
-                <div class="subject-header">
-                    <div class="subject-title">
-                        <h2><i class="fas fa-pen-fancy"></i> 写作</h2>
-                        <div class="stage-badge writing-color">认识结构</div>
+                <header class="page-header">
+                    <h2><i class="fas fa-pen-fancy"></i> 写作学习进度</h2>
+                    <div class="page-stats">
+                        <span><i class="fas fa-layer-group"></i> 3个模块</span>
+                        <span><i class="fas fa-sticky-note"></i> 11个单元卡</span>
                     </div>
-                    <p class="subject-description">结构拆解与模板积累</p>
-                </div>
-
-                <div class="modules-container">
-                    <!-- 动态生成写作模块 -->
+                </header>
+                
+                <div class="subject-content">
+                    <div class="instructions">
+                        <p><i class="fas fa-info-circle"></i> 点击模块标题展开/收起，每个单元卡包含2项勾选状态（见过模板/能替换）。</p>
+                    </div>
+                    
+                    <div id="writing-modules-container" class="modules-container">
+                        <!-- 写作模块将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </section>
         </main>
-
-        <!-- 底部信息 -->
-        <footer class="footer">
-            <p>航崽专属</p>
-        </footer>
     </div>
 
-    <!-- JavaScript文件 -->
+    <!-- 状态选择模态框 -->
+    <div id="status-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">选择状态</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="status-options"></div>
+                <div class="modal-notes">
+                    <label for="note-input">一句话记录：</label>
+                    <textarea id="note-input" placeholder="记录学习心得、卡点或核心记忆点..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-status-btn" class="btn-primary">保存状态</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
