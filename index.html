@@ -3,1283 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBA可视化学习系统 - 完整版</title>
-    <!-- 使用Font Awesome的本地备份或CDN备用 -->
+    <title>MBA学习推进看板</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* 基础Font Awesome图标样式 - 防止加载失败 */
-        .fas, .far, .fab {
-            font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', sans-serif;
-            font-weight: 900;
-            font-style: normal;
-            font-variant: normal;
-            line-height: 1;
-            text-rendering: auto;
-        }
-    </style>
     <link rel="stylesheet" href="style.css">
-    <!-- 移除Google字体依赖，使用系统字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-graduation-cap logo-icon"></i>
-            <span>MBA学习伙伴</span>
-        </div>
-        <div class="nav-links">
-            <button class="nav-btn active" data-page="dashboard">
-                <i class="fas fa-chart-line"></i>学习仪表盘
-            </button>
-            <button class="nav-btn" data-page="knowledge-map">
-                <i class="fas fa-map"></i>知识地图
-            </button>
-            <button class="nav-btn" data-page="logic">
-                <i class="fas fa-brain"></i>逻辑模块
-            </button>
-            <button class="nav-btn" data-page="math">
-                <i class="fas fa-calculator"></i>数学模块
-            </button>
-            <button class="nav-btn" data-page="english">
-                <i class="fas fa-language"></i>英语模块
-            </button>
-            <button class="nav-btn" data-page="writing">
-                <i class="fas fa-edit"></i>写作模块
-            </button>
-            <button class="nav-btn" id="settings-btn">
-                <i class="fas fa-cog"></i>设置
-            </button>
-        </div>
-    </nav>
-
-    <!-- 主内容区域 -->
-    <main class="main-content">
-        <!-- 仪表盘页面 -->
-        <section id="dashboard" class="page active">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-chart-line page-icon"></i>学习仪表盘
-                </h1>
-                <div class="user-profile">
-                    <div class="user-level">
-                        <span class="level-badge">初学者</span>
-                        <span id="days-remaining">距离考试还有 <strong>180</strong> 天</span>
-                    </div>
-                </div>
+    <div class="container">
+        <!-- 顶部导航 -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>MBA学习推进看板</h1>
             </div>
-            
-            <!-- 学习概览 -->
-            <div class="dashboard-overview">
-                <div class="overview-card">
-                    <div class="overview-icon" style="background-color: #e3f2fd;">
-                        <i class="fas fa-clock" style="color: #1976d2;"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>今日学习</h3>
-                        <div class="overview-value" id="today-study">0分钟</div>
-                        <div class="overview-target">目标：60分钟</div>
-                    </div>
-                </div>
-                
-                <div class="overview-card">
-                    <div class="overview-icon" style="background-color: #f3e5f5;">
-                        <i class="fas fa-check-circle" style="color: #7b1fa2;"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>已完成单元</h3>
-                        <div class="overview-value" id="completed-units">0个</div>
-                        <div class="overview-target">总计：32个单元</div>
-                    </div>
-                </div>
-                
-                <div class="overview-card">
-                    <div class="overview-icon" style="background-color: #e8f5e9;">
-                        <i class="fas fa-bullseye" style="color: #388e3c;"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>总体进度</h3>
-                        <div class="overview-value" id="overall-progress">0%</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="overall-progress-bar"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="overview-card">
-                    <div class="overview-icon" style="background-color: #fff3e0;">
-                        <i class="fas fa-trophy" style="color: #f57c00;"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>连续学习</h3>
-                        <div class="overview-value" id="streak-days">0天</div>
-                        <div class="overview-target">保持动力！</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 今日学习计划 -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-calendar-day"></i> 今日学习计划</h2>
-                    <button class="refresh-btn" onclick="generateDailyPlan()">
-                        <i class="fas fa-redo"></i> 重新生成
-                    </button>
-                </div>
-                <div class="daily-plan" id="daily-plan">
-                    <!-- 今日计划将在这里动态生成 -->
-                </div>
-            </div>
-            
-            <!-- 各科进度 -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-tasks"></i> 各科学习进度</h2>
-                </div>
-                <div class="subject-progress">
-                    <div class="subject-card" data-subject="logic">
-                        <div class="subject-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div class="subject-info">
-                            <h3>逻辑</h3>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 25%;"></div>
-                            </div>
-                            <div class="progress-text">3/12单元</div>
-                        </div>
-                    </div>
-                    
-                    <div class="subject-card" data-subject="math">
-                        <div class="subject-icon">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <div class="subject-info">
-                            <h3>数学</h3>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 12.5%;"></div>
-                            </div>
-                            <div class="progress-text">1/8单元</div>
-                        </div>
-                    </div>
-                    
-                    <div class="subject-card" data-subject="english">
-                        <div class="subject-icon">
-                            <i class="fas fa-language"></i>
-                        </div>
-                        <div class="subject-info">
-                            <h3>英语</h3>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 16.7%;"></div>
-                            </div>
-                            <div class="progress-text">2/12单元</div>
-                        </div>
-                    </div>
-                    
-                    <div class="subject-card" data-subject="writing">
-                        <div class="subject-icon">
-                            <i class="fas fa-edit"></i>
-                        </div>
-                        <div class="subject-info">
-                            <h3>写作</h3>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 0%;"></div>
-                            </div>
-                            <div class="progress-text">0/4单元</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 学习建议 -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-lightbulb"></i> 个性化学习建议</h2>
-                </div>
-                <div class="suggestions" id="learning-suggestions">
-                    <!-- 学习建议将在这里动态生成 -->
-                </div>
-            </div>
-        </section>
-
-        <!-- 知识地图页面 -->
-        <section id="knowledge-map" class="page">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-map page-icon"></i>MBA知识地图
-                </h1>
-                <div class="map-controls">
-                    <button class="map-control-btn active" data-view="overview">总览</button>
-                    <button class="map-control-btn" data-view="path">学习路径</button>
-                    <button class="map-control-btn" data-view="dependencies">依赖关系</button>
-                </div>
-            </div>
-            
-            <!-- 知识地图总览 -->
-            <div class="map-container" id="map-overview">
-                <div class="map-description">
-                    <h3><i class="fas fa-info-circle"></i> MBA联考知识体系</h3>
-                    <p>MBA联考包含四个科目，它们相互关联，共同构成商业管理人才的知识基础：</p>
-                </div>
-                
-                <div class="knowledge-graph">
-                    <div class="graph-center">
-                        <div class="center-node">MBA联考</div>
-                        <div class="connecting-lines"></div>
-                    </div>
-                    
-                    <div class="subject-node" data-subject="logic">
-                        <div class="node-header">
-                            <i class="fas fa-brain"></i>
-                            <h4>逻辑</h4>
-                        </div>
-                        <div class="node-desc">商业决策的思维基础</div>
-                        <div class="node-connection">→ 写作论证</div>
-                    </div>
-                    
-                    <div class="subject-node" data-subject="math">
-                        <div class="node-header">
-                            <i class="fas fa-calculator"></i>
-                            <h4>数学</h4>
-                        </div>
-                        <div class="node-desc">量化分析的工具</div>
-                        <div class="node-connection">→ 逻辑推理</div>
-                    </div>
-                    
-                    <div class="subject-node" data-subject="english">
-                        <div class="node-header">
-                            <i class="fas fa-language"></i>
-                            <h4>英语</h4>
-                        </div>
-                        <div class="node-desc">国际商务的桥梁</div>
-                        <div class="node-connection">→ 商务沟通</div>
-                    </div>
-                    
-                    <div class="subject-node" data-subject="writing">
-                        <div class="node-header">
-                            <i class="fas fa-edit"></i>
-                            <h4>写作</h4>
-                        </div>
-                        <div class="node-desc">思想表达的艺术</div>
-                        <div class="node-connection">← 逻辑+英语</div>
-                    </div>
-                </div>
-                
-                <div class="map-legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #bbdefb;"></div>
-                        <span>基础模块</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #c8e6c9;"></div>
-                        <span>应用模块</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #fff9c4;"></div>
-                        <span>综合模块</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-line" style="border-top: 2px solid #7986cb;"></div>
-                        <span>强关联</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-line" style="border-top: 2px dashed #7986cb;"></div>
-                        <span>弱关联</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 推荐学习路径 -->
-            <div class="map-container hidden" id="map-path">
-                <div class="path-selection">
-                    <h3><i class="fas fa-user-graduate"></i> 选择适合您的学习路径</h3>
-                    <div class="path-options">
-                        <div class="path-option active" data-path="balanced">
-                            <div class="path-icon">
-                                <i class="fas fa-balance-scale"></i>
-                            </div>
-                            <h4>均衡发展路径</h4>
-                            <p>适合大部分考生，四科同步推进</p>
-                            <div class="path-duration">预计：4-6个月</div>
-                        </div>
-                        
-                        <div class="path-option" data-path="math-focused">
-                            <div class="path-icon">
-                                <i class="fas fa-calculator"></i>
-                            </div>
-                            <h4>数学优先路径</h4>
-                            <p>适合数学基础薄弱的考生</p>
-                            <div class="path-duration">预计：5-7个月</div>
-                        </div>
-                        
-                        <div class="path-option" data-path="english-focused">
-                            <div class="path-icon">
-                                <i class="fas fa-language"></i>
-                            </div>
-                            <h4>英语优先路径</h4>
-                            <p>适合英语基础薄弱的考生</p>
-                            <div class="path-duration">预计：5-7个月</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="path-visualization">
-                    <h4>均衡发展路径时间表</h4>
-                    <div class="timeline">
-                        <div class="timeline-phase" style="background-color: #e3f2fd;">
-                            <div class="phase-title">第一阶段：基础建立</div>
-                            <div class="phase-duration">第1-2个月</div>
-                            <div class="phase-subjects">
-                                <span class="subject-tag math">数学基础</span>
-                                <span class="subject-tag logic">逻辑入门</span>
-                                <span class="subject-tag english">英语词汇</span>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-phase" style="background-color: #f3e5f5;">
-                            <div class="phase-title">第二阶段：核心强化</div>
-                            <div class="phase-duration">第3-4个月</div>
-                            <div class="phase-subjects">
-                                <span class="subject-tag math">数学应用</span>
-                                <span class="subject-tag logic">逻辑推理</span>
-                                <span class="subject-tag english">阅读技巧</span>
-                                <span class="subject-tag writing">写作基础</span>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-phase" style="background-color: #e8f5e9;">
-                            <div class="phase-title">第三阶段：综合提升</div>
-                            <div class="phase-duration">第5-6个月</div>
-                            <div class="phase-subjects">
-                                <span class="subject-tag math">真题训练</span>
-                                <span class="subject-tag logic">综合推理</span>
-                                <span class="subject-tag english">写作模板</span>
-                                <span class="subject-tag writing">论证写作</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 知识点依赖关系 -->
-            <div class="map-container hidden" id="map-dependencies">
-                <div class="dependencies-description">
-                    <h3><i class="fas fa-project-diagram"></i> 知识点依赖关系</h3>
-                    <p>了解知识点之间的依赖关系，可以避免学习过程中的"知识断层"</p>
-                </div>
-                
-                <div class="dependency-graph">
-                    <div class="dependency-column">
-                        <h5>基础层</h5>
-                        <div class="dependency-node basic">数学运算</div>
-                        <div class="dependency-node basic">英语词汇</div>
-                        <div class="dependency-node basic">逻辑概念</div>
-                    </div>
-                    
-                    <div class="dependency-arrow">→</div>
-                    
-                    <div class="dependency-column">
-                        <h5>核心层</h5>
-                        <div class="dependency-node core">代数方程</div>
-                        <div class="dependency-node core">阅读理解</div>
-                        <div class="dependency-node core">形式逻辑</div>
-                    </div>
-                    
-                    <div class="dependency-arrow">→</div>
-                    
-                    <div class="dependency-column">
-                        <h5>应用层</h5>
-                        <div class="dependency-node advanced">数据分析</div>
-                        <div class="dependency-node advanced">论证写作</div>
-                        <div class="dependency-node advanced">综合推理</div>
-                    </div>
-                    
-                    <div class="dependency-arrow">→</div>
-                    
-                    <div class="dependency-column">
-                        <h5>综合层</h5>
-                        <div class="dependency-node comprehensive">商业案例分析</div>
-                        <div class="dependency-node comprehensive">决策支持逻辑</div>
-                    </div>
-                </div>
-                
-                <div class="dependency-example">
-                    <h5><i class="fas fa-exclamation-circle"></i> 重要依赖示例</h5>
-                    <div class="example-item">
-                        <div class="example-from">数学：方程求解</div>
-                        <div class="example-arrow">→</div>
-                        <div class="example-to">逻辑：条件推理</div>
-                        <div class="example-desc">数学中的等量关系是逻辑条件推理的基础</div>
-                    </div>
-                    <div class="example-item">
-                        <div class="example-from">英语：长难句分析</div>
-                        <div class="example-arrow">→</div>
-                        <div class="example-to">逻辑：论证结构识别</div>
-                        <div class="example-desc">英语阅读能力帮助理解逻辑论证的语言表达</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 逻辑模块页面 -->
-        <section id="logic" class="page">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-brain page-icon"></i>逻辑模块
-                </h1>
-                <div class="module-controls">
-                    <button class="module-control-btn" data-action="show-overview">
-                        <i class="fas fa-info-circle"></i> 模块概述
-                    </button>
-                    <button class="module-control-btn" data-action="show-structure">
-                        <i class="fas fa-sitemap"></i> 知识结构
-                    </button>
-                    <button class="module-control-btn" data-action="show-exercises">
-                        <i class="fas fa-dumbbell"></i> 基础练习
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 模块概述 -->
-            <div class="module-overview">
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>模块概述</h3>
-                        <p>逻辑是MBA考试的核心科目，考察您的<strong>批判性思维和推理能力</strong>。本模块将帮助您掌握商业决策中所需的逻辑分析方法。</p>
-                        
-                        <div class="overview-highlights">
-                            <div class="highlight">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>学习目标：</strong>掌握形式逻辑、论证逻辑和综合推理三大板块</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-clock"></i>
-                                <span><strong>预计用时：</strong>60-80小时</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span><strong>常见难点：</strong>条件推理、论证评价、综合推理速度</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-lightbulb"></i>
-                                <span><strong>学习建议：</strong>先掌握基本概念，再通过大量练习培养"题感"</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 商业应用场景 -->
-                <div class="application-scenarios">
-                    <h3><i class="fas fa-briefcase"></i> 商业应用场景</h3>
-                    <div class="scenario-list">
-                        <div class="scenario">
-                            <h4>决策分析</h4>
-                            <p>逻辑思维帮助管理者在复杂情况下做出合理决策，避免认知偏差。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>商业谈判</h4>
-                            <p>识别对方论证中的逻辑漏洞，构建有说服力的己方论证。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>报告撰写</h4>
-                            <p>构建逻辑严谨的商业报告，使观点清晰、论证有力。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 知识结构 -->
-            <div class="module-structure">
-                <div class="structure-navigation">
-                    <div class="structure-tab active" data-section="form-logic">形式逻辑</div>
-                    <div class="structure-tab" data-section="argument-logic">论证逻辑</div>
-                    <div class="structure-tab" data-section="comprehensive-reasoning">综合推理</div>
-                </div>
-                
-                <!-- 形式逻辑部分 -->
-                <div class="structure-section active" id="form-logic">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-project-diagram"></i> 形式逻辑</h4>
-                        <p>学习命题、推理规则和逻辑等价关系，这是逻辑思维的基础工具。</p>
-                    </div>
-                    
-                    <div class="knowledge-cards">
-                        <!-- 命题与联结词卡片 -->
-                        <div class="knowledge-card" data-topic="propositions">
-                            <div class="card-header">
-                                <div class="card-icon">
-                                    <i class="fas fa-quote-right"></i>
-                                </div>
-                                <h5>命题与联结词</h5>
-                                <div class="card-status">
-                                    <span class="status-badge beginner">初学者</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="concept-explanation">
-                                    <h6><i class="fas fa-info-circle"></i> 核心概念</h6>
-                                    <p><strong>命题</strong>是能够判断真假的陈述句。<strong>联结词</strong>（如"且"、"或"、"如果...那么..."）用于连接命题，形成复合命题。</p>
-                                </div>
-                                
-                                <div class="plain-explanation">
-                                    <h6><i class="fas fa-comments"></i> 大白话解释</h6>
-                                    <p>就像搭积木一样，简单命题是基础积木，联结词是连接件，可以组合成更复杂的逻辑结构。</p>
-                                </div>
-                                
-                                <div class="business-application">
-                                    <h6><i class="fas fa-briefcase"></i> 商业应用</h6>
-                                    <p>在制定商业规则时使用："<em>如果</em>客户购买金额超过1000元，<em>那么</em>赠送优惠券"</p>
-                                </div>
-                                
-                                <div class="common-misconceptions">
-                                    <h6><i class="fas fa-exclamation-triangle"></i> 常见误解</h6>
-                                    <p>混淆"或"的两种含义：日常语言中的"或"通常指二者选一，但逻辑中的"或"包含两者都成立的情况。</p>
-                                </div>
-                                
-                                <div class="learning-resources">
-                                    <h6><i class="fas fa-book"></i> 学习资源</h6>
-                                    <ul>
-                                        <li><i class="fas fa-video"></i> 王诚老师：逻辑基础课第1-3讲</li>
-                                        <li><i class="fas fa-book-open"></i> 《逻辑攻略》第一章</li>
-                                        <li><i class="fas fa-clock"></i> 建议学习时间：2-3小时</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="study-btn" onclick="startStudying('逻辑', '命题与联结词')">
-                                    <i class="fas fa-play-circle"></i> 开始学习
-                                </button>
-                                <button class="exercise-btn" onclick="showExercises('逻辑', '命题与联结词')">
-                                    <i class="fas fa-dumbbell"></i> 基础练习
-                                </button>
-                                <div class="progress-indicator">
-                                    <div class="progress-fill" style="width: 40%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 推理规则卡片 -->
-                        <div class="knowledge-card" data-topic="inference-rules">
-                            <div class="card-header">
-                                <div class="card-icon">
-                                    <i class="fas fa-arrows-alt-h"></i>
-                                </div>
-                                <h5>推理规则</h5>
-                                <div class="card-status">
-                                    <span class="status-badge intermediate">中级</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="concept-explanation">
-                                    <h6><i class="fas fa-info-circle"></i> 核心概念</h6>
-                                    <p>从已知命题推出新命题的规则，如假言推理、选言推理等。</p>
-                                </div>
-                                
-                                <div class="plain-explanation">
-                                    <h6><i class="fas fa-comments"></i> 大白话解释</h6>
-                                    <p>就像数学中的公式，给定某些条件，可以推导出必然的结果。</p>
-                                </div>
-                                
-                                <div class="business-application">
-                                    <h6><i class="fas fa-briefcase"></i> 商业应用</h6>
-                                    <p>市场分析："<em>如果</em>经济下行，<em>那么</em>奢侈品销量下降。现在经济下行，<em>所以</em>奢侈品销量会下降。"</p>
-                                </div>
-                                
-                                <div class="common-misconceptions">
-                                    <h6><i class="fas fa-exclamation-triangle"></i> 常见误解</h6>
-                                    <p>混淆"如果A那么B"的逆命题和逆否命题。只有逆否命题与原命题等价。</p>
-                                </div>
-                                
-                                <div class="learning-resources">
-                                    <h6><i class="fas fa-book"></i> 学习资源</h6>
-                                    <ul>
-                                        <li><i class="fas fa-video"></i> 王诚老师：逻辑基础课第4-6讲</li>
-                                        <li><i class="fas fa-book-open"></i> 《逻辑攻略》第二章</li>
-                                        <li><i class="fas fa-clock"></i> 建议学习时间：3-4小时</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="study-btn" onclick="startStudying('逻辑', '推理规则')">
-                                    <i class="fas fa-play-circle"></i> 开始学习
-                                </button>
-                                <button class="exercise-btn" onclick="showExercises('逻辑', '推理规则')">
-                                    <i class="fas fa-dumbbell"></i> 基础练习
-                                </button>
-                                <div class="progress-indicator">
-                                    <div class="progress-fill" style="width: 20%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 论证逻辑部分 -->
-                <div class="structure-section" id="argument-logic">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-comments"></i> 论证逻辑</h4>
-                        <p>学习如何评价和构建论证，识别逻辑谬误，这是批判性思维的核心。</p>
-                    </div>
-                    
-                    <div class="knowledge-cards">
-                        <!-- 因果论证卡片 -->
-                        <div class="knowledge-card" data-topic="causal-arguments">
-                            <div class="card-header">
-                                <div class="card-icon">
-                                    <i class="fas fa-link"></i>
-                                </div>
-                                <h5>因果论证</h5>
-                                <div class="card-status">
-                                    <span class="status-badge intermediate">中级</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="concept-explanation">
-                                    <h6><i class="fas fa-info-circle"></i> 核心概念</h6>
-                                    <p>确定事件之间因果关系的论证方法，包括求同法、求异法、共变法等。</p>
-                                </div>
-                                
-                                <div class="plain-explanation">
-                                    <h6><i class="fas fa-comments"></i> 大白话解释</h6>
-                                    <p>就像侦探破案，通过寻找规律和排除干扰因素，确定什么是导致结果的原因。</p>
-                                </div>
-                                
-                                <div class="business-application">
-                                    <h6><i class="fas fa-briefcase"></i> 商业应用</h6>
-                                    <p>营销效果分析："广告投放后销量上升，但要排除季节性因素、竞品活动等其他可能原因，才能确定广告的效果。"</p>
-                                </div>
-                                
-                                <div class="common-misconceptions">
-                                    <h6><i class="fas fa-exclamation-triangle"></i> 常见误解</h6>
-                                    <p>混淆相关关系和因果关系。两个现象同时发生不一定有因果关系。</p>
-                                </div>
-                                
-                                <div class="learning-resources">
-                                    <h6><i class="fas fa-book"></i> 学习资源</h6>
-                                    <ul>
-                                        <li><i class="fas fa-video"></i> 王诚老师：论证逻辑第1-2讲</li>
-                                        <li><i class="fas fa-book-open"></i> 《逻辑攻略》第六章</li>
-                                        <li><i class="fas fa-clock"></i> 建议学习时间：3小时</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="study-btn" onclick="startStudying('逻辑', '因果论证')">
-                                    <i class="fas fa-play-circle"></i> 开始学习
-                                </button>
-                                <button class="exercise-btn" onclick="showExercises('逻辑', '因果论证')">
-                                    <i class="fas fa-dumbbell"></i> 基础练习
-                                </button>
-                                <div class="progress-indicator">
-                                    <div class="progress-fill" style="width: 0%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 基础练习区域（默认隐藏） -->
-            <div class="module-exercises hidden">
-                <div class="exercises-header">
-                    <h3><i class="fas fa-dumbbell"></i> 基础练习</h3>
-                    <button class="back-to-structure-btn" onclick="backToStructure()">
-                        <i class="fas fa-arrow-left"></i> 返回知识结构
-                    </button>
-                </div>
-                
-                <div class="exercise-container" id="exercise-container">
-                    <!-- 练习内容将在这里动态生成 -->
-                </div>
-            </div>
-        </section>
-
-        <!-- 数学模块页面 -->
-        <section id="math" class="page">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-calculator page-icon"></i>数学模块
-                </h1>
-                <div class="module-controls">
-                    <button class="module-control-btn" data-action="show-overview">
-                        <i class="fas fa-info-circle"></i> 模块概述
-                    </button>
-                    <button class="module-control-btn" data-action="show-structure">
-                        <i class="fas fa-sitemap"></i> 知识结构
-                    </button>
-                    <button class="module-control-btn" data-action="show-exercises">
-                        <i class="fas fa-clipboard-list"></i> 学习记录
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 模块概述 -->
-            <div class="module-overview">
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>模块概述</h3>
-                        <p>数学是MBA考试的<strong>量化分析工具</strong>，考察您的计算能力、问题建模能力和数据分析能力。</p>
-                        
-                        <div class="overview-highlights">
-                            <div class="highlight">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>学习目标：</strong>掌握算术、代数、几何和数据分析四大板块的核心方法</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-clock"></i>
-                                <span><strong>预计用时：</strong>80-100小时</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span><strong>常见难点：</strong>应用题建模、排列组合、概率计算</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-lightbulb"></i>
-                                <span><strong>学习建议：</strong>文科背景考生先建立信心，从基础概念开始，逐步增加难度</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 商业应用场景 -->
-                <div class="application-scenarios">
-                    <h3><i class="fas fa-briefcase"></i> 商业应用场景</h3>
-                    <div class="scenario-list">
-                        <div class="scenario">
-                            <h4>财务分析</h4>
-                            <p>百分比、利率计算、投资回报率分析等是财务决策的基础。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>市场预测</h4>
-                            <p>使用统计方法和概率模型预测市场趋势和消费者行为。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>运营优化</h4>
-                            <p>通过几何和代数方法优化仓储、物流和资源配置。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 知识结构 -->
-            <div class="module-structure">
-                <div class="structure-navigation">
-                    <div class="structure-tab active" data-section="arithmetic">算术</div>
-                    <div class="structure-tab" data-section="algebra">代数</div>
-                    <div class="structure-tab" data-section="geometry">几何</div>
-                    <div class="structure-tab" data-section="data-analysis">数据分析</div>
-                </div>
-                
-                <!-- 算术部分 -->
-                <div class="structure-section active" id="arithmetic">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-sort-numeric-up"></i> 算术</h4>
-                        <p>学习整数、分数、百分比等基础运算，这是所有数学应用的基础。</p>
-                    </div>
-                    
-                    <!-- 数学知识结构将在这里动态生成 -->
-                    <div class="knowledge-cards">
-                        <!-- 知识结构内容将由JavaScript动态生成 -->
-                    </div>
-                </div>
-                
-                <!-- 代数部分 -->
-                <div class="structure-section" id="algebra">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-superscript"></i> 代数</h4>
-                        <p>学习方程、函数和不等式的求解方法，这是量化分析的核心工具。</p>
-                    </div>
-                    
-                    <!-- 数学知识结构将在这里动态生成 -->
-                    <div class="knowledge-cards">
-                        <!-- 知识结构内容将由JavaScript动态生成 -->
-                    </div>
-                </div>
-                
-                <!-- 几何部分 -->
-                <div class="structure-section" id="geometry">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-shapes"></i> 几何</h4>
-                        <p>学习平面几何和立体几何的基本概念，应用于空间分析和设计优化。</p>
-                    </div>
-                    
-                    <!-- 数学知识结构将在这里动态生成 -->
-                    <div class="knowledge-cards">
-                        <!-- 知识结构内容将由JavaScript动态生成 -->
-                    </div>
-                </div>
-                
-                <!-- 数据分析部分 -->
-                <div class="structure-section" id="data-analysis">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-chart-bar"></i> 数据分析</h4>
-                        <p>学习统计、概率和数据分析方法，支持商业决策。</p>
-                    </div>
-                    
-                    <!-- 数学知识结构将在这里动态生成 -->
-                    <div class="knowledge-cards">
-                        <!-- 知识结构内容将由JavaScript动态生成 -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 学习记录区域（默认隐藏） -->
-            <div class="module-exercises hidden">
-                <!-- 学习记录内容将由JavaScript动态生成 -->
-            </div>
-        </section>
-
-        <!-- 英语模块页面 -->
-        <section id="english" class="page">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-language page-icon"></i>英语模块
-                </h1>
-                <div class="module-controls">
-                    <button class="module-control-btn" data-action="show-overview">
-                        <i class="fas fa-info-circle"></i> 模块概述
-                    </button>
-                    <button class="module-control-btn" data-action="show-structure">
-                        <i class="fas fa-sitemap"></i> 知识结构
-                    </button>
-                    <button class="module-control-btn" data-action="show-exercises">
-                        <i class="fas fa-dumbbell"></i> 基础练习
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 模块概述 -->
-            <div class="module-overview">
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>模块概述</h3>
-                        <p>英语是MBA考试的<strong>国际交流工具</strong>，考察您的阅读理解、词汇应用和写作表达能力。</p>
-                        
-                        <div class="overview-highlights">
-                            <div class="highlight">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>学习目标：</strong>掌握高频词汇、阅读技巧和商务写作模板</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-clock"></i>
-                                <span><strong>预计用时：</strong>100-120小时</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span><strong>常见难点：</strong>长难句理解、学术词汇、写作逻辑</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-lightbulb"></i>
-                                <span><strong>学习建议：</strong>每天坚持背单词，精读真题文章，积累写作模板</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 商业应用场景 -->
-                <div class="application-scenarios">
-                    <h3><i class="fas fa-briefcase"></i> 商业应用场景</h3>
-                    <div class="scenario-list">
-                        <div class="scenario">
-                            <h4>国际商务沟通</h4>
-                            <p>阅读英文合同、撰写商务邮件、参加国际会议。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>行业报告分析</h4>
-                            <p>阅读英文行业报告、学术论文，获取国际市场信息。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>跨文化管理</h4>
-                            <p>理解不同文化背景下的沟通方式和商业习惯。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 知识结构 -->
-            <div class="module-structure">
-                <div class="structure-navigation">
-                    <div class="structure-tab active" data-section="vocabulary">高频词群</div>
-                    <div class="structure-tab" data-section="reading">阅读句</div>
-                    <div class="structure-tab" data-section="writing">写作模板</div>
-                </div>
-                
-                <!-- 高频词群部分 -->
-                <div class="structure-section active" id="vocabulary">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-font"></i> 高频词群</h4>
-                        <p>学习按语义和功能分类的词汇群组，而不是孤立背单词。</p>
-                    </div>
-                    
-                    <div class="knowledge-cards">
-                        <!-- 转折关系词群卡片 -->
-                        <div class="knowledge-card" data-topic="transition-words">
-                            <div class="card-header">
-                                <div class="card-icon">
-                                    <i class="fas fa-exchange-alt"></i>
-                                </div>
-                                <h5>转折关系词群</h5>
-                                <div class="card-status">
-                                    <span class="status-badge beginner">初学者</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="concept-explanation">
-                                    <h6><i class="fas fa-info-circle"></i> 核心概念</h6>
-                                    <p>表示观点、事实或情况发生转折的词汇，如however, but, yet, although等。</p>
-                                </div>
-                                
-                                <div class="plain-explanation">
-                                    <h6><i class="fas fa-comments"></i> 大白话解释</h6>
-                                    <p>就像中文的"但是"、"然而"，用来表示前后文意思的转折或对比。</p>
-                                </div>
-                                
-                                <div class="business-application">
-                                    <h6><i class="fas fa-briefcase"></i> 商业应用</h6>
-                                    <p>市场报告："The product performed well in most markets; however, it struggled in Asia due to cultural differences."</p>
-                                </div>
-                                
-                                <div class="common-misconceptions">
-                                    <h6><i class="fas fa-exclamation-triangle"></i> 常见误解</h6>
-                                    <p>混淆"but"和"however"的用法："but"连接两个分句，而"however"常作为插入语使用。</p>
-                                </div>
-                                
-                                <div class="learning-resources">
-                                    <h6><i class="fas fa-book"></i> 学习资源</h6>
-                                    <ul>
-                                        <li><i class="fas fa-video"></i> 英语高频词群第1讲</li>
-                                        <li><i class="fas fa-book-open"></i> 《MBA英语核心词汇》第一章</li>
-                                        <li><i class="fas fa-clock"></i> 建议学习时间：2小时</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="study-btn" onclick="startStudying('英语', '转折关系词群')">
-                                    <i class="fas fa-play-circle"></i> 开始学习
-                                </button>
-                                <button class="exercise-btn" onclick="showExercises('英语', '转折关系词群')">
-                                    <i class="fas fa-dumbbell"></i> 基础练习
-                                </button>
-                                <div class="progress-indicator">
-                                    <div class="progress-fill" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 基础练习区域（默认隐藏） -->
-            <div class="module-exercises hidden">
-                <div class="exercises-header">
-                    <h3><i class="fas fa-dumbbell"></i> 基础练习</h3>
-                    <button class="back-to-structure-btn" onclick="backToStructure()">
-                        <i class="fas fa-arrow-left"></i> 返回知识结构
-                    </button>
-                </div>
-                
-                <div class="exercise-container" id="english-exercise-container">
-                    <!-- 练习内容将在这里动态生成 -->
-                </div>
-            </div>
-        </section>
-
-        <!-- 写作模块页面 -->
-        <section id="writing" class="page">
-            <div class="page-header">
-                <h1 class="page-title">
-                    <i class="fas fa-edit page-icon"></i>写作模块
-                </h1>
-                <div class="module-controls">
-                    <button class="module-control-btn" data-action="show-overview">
-                        <i class="fas fa-info-circle"></i> 模块概述
-                    </button>
-                    <button class="module-control-btn" data-action="show-structure">
-                        <i class="fas fa-sitemap"></i> 知识结构
-                    </button>
-                    <button class="module-control-btn" data-action="show-exercises">
-                        <i class="fas fa-dumbbell"></i> 基础练习
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 模块概述 -->
-            <div class="module-overview">
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <div class="overview-content">
-                        <h3>模块概述</h3>
-                        <p>写作是MBA考试的<strong>思想表达工具</strong>，考察您的逻辑思维、论证能力和文字表达能力。</p>
-                        
-                        <div class="overview-highlights">
-                            <div class="highlight">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>学习目标：</strong>掌握论证有效性分析和论说文的写作方法</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-clock"></i>
-                                <span><strong>预计用时：</strong>40-60小时</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span><strong>常见难点：</strong>论证结构、逻辑漏洞识别、观点提炼</span>
-                            </div>
-                            <div class="highlight">
-                                <i class="fas fa-lightbulb"></i>
-                                <span><strong>学习建议：</strong>先模仿优秀范文，再逐步形成自己的写作风格</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 商业应用场景 -->
-                <div class="application-scenarios">
-                    <h3><i class="fas fa-briefcase"></i> 商业应用场景</h3>
-                    <div class="scenario-list">
-                        <div class="scenario">
-                            <h4>商业提案撰写</h4>
-                            <p>撰写有说服力的商业计划书、项目提案。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>报告分析</h4>
-                            <p>对商业报告进行逻辑分析和评价，提出改进建议。</p>
-                        </div>
-                        <div class="scenario">
-                            <h4>战略沟通</h4>
-                            <p>清晰表达战略思想，说服团队成员和利益相关者。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 知识结构 -->
-            <div class="module-structure">
-                <div class="structure-navigation">
-                    <div class="structure-tab active" data-section="structure-analysis">结构拆解</div>
-                    <div class="structure-tab" data-section="template-sentences">模板句</div>
-                </div>
-                
-                <!-- 结构拆解部分 -->
-                <div class="structure-section active" id="structure-analysis">
-                    <div class="section-intro">
-                        <h4><i class="fas fa-layer-group"></i> 结构拆解</h4>
-                        <p>学习议论文的标准结构，掌握开头、论证和结尾的写作方法。</p>
-                    </div>
-                    
-                    <div class="knowledge-cards">
-                        <!-- 引言段落卡片 -->
-                        <div class="knowledge-card" data-topic="introduction-paragraph">
-                            <div class="card-header">
-                                <div class="card-icon">
-                                    <i class="fas fa-paragraph"></i>
-                                </div>
-                                <h5>引言段落（开头段）</h5>
-                                <div class="card-status">
-                                    <span class="status-badge beginner">初学者</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="concept-explanation">
-                                    <h6><i class="fas fa-info-circle"></i> 核心概念</h6>
-                                    <p>文章的开头部分，需要吸引读者注意力、提出中心论点、预告文章结构。</p>
-                                </div>
-                                
-                                <div class="plain-explanation">
-                                    <h6><i class="fas fa-comments"></i> 大白话解释</h6>
-                                    <p>就像见面的第一印象，要让人愿意继续读下去，并知道你要讲什么。</p>
-                                </div>
-                                
-                                <div class="business-application">
-                                    <h6><i class="fas fa-briefcase"></i> 商业应用</h6>
-                                    <p>商业报告开头："本报告旨在分析当前市场趋势，并提出三点战略建议，以应对日益激烈的竞争。"</p>
-                                </div>
-                                
-                                <div class="common-misconceptions">
-                                    <h6><i class="fas fa-exclamation-triangle"></i> 常见误解</h6>
-                                    <p>开头过于冗长或过于简单。好的开头应该简明扼要又引人入胜。</p>
-                                </div>
-                                
-                                <div class="learning-resources">
-                                    <h6><i class="fas fa-book"></i> 学习资源</h6>
-                                    <ul>
-                                        <li><i class="fas fa-video"></i> 写作基础课第1讲</li>
-                                        <li><i class="fas fa-book-open"></i> 《写作高分指南》第二章</li>
-                                        <li><i class="fas fa-clock"></i> 建议学习时间：2小时</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="study-btn" onclick="startStudying('写作', '引言段落')">
-                                    <i class="fas fa-play-circle"></i> 开始学习
-                                </button>
-                                <button class="exercise-btn" onclick="showExercises('写作', '引言段落')">
-                                    <i class="fas fa-dumbbell"></i> 基础练习
-                                </button>
-                                <div class="progress-indicator">
-                                    <div class="progress-fill" style="width: 0%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 基础练习区域（默认隐藏） -->
-            <div class="module-exercises hidden">
-                <div class="exercises-header">
-                    <h3><i class="fas fa-dumbbell"></i> 基础练习</h3>
-                    <button class="back-to-structure-btn" onclick="backToStructure()">
-                        <i class="fas fa-arrow-left"></i> 返回知识结构
-                    </button>
-                </div>
-                
-                <div class="exercise-container" id="writing-exercise-container">
-                    <!-- 练习内容将在这里动态生成 -->
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 学习计时器 -->
-    <div id="study-timer" class="study-timer hidden">
-        <div class="timer-header">
-            <h4><i class="fas fa-clock"></i> 正在学习：<span id="current-topic">命题与联结词</span></h4>
-            <button class="close-timer-btn" onclick="stopStudying()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="timer-display">
-            <div class="time-elapsed" id="time-elapsed">00:00:00</div>
-            <div class="timer-controls">
-                <button class="timer-btn" id="pause-btn" onclick="toggleTimer()">
-                    <i class="fas fa-pause"></i> 暂停
+            <nav class="nav">
+                <button class="nav-btn active" data-page="dashboard">
+                    <i class="fas fa-home"></i> 首页
                 </button>
-                <button class="timer-btn" id="finish-btn" onclick="finishStudying()">
-                    <i class="fas fa-flag-checkered"></i> 完成
+                <button class="nav-btn" data-page="logic">
+                    <i class="fas fa-brain"></i> 逻辑
                 </button>
-            </div>
-        </div>
-        <div class="timer-notes">
-            <textarea id="study-notes" placeholder="记录学习心得或疑问..."></textarea>
-        </div>
+                <button class="nav-btn" data-page="math">
+                    <i class="fas fa-calculator"></i> 数学
+                </button>
+                <button class="nav-btn" data-page="english">
+                    <i class="fas fa-language"></i> 英语
+                </button>
+                <button class="nav-btn" data-page="writing">
+                    <i class="fas fa-pen-fancy"></i> 写作
+                </button>
+            </nav>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 首页 -->
+            <section id="dashboard" class="page active">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> 学习仪表板</h2>
+                    <p class="subtitle">你的个人学习推进中心</p>
+                </div>
+
+                <div class="today-status card">
+                    <h3><i class="fas fa-calendar-day"></i> 今日学习状态</h3>
+                    <div class="subject-today-cards">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="stage-overview card">
+                        <h3><i class="fas fa-map-signs"></i> 当前学习阶段</h3>
+                        <div class="stage-cards">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+
+                    <div class="recent-activity card">
+                        <h3><i class="fas fa-history"></i> 最近学习记录</h3>
+                        <div class="recent-list">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="motivation card">
+                    <h3><i class="fas fa-heart"></i> 学习提示</h3>
+                    <p class="motivation-text">推进比完美更重要。即使只学习10分钟，也值得记录。</p>
+                    <div class="progress-tip">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>完成一个单元的状态更新，就能在进度条上前进一步。</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 逻辑页面 -->
+            <section id="logic" class="page">
+                <div class="subject-header">
+                    <div class="subject-title">
+                        <h2><i class="fas fa-brain"></i> 逻辑</h2>
+                        <div class="stage-badge logic-color">认识结构</div>
+                    </div>
+                    <p class="subject-description">基于《逻辑攻略》结构化学习</p>
+                </div>
+
+                <div class="modules-container">
+                    <!-- 动态生成逻辑模块 -->
+                </div>
+            </section>
+
+            <!-- 数学页面 -->
+            <section id="math" class="page">
+                <div class="subject-header">
+                    <div class="subject-title">
+                        <h2><i class="fas fa-calculator"></i> 数学</h2>
+                        <div class="stage-badge math-color">认识结构</div>
+                    </div>
+                    <p class="subject-description">基于《高分指南》结构化学习</p>
+                </div>
+
+                <div class="modules-container">
+                    <!-- 动态生成数学模块 -->
+                </div>
+            </section>
+
+            <!-- 英语页面 -->
+            <section id="english" class="page">
+                <div class="subject-header">
+                    <div class="subject-title">
+                        <h2><i class="fas fa-language"></i> 英语</h2>
+                        <div class="stage-badge english-color">认识结构</div>
+                    </div>
+                    <p class="subject-description">高频词群与阅读句学习</p>
+                </div>
+
+                <div class="modules-container">
+                    <!-- 动态生成英语模块 -->
+                </div>
+            </section>
+
+            <!-- 写作页面 -->
+            <section id="writing" class="page">
+                <div class="subject-header">
+                    <div class="subject-title">
+                        <h2><i class="fas fa-pen-fancy"></i> 写作</h2>
+                        <div class="stage-badge writing-color">认识结构</div>
+                    </div>
+                    <p class="subject-description">结构拆解与模板积累</p>
+                </div>
+
+                <div class="modules-container">
+                    <!-- 动态生成写作模块 -->
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <p>航崽专属</p>
+        </footer>
     </div>
 
-    <!-- 练习提交反馈 -->
-    <div id="exercise-feedback" class="feedback-overlay hidden">
-        <div class="feedback-content">
-            <div class="feedback-header">
-                <h3><i class="fas fa-check-circle" style="color: #4caf50;"></i> 练习完成！</h3>
-                <button class="close-feedback-btn" onclick="closeFeedback()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="feedback-body">
-                <div class="score-display">
-                    您的得分：<span id="exercise-score">8</span>/10
-                </div>
-                <div class="feedback-message" id="feedback-message">
-                    <!-- 反馈信息将在这里动态生成 -->
-                </div>
-                <div class="feedback-actions">
-                    <button class="feedback-btn" onclick="reviewMistakes()">
-                        <i class="fas fa-redo"></i> 复习错题
-                    </button>
-                    <button class="feedback-btn primary" onclick="closeFeedback()">
-                        <i class="fas fa-arrow-right"></i> 继续学习
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 设置面板 -->
-    <div id="settings-panel" class="settings-panel hidden">
-        <div class="settings-header">
-            <h3><i class="fas fa-cog"></i> 设置</h3>
-            <button class="close-settings-btn" onclick="closeSettings()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="settings-body">
-            <div class="settings-section">
-                <h4><i class="fas fa-user"></i> 个人资料</h4>
-                <button class="settings-btn" onclick="editProfile()">
-                    编辑个人资料
-                </button>
-            </div>
-            
-            <div class="settings-section">
-                <h4><i class="fas fa-database"></i> 数据管理</h4>
-                <button class="settings-btn" onclick="exportData()">
-                    导出学习数据
-                </button>
-                <button class="settings-btn" onclick="importData()">
-                    导入学习数据
-                </button>
-                <button class="settings-btn" onclick="resetData()" style="color: #f44336;">
-                    <i class="fas fa-trash"></i> 重置所有数据
-                </button>
-            </div>
-            
-            <div class="settings-section">
-                <h4><i class="fas fa-palette"></i> 外观设置</h4>
-                <div class="theme-options">
-                    <button class="theme-option active" data-theme="default">
-                        默认主题
-                    </button>
-                    <button class="theme-option" data-theme="dark">
-                        深色模式
-                    </button>
-                    <button class="theme-option" data-theme="blue">
-                        蓝色主题
-                    </button>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <h4><i class="fas fa-bell"></i> 学习提醒</h4>
-                <div class="reminder-setting">
-                    <label>
-                        <input type="checkbox" id="daily-reminder" checked>
-                        每日学习提醒
-                    </label>
-                </div>
-                <div class="reminder-setting">
-                    <label>
-                        <input type="checkbox" id="review-reminder">
-                        复习提醒
-                    </label>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <h4><i class="fas fa-info-circle"></i> 关于</h4>
-                <p class="about-info">
-航崽专属
-                </p>
-            </div>
-        </div>
-    </div>
+    <!-- JavaScript文件 -->
     <script src="app.js"></script>
 </body>
 </html>
