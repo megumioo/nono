@@ -1,9 +1,7 @@
 // 全局数据存储
 const appState = {
     todayStudied: false,
-    lastStudyDate: null,
-    currentEditingCard: null,
-    currentSubject: null
+    lastStudyDate: null
 };
 
 // 数学数据 - 来自Excel《高分指南》
@@ -285,22 +283,22 @@ const writingData = [
 
 // 学习状态定义
 const mathStatuses = [
-    { id: "unknown", name: "未接触", icon: "fas fa-question-circle", description: "尚未开始学习" },
-    { id: "seen", name: "已听课", icon: "fas fa-eye", description: "已经听过课程讲解" },
-    { id: "familiar", name: "已做题", icon: "fas fa-pen", description: "已经完成相关练习" },
-    { id: "mastered", name: "可拆解题型并迁移", icon: "fas fa-check-double", description: "能够拆解题型并迁移应用" }
+    { id: "unknown", name: "未接触", icon: "fas fa-question-circle" },
+    { id: "seen", name: "已听课", icon: "fas fa-eye" },
+    { id: "familiar", name: "已做题", icon: "fas fa-pen" },
+    { id: "mastered", name: "可拆解题型并迁移", icon: "fas fa-check-double" }
 ];
 
 const logicStatuses = [
-    { id: "unknown", name: "未接触", icon: "fas fa-question-circle", description: "尚未开始学习" },
-    { id: "seen", name: "已听课", icon: "fas fa-eye", description: "已经听过课程讲解" },
-    { id: "familiar", name: "已做题", icon: "fas fa-pen", description: "已经完成相关练习" },
-    { id: "mastered", name: "可识别题型并按流程作答", icon: "fas fa-check-double", description: "能够识别题型并按流程作答" }
+    { id: "unknown", name: "未接触", icon: "fas fa-question-circle" },
+    { id: "seen", name: "已听课", icon: "fas fa-eye" },
+    { id: "familiar", name: "已做题", icon: "fas fa-pen" },
+    { id: "mastered", name: "可识别题型并按流程作答", icon: "fas fa-check-double" }
 ];
 
 // 学习阶段字段
 const mathStageFields = [
-    "例题", "例题网课", "基础题", "基础题网课", "复盘知识点总结", 
+    "例题", "例题网课", "基础题", "基础题网课", "复盘知识点总结", 
     "提高题", "提高题网课", "总结+思维导图", "二级结论总结"
 ];
 
@@ -320,7 +318,7 @@ function initDataStorage() {
             lastStudyDate: null,
             recentActivities: []
         };
-        
+        
         // 初始化数学数据
         mathData.forEach(chapter => {
             chapter.units.forEach(unit => {
@@ -335,7 +333,7 @@ function initDataStorage() {
                 };
             });
         });
-        
+        
         // 初始化逻辑数据
         logicData.forEach(chapter => {
             chapter.units.forEach(unit => {
@@ -350,7 +348,7 @@ function initDataStorage() {
                 };
             });
         });
-        
+        
         // 初始化英语数据
         englishData.forEach(chapter => {
             chapter.units.forEach(unit => {
@@ -362,7 +360,7 @@ function initDataStorage() {
                 };
             });
         });
-        
+        
         // 初始化写作数据
         writingData.forEach(chapter => {
             chapter.units.forEach(unit => {
@@ -374,15 +372,15 @@ function initDataStorage() {
                 };
             });
         });
-        
+        
         localStorage.setItem('mbaStudyData', JSON.stringify(initialData));
     }
-    
+    
     // 加载应用状态
     const data = JSON.parse(localStorage.getItem('mbaStudyData'));
     appState.todayStudied = data.todayStudied || false;
     appState.lastStudyDate = data.lastStudyDate || null;
-    
+    
     // 检查是否需要重置今日学习状态
     const today = new Date().toDateString();
     if (appState.lastStudyDate !== today) {
@@ -396,20 +394,22 @@ function initDataStorage() {
 function saveData(subject, id, data) {
     const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
     if (!storedData[subject]) storedData[subject] = {};
-    
+    
     storedData[subject][id] = {
         ...storedData[subject][id],
         ...data,
         lastUpdated: new Date().toISOString()
     };
-    
+    
     localStorage.setItem('mbaStudyData', JSON.stringify(storedData));
-    
+    
     // 添加学习活动记录
     addActivityRecord(subject, id);
-    
+    
     // 更新首页进度
     updateProgress();
+    
+    return true;
 }
 
 // 获取数据
@@ -423,7 +423,7 @@ function addActivityRecord(subject, id) {
     const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
     const now = new Date();
     const timeString = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-    
+    
     // 获取单元名称
     let unitName = "";
     switch(subject) {
@@ -452,7 +452,7 @@ function addActivityRecord(subject, id) {
             });
             break;
     }
-    
+    
     const activity = {
         subject,
         unitId: id,
@@ -460,17 +460,17 @@ function addActivityRecord(subject, id) {
         time: timeString,
         timestamp: now.getTime()
     };
-    
+    
     if (!storedData.recentActivities) storedData.recentActivities = [];
     storedData.recentActivities.unshift(activity);
-    
+    
     // 只保留最近的10条记录
     if (storedData.recentActivities.length > 10) {
         storedData.recentActivities = storedData.recentActivities.slice(0, 10);
     }
-    
+    
     localStorage.setItem('mbaStudyData', JSON.stringify(storedData));
-    
+    
     // 更新活动显示
     updateRecentActivities();
 }
@@ -480,7 +480,7 @@ function updateRecentActivities() {
     const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
     const activities = storedData.recentActivities || [];
     const container = document.getElementById('recent-activities');
-    
+    
     if (activities.length === 0) {
         container.innerHTML = `
             <div class="activity-item">
@@ -491,10 +491,10 @@ function updateRecentActivities() {
         `;
         return;
     }
-    
+    
     container.innerHTML = activities.map(activity => {
         let subjectIcon, subjectColor;
-        
+        
         switch(activity.subject) {
             case "math":
                 subjectIcon = "fas fa-calculator";
@@ -516,7 +516,7 @@ function updateRecentActivities() {
                 subjectIcon = "fas fa-book";
                 subjectColor = "#cccccc";
         }
-        
+        
         return `
             <div class="activity-item">
                 <i class="${subjectIcon}" style="color: ${subjectColor}"></i>
@@ -530,12 +530,12 @@ function updateRecentActivities() {
 // 更新首页进度
 function updateProgress() {
     const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
-    
+    
     // 计算数学进度
     let mathCompleted = 0;
     let mathTotal = 0;
     let mathStage = "认识结构";
-    
+    
     mathData.forEach(chapter => {
         mathTotal += chapter.units.length;
         chapter.units.forEach(unit => {
@@ -545,25 +545,25 @@ function updateProgress() {
             }
         });
     });
-    
+    
     const mathPercent = mathTotal > 0 ? Math.round((mathCompleted / mathTotal) * 100) : 0;
-    
+    
     // 确定数学阶段
     if (mathPercent >= 80) mathStage = "稳定刷题";
     else if (mathPercent >= 50) mathStage = "流程熟悉";
     else if (mathPercent > 0) mathStage = "认识结构";
-    
+    
     // 更新数学进度显示
     document.getElementById('math-percent').textContent = `${mathPercent}%`;
     document.getElementById('math-progress').style.width = `${mathPercent}%`;
     document.getElementById('math-completed').textContent = mathCompleted;
     document.getElementById('math-stage').textContent = mathStage;
-    
+    
     // 计算逻辑进度
     let logicCompleted = 0;
     let logicTotal = 0;
     let logicStage = "认识结构";
-    
+    
     logicData.forEach(chapter => {
         logicTotal += chapter.units.length;
         chapter.units.forEach(unit => {
@@ -573,25 +573,25 @@ function updateProgress() {
             }
         });
     });
-    
+    
     const logicPercent = logicTotal > 0 ? Math.round((logicCompleted / logicTotal) * 100) : 0;
-    
+    
     // 确定逻辑阶段
     if (logicPercent >= 80) logicStage = "稳定刷题";
     else if (logicPercent >= 50) logicStage = "流程熟悉";
     else if (logicPercent > 0) logicStage = "认识结构";
-    
+    
     // 更新逻辑进度显示
     document.getElementById('logic-percent').textContent = `${logicPercent}%`;
     document.getElementById('logic-progress').style.width = `${logicPercent}%`;
     document.getElementById('logic-completed').textContent = logicCompleted;
     document.getElementById('logic-stage').textContent = logicStage;
-    
+    
     // 计算英语进度
     let englishCompleted = 0;
     let englishTotal = 0;
     let englishStage = "认识结构";
-    
+    
     englishData.forEach(chapter => {
         englishTotal += chapter.units.length;
         chapter.units.forEach(unit => {
@@ -601,25 +601,25 @@ function updateProgress() {
             }
         });
     });
-    
+    
     const englishPercent = englishTotal > 0 ? Math.round((englishCompleted / englishTotal) * 100) : 0;
-    
+    
     // 确定英语阶段
     if (englishPercent >= 80) englishStage = "稳定刷题";
     else if (englishPercent >= 50) englishStage = "流程熟悉";
     else if (englishPercent > 0) englishStage = "认识结构";
-    
+    
     // 更新英语进度显示
     document.getElementById('english-percent').textContent = `${englishPercent}%`;
     document.getElementById('english-progress').style.width = `${englishPercent}%`;
     document.getElementById('english-completed').textContent = englishCompleted;
     document.getElementById('english-stage').textContent = englishStage;
-    
+    
     // 计算写作进度
     let writingCompleted = 0;
     let writingTotal = 0;
     let writingStage = "认识结构";
-    
+    
     writingData.forEach(chapter => {
         writingTotal += chapter.units.length;
         chapter.units.forEach(unit => {
@@ -629,14 +629,14 @@ function updateProgress() {
             }
         });
     });
-    
+    
     const writingPercent = writingTotal > 0 ? Math.round((writingCompleted / writingTotal) * 100) : 0;
-    
+    
     // 确定写作阶段
     if (writingPercent >= 80) writingStage = "稳定刷题";
     else if (writingPercent >= 50) writingStage = "流程熟悉";
     else if (writingPercent > 0) writingStage = "认识结构";
-    
+    
     // 更新写作进度显示
     document.getElementById('writing-percent').textContent = `${writingPercent}%`;
     document.getElementById('writing-progress').style.width = `${writingPercent}%`;
@@ -648,17 +648,17 @@ function updateProgress() {
 function markTodayStudied() {
     const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
     const today = new Date().toDateString();
-    
+    
     storedData.todayStudied = true;
     storedData.lastStudyDate = today;
-    
+    
     localStorage.setItem('mbaStudyData', JSON.stringify(storedData));
-    
+    
     appState.todayStudied = true;
     appState.lastStudyDate = today;
-    
+    
     updateTodayStatus();
-    
+    
     // 显示确认消息
     showNotification("今日学习状态已更新！");
 }
@@ -668,7 +668,7 @@ function updateTodayStatus() {
     const todayStatusElement = document.getElementById('today-status-text');
     const indicatorDot = document.querySelector('.indicator-dot');
     const studyStatusElement = document.getElementById('today-study-status');
-    
+    
     if (appState.todayStudied) {
         todayStatusElement.textContent = "已学习";
         indicatorDot.style.backgroundColor = "#4CAF50";
@@ -693,7 +693,7 @@ function showNotification(message, type = "success") {
     if (existingNotification) {
         existingNotification.remove();
     }
-    
+    
     // 创建新通知
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
@@ -701,14 +701,14 @@ function showNotification(message, type = "success") {
         <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
         <span>${message}</span>
     `;
-    
-    document.body.appendChild(notification);
-    
+    
+    document.getElementById('notification-container').appendChild(notification);
+    
     // 显示通知
     setTimeout(() => {
         notification.classList.add('show');
     }, 10);
-    
+    
     // 3秒后隐藏通知
     setTimeout(() => {
         notification.classList.remove('show');
@@ -722,11 +722,11 @@ function showNotification(message, type = "success") {
 function createMathModules() {
     const container = document.getElementById('math-modules-container');
     container.innerHTML = '';
-    
+    
     mathData.forEach((chapter, chapterIndex) => {
         const moduleElement = document.createElement('div');
         moduleElement.className = 'module math-module';
-        
+        
         // 计算本章节完成情况
         const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
         let completedCount = 0;
@@ -736,7 +736,7 @@ function createMathModules() {
                 completedCount++;
             }
         });
-        
+        
         moduleElement.innerHTML = `
             <div class="module-header" data-chapter-index="${chapterIndex}">
                 <div class="module-title">
@@ -751,27 +751,12 @@ function createMathModules() {
                 ${chapter.units.map(unit => createMathUnitCard(unit)).join('')}
             </div>
         `;
-        
+        
         container.appendChild(moduleElement);
     });
-    
-    // 添加模块展开/收起事件
-    document.querySelectorAll('.module-header').forEach(header => {
-        header.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector('.module-title i');
-            
-            this.classList.toggle('active');
-            
-            if (this.classList.contains('active')) {
-                content.classList.add('expanded');
-                icon.style.transform = 'rotate(90deg)';
-            } else {
-                content.classList.remove('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        });
-    });
+    
+    // 绑定模块展开/收起事件
+    bindModuleToggleEvents();
 }
 
 // 创建数学单元卡
@@ -784,42 +769,53 @@ function createMathUnitCard(unit) {
         }, {}),
         note: ""
     };
-    
-    const statusInfo = mathStatuses.find(s => s.id === unitData.status) || mathStatuses[0];
-    
+    
     // 计算阶段完成数量
     const stageCount = Object.values(unitData.stages).filter(v => v).length;
-    
+    
     return `
-        <div class="unit-card">
-            <div class="unit-header">
+        <div class="unit-card" data-subject="math" data-id="${unit.id}">
+                        <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
-                <button class="status-btn ${unitData.status}" data-subject="math" data-id="${unit.id}">
-                    <i class="${statusInfo.icon}"></i>
-                    ${statusInfo.name}
-                </button>
             </div>
-            <div class="unit-purpose">${unit.purpose}</div>
-            
+            
             <div class="stage-fields">
                 <h4>学习阶段记录 (${stageCount}/${mathStageFields.length})</h4>
                 <div class="checkbox-grid">
                     ${mathStageFields.map(field => `
                         <div class="checkbox-item">
-                            <input type="checkbox" id="math-${unit.id}-${field}" 
-                                   data-subject="math" data-id="${unit.id}" data-field="${field}"
+                            <input type="checkbox" id="math-${unit.id}-${field}" 
+                                   data-field="${field}"
                                    ${unitData.stages[field] ? 'checked' : ''}>
                             <label for="math-${unit.id}-${field}">${field}</label>
                         </div>
                     `).join('')}
                 </div>
             </div>
-            
+            
+            <div class="status-section">
+                <h4>学习状态选择</h4>
+                <div class="status-options">
+                    ${mathStatuses.map(status => `
+                        <div class="status-option ${status.id} ${unitData.status === status.id ? 'selected' : ''}" 
+                             data-status="${status.id}">
+                            <i class="${status.icon}"></i>
+                            ${status.name}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
             <div class="notes-section">
-                <label for="math-note-${unit.id}">核心记忆点与卡点记录：</label>
-                <textarea class="note-input" id="math-note-${unit.id}" 
-                          data-subject="math" data-id="${unit.id}"
+                <label for="math-note-${unit.id}">一句话记录：</label>
+                <textarea class="note-input" id="math-note-${unit.id}" 
                           placeholder="记录学习心得、卡点或核心记忆点...">${unitData.note || ''}</textarea>
+            </div>
+            
+            <div class="save-section">
+                <button class="save-btn" data-subject="math" data-id="${unit.id}">
+                    <i class="fas fa-save"></i> 保存状态
+                </button>
             </div>
         </div>
     `;
@@ -829,11 +825,11 @@ function createMathUnitCard(unit) {
 function createLogicModules() {
     const container = document.getElementById('logic-modules-container');
     container.innerHTML = '';
-    
+    
     logicData.forEach((chapter, chapterIndex) => {
         const moduleElement = document.createElement('div');
         moduleElement.className = 'module logic-module';
-        
+        
         // 计算本章节完成情况
         const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
         let completedCount = 0;
@@ -843,7 +839,7 @@ function createLogicModules() {
                 completedCount++;
             }
         });
-        
+        
         moduleElement.innerHTML = `
             <div class="module-header" data-chapter-index="${chapterIndex}">
                 <div class="module-title">
@@ -858,27 +854,12 @@ function createLogicModules() {
                 ${chapter.units.map(unit => createLogicUnitCard(unit)).join('')}
             </div>
         `;
-        
+        
         container.appendChild(moduleElement);
     });
-    
-    // 添加模块展开/收起事件
-    document.querySelectorAll('.module-header').forEach(header => {
-        header.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector('.module-title i');
-            
-            this.classList.toggle('active');
-            
-            if (this.classList.contains('active')) {
-                content.classList.add('expanded');
-                icon.style.transform = 'rotate(90deg)';
-            } else {
-                content.classList.remove('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        });
-    });
+    
+    // 绑定模块展开/收起事件
+    bindModuleToggleEvents();
 }
 
 // 创建逻辑单元卡
@@ -891,42 +872,53 @@ function createLogicUnitCard(unit) {
         }, {}),
         note: ""
     };
-    
-    const statusInfo = logicStatuses.find(s => s.id === unitData.status) || logicStatuses[0];
-    
+    
     // 计算阶段完成数量
     const stageCount = Object.values(unitData.stages).filter(v => v).length;
-    
+    
     return `
-        <div class="unit-card">
-            <div class="unit-header">
+        <div class="unit-card" data-subject="logic" data-id="${unit.id}">
+                        <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
-                <button class="status-btn ${unitData.status}" data-subject="logic" data-id="${unit.id}">
-                    <i class="${statusInfo.icon}"></i>
-                    ${statusInfo.name}
-                </button>
             </div>
-            <div class="unit-purpose">${unit.purpose}</div>
-            
+            
             <div class="stage-fields">
                 <h4>学习阶段记录 (${stageCount}/${logicStageFields.length})</h4>
                 <div class="checkbox-grid">
                     ${logicStageFields.map(field => `
                         <div class="checkbox-item">
-                            <input type="checkbox" id="logic-${unit.id}-${field}" 
-                                   data-subject="logic" data-id="${unit.id}" data-field="${field}"
+                            <input type="checkbox" id="logic-${unit.id}-${field}" 
+                                   data-field="${field}"
                                    ${unitData.stages[field] ? 'checked' : ''}>
                             <label for="logic-${unit.id}-${field}">${field}</label>
                         </div>
                     `).join('')}
                 </div>
             </div>
-            
+            
+            <div class="status-section">
+                <h4>学习状态选择</h4>
+                <div class="status-options">
+                    ${logicStatuses.map(status => `
+                        <div class="status-option ${status.id} ${unitData.status === status.id ? 'selected' : ''}" 
+                             data-status="${status.id}">
+                            <i class="${status.icon}"></i>
+                            ${status.name}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
             <div class="notes-section">
                 <label for="logic-note-${unit.id}">一句话记录与卡点：</label>
-                <textarea class="note-input" id="logic-note-${unit.id}" 
-                          data-subject="logic" data-id="${unit.id}"
+                <textarea class="note-input" id="logic-note-${unit.id}" 
                           placeholder="记录学习心得、卡点...">${unitData.note || ''}</textarea>
+            </div>
+            
+            <div class="save-section">
+                <button class="save-btn" data-subject="logic" data-id="${unit.id}">
+                    <i class="fas fa-save"></i> 保存状态
+                </button>
             </div>
         </div>
     `;
@@ -936,11 +928,11 @@ function createLogicUnitCard(unit) {
 function createEnglishModules() {
     const container = document.getElementById('english-modules-container');
     container.innerHTML = '';
-    
+    
     englishData.forEach((chapter, chapterIndex) => {
         const moduleElement = document.createElement('div');
         moduleElement.className = 'module english-module';
-        
+        
         // 计算本章节完成情况
         const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
         let completedCount = 0;
@@ -950,7 +942,7 @@ function createEnglishModules() {
                 completedCount++;
             }
         });
-        
+        
         moduleElement.innerHTML = `
             <div class="module-header" data-chapter-index="${chapterIndex}">
                 <div class="module-title">
@@ -965,27 +957,12 @@ function createEnglishModules() {
                 ${chapter.units.map(unit => createEnglishUnitCard(unit)).join('')}
             </div>
         `;
-        
+        
         container.appendChild(moduleElement);
     });
-    
-    // 添加模块展开/收起事件
-    document.querySelectorAll('.module-header').forEach(header => {
-        header.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector('.module-title i');
-            
-            this.classList.toggle('active');
-            
-            if (this.classList.contains('active')) {
-                content.classList.add('expanded');
-                icon.style.transform = 'rotate(90deg)';
-            } else {
-                content.classList.remove('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        });
-    });
+    
+    // 绑定模块展开/收起事件
+    bindModuleToggleEvents();
 }
 
 // 创建英语单元卡
@@ -995,31 +972,39 @@ function createEnglishUnitCard(unit) {
         guess: false,
         note: ""
     };
-    
+    
     return `
-        <div class="unit-card">
-            <div class="unit-header">
+        <div class="unit-card" data-subject="english" data-id="${unit.id}">
+                        <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
-                <div class="status-buttons">
-                    <button class="status-btn ${unitData.seen ? 'seen' : 'unknown'}" 
-                            data-subject="english" data-id="${unit.id}" data-type="seen">
+            </div>
+            
+            <div class="status-section">
+                <h4>学习状态选择</h4>
+                <div class="status-options">
+                    <div class="status-option english-seen ${unitData.seen ? 'selected' : ''}" 
+                         data-type="seen">
                         <i class="fas ${unitData.seen ? 'fa-eye' : 'fa-eye-slash'}"></i>
                         ${unitData.seen ? '已见过' : '未见过'}
-                    </button>
-                    <button class="status-btn ${unitData.guess ? 'familiar' : 'unknown'}" 
-                            data-subject="english" data-id="${unit.id}" data-type="guess">
+                    </div>
+                    <div class="status-option english-guess ${unitData.guess ? 'selected' : ''}" 
+                         data-type="guess">
                         <i class="fas ${unitData.guess ? 'fa-lightbulb' : 'fa-question'}"></i>
                         ${unitData.guess ? '能猜意思' : '不能猜'}
-                    </button>
+                    </div>
                 </div>
             </div>
-            <div class="unit-purpose">${unit.purpose}</div>
-            
+            
             <div class="notes-section">
                 <label for="english-note-${unit.id}">一句话记录：</label>
-                <textarea class="note-input" id="english-note-${unit.id}" 
-                          data-subject="english" data-id="${unit.id}"
+                <textarea class="note-input" id="english-note-${unit.id}" 
                           placeholder="记录学习心得...">${unitData.note || ''}</textarea>
+            </div>
+            
+            <div class="save-section">
+                <button class="save-btn" data-subject="english" data-id="${unit.id}">
+                    <i class="fas fa-save"></i> 保存状态
+                </button>
             </div>
         </div>
     `;
@@ -1029,11 +1014,11 @@ function createEnglishUnitCard(unit) {
 function createWritingModules() {
     const container = document.getElementById('writing-modules-container');
     container.innerHTML = '';
-    
+    
     writingData.forEach((chapter, chapterIndex) => {
         const moduleElement = document.createElement('div');
         moduleElement.className = 'module writing-module';
-        
+        
         // 计算本章节完成情况
         const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
         let completedCount = 0;
@@ -1043,7 +1028,7 @@ function createWritingModules() {
                 completedCount++;
             }
         });
-        
+        
         moduleElement.innerHTML = `
             <div class="module-header" data-chapter-index="${chapterIndex}">
                 <div class="module-title">
@@ -1058,27 +1043,12 @@ function createWritingModules() {
                 ${chapter.units.map(unit => createWritingUnitCard(unit)).join('')}
             </div>
         `;
-        
+        
         container.appendChild(moduleElement);
     });
-    
-    // 添加模块展开/收起事件
-    document.querySelectorAll('.module-header').forEach(header => {
-        header.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector('.module-title i');
-            
-            this.classList.toggle('active');
-            
-            if (this.classList.contains('active')) {
-                content.classList.add('expanded');
-                icon.style.transform = 'rotate(90deg)';
-            } else {
-                content.classList.remove('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        });
-    });
+    
+    // 绑定模块展开/收起事件
+    bindModuleToggleEvents();
 }
 
 // 创建写作单元卡
@@ -1088,133 +1058,151 @@ function createWritingUnitCard(unit) {
         replace: false,
         note: ""
     };
-    
+    
     return `
-        <div class="unit-card">
-            <div class="unit-header">
+        <div class="unit-card" data-subject="writing" data-id="${unit.id}">
+                        <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
-                <div class="status-buttons">
-                    <button class="status-btn ${unitData.seen ? 'seen' : 'unknown'}" 
-                            data-subject="writing" data-id="${unit.id}" data-type="seen">
+            </div>
+            
+            <div class="status-section">
+                <h4>学习状态选择</h4>
+                <div class="status-options">
+                    <div class="status-option writing-seen ${unitData.seen ? 'selected' : ''}" 
+                         data-type="seen">
                         <i class="fas ${unitData.seen ? 'fa-file-alt' : 'fa-file'}"></i>
                         ${unitData.seen ? '见过模板' : '未见过'}
-                    </button>
-                    <button class="status-btn ${unitData.replace ? 'familiar' : 'unknown'}" 
-                            data-subject="writing" data-id="${unit.id}" data-type="replace">
+                    </div>
+                    <div class="status-option writing-replace ${unitData.replace ? 'selected' : ''}" 
+                         data-type="replace">
                         <i class="fas ${unitData.replace ? 'fa-exchange-alt' : 'fa-times'}"></i>
                         ${unitData.replace ? '能替换' : '不能替换'}
-                    </button>
+                    </div>
                 </div>
             </div>
-            <div class="unit-purpose">${unit.purpose}</div>
-            
+            
             <div class="notes-section">
                 <label for="writing-note-${unit.id}">一句话记录：</label>
-                <textarea class="note-input" id="writing-note-${unit.id}" 
-                          data-subject="writing" data-id="${unit.id}"
+                <textarea class="note-input" id="writing-note-${unit.id}" 
                           placeholder="记录学习心得...">${unitData.note || ''}</textarea>
+            </div>
+            
+            <div class="save-section">
+                <button class="save-btn" data-subject="writing" data-id="${unit.id}">
+                    <i class="fas fa-save"></i> 保存状态
+                </button>
             </div>
         </div>
     `;
 }
 
-// 打开状态选择模态框
-function openStatusModal(subject, id, currentStatus) {
-    appState.currentEditingCard = { subject, id };
-    appState.currentSubject = subject;
-    
-    const modal = document.getElementById('status-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const statusOptions = document.getElementById('status-options');
-    const noteInput = document.getElementById('note-input');
-    
-    // 获取当前数据
-    const unitData = getData(subject, id);
-    noteInput.value = unitData ? unitData.note || '' : '';
-    
-    // 设置模态框标题
-    let unitName = '';
-    if (subject === 'math') {
-        mathData.forEach(chapter => {
-            const unit = chapter.units.find(u => u.id === id);
-            if (unit) unitName = unit.name;
-        });
-        modalTitle.textContent = `选择数学状态: ${unitName}`;
-    } else if (subject === 'logic') {
-        logicData.forEach(chapter => {
-            const unit = chapter.units.find(u => u.id === id);
-            if (unit) unitName = unit.name;
-        });
-        modalTitle.textContent = `选择逻辑状态: ${unitName}`;
-    }
-    
-    // 创建状态选项
-    const statuses = subject === 'math' ? mathStatuses : logicStatuses;
-    statusOptions.innerHTML = statuses.map(status => `
-        <div class="status-option ${currentStatus === status.id ? 'selected' : ''}" 
-             data-status="${status.id}">
-            <i class="${status.icon}"></i>
-            <div class="status-option-text">
-                <h4>${status.name}</h4>
-                <p>${status.description}</p>
-            </div>
-        </div>
-    `).join('');
-    
-    // 添加状态选项点击事件
-    document.querySelectorAll('.status-option').forEach(option => {
-        option.addEventListener('click', function() {
-            document.querySelectorAll('.status-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            this.classList.add('selected');
-        });
+// 绑定模块展开/收起事件
+function bindModuleToggleEvents() {
+    // 移除现有的事件监听器
+    document.querySelectorAll('.module-header').forEach(header => {
+        header.removeEventListener('click', handleModuleToggle);
     });
-    
-    // 显示模态框
-    modal.classList.add('active');
+    
+    // 添加新的事件监听器
+    document.querySelectorAll('.module-header').forEach(header => {
+        header.addEventListener('click', handleModuleToggle);
+    });
 }
 
-// 保存状态
-function saveStatus() {
-    const modal = document.getElementById('status-modal');
-    const selectedOption = document.querySelector('.status-option.selected');
-    const noteInput = document.getElementById('note-input');
-    
-    if (!selectedOption || !appState.currentEditingCard) {
-        showNotification('请选择状态', 'error');
-        return;
+// 处理模块展开/收起
+function handleModuleToggle(e) {
+    const header = e.currentTarget;
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('.module-title i');
+    
+    header.classList.toggle('active');
+    
+    if (header.classList.contains('active')) {
+        content.classList.add('expanded');
+        icon.style.transform = 'rotate(90deg)';
+    } else {
+        content.classList.remove('expanded');
+        icon.style.transform = 'rotate(0deg)';
     }
-    
-    const { subject, id } = appState.currentEditingCard;
-    const newStatus = selectedOption.getAttribute('data-status');
-    const note = noteInput.value;
-    
+}
+
+// 保存单元卡状态
+function saveUnitCard(subject, id) {
+    const unitCard = document.querySelector(`.unit-card[data-subject="${subject}"][data-id="${id}"]`);
+    if (!unitCard) return false;
+    
+    let dataToSave = {};
+    
+    // 根据学科类型处理数据
+    if (subject === 'math' || subject === 'logic') {
+        // 获取学习阶段记录
+        const stages = {};
+        const checkboxes = unitCard.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            const field = checkbox.getAttribute('data-field');
+            stages[field] = checkbox.checked;
+        });
+        
+        // 获取状态选择
+        const selectedStatus = unitCard.querySelector('.status-option.selected');
+        const status = selectedStatus ? selectedStatus.getAttribute('data-status') : 'unknown';
+        
+        // 获取笔记
+        const noteInput = unitCard.querySelector('.note-input');
+        const note = noteInput ? noteInput.value : '';
+        
+        dataToSave = {
+            stages,
+            status,
+            note
+        };
+    } else if (subject === 'english' || subject === 'writing') {
+        // 获取状态选择
+        const selectedOptions = unitCard.querySelectorAll('.status-option.selected');
+        const seen = Array.from(selectedOptions).some(option => option.getAttribute('data-type') === 'seen');
+        const guessOrReplace = Array.from(selectedOptions).some(option => 
+            option.getAttribute('data-type') === 'guess' || option.getAttribute('data-type') === 'replace'
+        );
+        
+        // 获取笔记
+        const noteInput = unitCard.querySelector('.note-input');
+        const note = noteInput ? noteInput.value : '';
+        
+        dataToSave = {
+            note
+        };
+        
+        if (subject === 'english') {
+            dataToSave.seen = seen;
+            dataToSave.guess = guessOrReplace;
+        } else if (subject === 'writing') {
+            dataToSave.seen = seen;
+            dataToSave.replace = guessOrReplace;
+        }
+    }
+    
     // 保存数据
-    saveData(subject, id, {
-        status: newStatus,
-        note: note
-    });
-    
-    // 更新页面
-    if (subject === 'math') {
-        createMathModules();
-    } else if (subject === 'logic') {
-        createLogicModules();
+    const success = saveData(subject, id, dataToSave);
+    
+    if (success) {
+        showNotification('状态已保存成功！');
+        
+        // 更新单元卡的显示
+        if (subject === 'math') {
+            // 更新阶段计数
+            const stageCount = Object.values(dataToSave.stages || {}).filter(v => v).length;
+            const totalStages = subject === 'math' ? mathStageFields.length : logicStageFields.length;
+            const stageTitle = unitCard.querySelector('.stage-fields h4');
+            if (stageTitle) {
+                stageTitle.textContent = `学习阶段记录 (${stageCount}/${totalStages})`;
+            }
+        }
+        
+        return true;
+    } else {
+        showNotification('保存失败，请重试！', 'error');
+        return false;
     }
-    
-    // 关闭模态框
-    closeModal();
-    
-    // 显示成功消息
-    showNotification('状态已更新');
-}
-
-// 关闭模态框
-function closeModal() {
-    const modal = document.getElementById('status-modal');
-    modal.classList.remove('active');
-    appState.currentEditingCard = null;
 }
 
 // 更新日期和时间
@@ -1222,20 +1210,20 @@ function updateDateTime() {
     const now = new Date();
     const dateElement = document.getElementById('current-date');
     const timeElement = document.getElementById('current-time');
-    
+    
     const dateString = now.toLocaleDateString('zh-CN', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
         weekday: 'long'
     });
-    
+    
     const timeString = now.toLocaleTimeString('zh-CN', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
     });
-    
+    
     dateElement.textContent = dateString;
     timeElement.textContent = timeString;
 }
@@ -1251,7 +1239,7 @@ function updateDailyTip() {
         "定期回顾已学内容，巩固记忆，防止遗忘。",
         "模拟考试环境进行练习，提前适应考试节奏。"
     ];
-    
+    
     const tipIndex = new Date().getDate() % tips.length;
     document.getElementById('daily-tip').textContent = tips[tipIndex];
 }
@@ -1262,142 +1250,64 @@ function initEventListeners() {
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
             const page = this.getAttribute('data-page');
-            
+            
             // 更新导航状态
             document.querySelectorAll('.nav-item').forEach(nav => {
                 nav.classList.remove('active');
             });
             this.classList.add('active');
-            
+            
             // 显示对应页面
             document.querySelectorAll('.page').forEach(p => {
                 p.classList.remove('active');
             });
             document.getElementById(page).classList.add('active');
-            
+            
             // 更新页面标题
             document.title = `MBA备考 - ${this.querySelector('span').textContent}`;
+            
+            // 如果切换到学科页面，重新绑定模块事件
+            if (page !== 'dashboard') {
+                setTimeout(() => {
+                    bindModuleToggleEvents();
+                }, 100);
+            }
         });
     });
-    
+    
     // 标记今日已学习按钮
     document.getElementById('mark-studied-btn').addEventListener('click', markTodayStudied);
-    
-    // 数学和逻辑状态按钮点击事件
+    
+    // 状态选项点击事件（单选）
     document.addEventListener('click', function(e) {
-        // 数学和逻辑状态按钮
-        if (e.target.closest('.status-btn[data-subject="math"], .status-btn[data-subject="logic"]')) {
-            const btn = e.target.closest('.status-btn');
-            const subject = btn.getAttribute('data-subject');
-            const id = parseInt(btn.getAttribute('data-id'));
-            
-            // 获取当前状态
-            const unitData = getData(subject, id);
-            const currentStatus = unitData ? unitData.status : 'unknown';
-            
-            openStatusModal(subject, id, currentStatus);
+        // 数学和逻辑状态选项（单选）
+        if (e.target.closest('.status-option.unknown, .status-option.seen, .status-option.familiar, .status-option.mastered')) {
+            const option = e.target.closest('.status-option');
+            const unitCard = option.closest('.unit-card');
+            
+            // 移除同一组中其他选项的选中状态
+            const statusOptions = unitCard.querySelectorAll('.status-option.unknown, .status-option.seen, .status-option.familiar, .status-option.mastered');
+            statusOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // 选中当前选项
+            option.classList.add('selected');
         }
-        
-        // 英语和写作状态按钮
-        if (e.target.closest('.status-btn[data-subject="english"], .status-btn[data-subject="writing"]')) {
-            const btn = e.target.closest('.status-btn');
-            const subject = btn.getAttribute('data-subject');
-            const id = parseInt(btn.getAttribute('data-id'));
-            const type = btn.getAttribute('data-type');
-            
-            // 获取当前数据
-            const unitData = getData(subject, id) || {};
-            
-            // 切换状态
-            if (type === 'seen') {
-                unitData.seen = !unitData.seen;
-            } else if (type === 'guess') {
-                unitData.guess = !unitData.guess;
-            } else if (type === 'replace') {
-                unitData.replace = !unitData.replace;
-            }
-            
-            // 保存数据
-            saveData(subject, id, unitData);
-            
-            // 重新渲染页面
-            if (subject === 'english') {
-                createEnglishModules();
-            } else if (subject === 'writing') {
-                createWritingModules();
-            }
-            
-            showNotification('状态已更新');
+        
+        // 英语和写作状态选项（可以多选）
+        if (e.target.closest('.status-option.english-seen, .status-option.english-guess, .status-option.writing-seen, .status-option.writing-replace')) {
+            const option = e.target.closest('.status-option');
+            option.classList.toggle('selected');
         }
-        
-        // 复选框点击事件
-        if (e.target.matches('input[type="checkbox"]')) {
-            const checkbox = e.target;
-            const subject = checkbox.getAttribute('data-subject');
-            const id = parseInt(checkbox.getAttribute('data-id'));
-            const field = checkbox.getAttribute('data-field');
-            
-            // 获取当前数据
-            const unitData = getData(subject, id) || {
-                status: "unknown",
-                stages: {},
-                note: ""
-            };
-            
-            // 确保stages对象存在
-            if (!unitData.stages) unitData.stages = {};
-            
-            // 更新阶段状态
-            unitData.stages[field] = checkbox.checked;
-            
-            // 保存数据
-            saveData(subject, id, unitData);
-            
-            // 如果是数学或逻辑，重新计算阶段数量显示
-            if (subject === 'math' || subject === 'logic') {
-                const unitCard = checkbox.closest('.unit-card');
-                if (unitCard) {
-                    const stageCount = Object.values(unitData.stages).filter(v => v).length;
-                    const totalStages = subject === 'math' ? mathStageFields.length : logicStageFields.length;
-                    const stageTitle = unitCard.querySelector('.stage-fields h4');
-                    if (stageTitle) {
-                        stageTitle.textContent = `学习阶段记录 (${stageCount}/${totalStages})`;
-                    }
-                }
-            }
-        }
-    });
-    
-    // 笔记输入框失去焦点事件
-    document.addEventListener('focusout', function(e) {
-        if (e.target.matches('.note-input')) {
-            const textarea = e.target;
-            const subject = textarea.getAttribute('data-subject');
-            const id = parseInt(textarea.getAttribute('data-id'));
-            
-            // 获取当前数据
-            const unitData = getData(subject, id) || {};
-            
-            // 更新笔记
-            unitData.note = textarea.value;
-            
-            // 保存数据
-            saveData(subject, id, unitData);
-            
-            showNotification('笔记已保存');
-        }
-    });
-    
-    // 模态框关闭按钮
-    document.querySelector('.close-modal').addEventListener('click', closeModal);
-    
-    // 保存状态按钮
-    document.getElementById('save-status-btn').addEventListener('click', saveStatus);
-    
-    // 点击模态框背景关闭
-    document.getElementById('status-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
+        
+        // 保存按钮点击事件
+        if (e.target.closest('.save-btn')) {
+            const saveBtn = e.target.closest('.save-btn');
+            const subject = saveBtn.getAttribute('data-subject');
+            const id = parseInt(saveBtn.getAttribute('data-id'));
+            
+            saveUnitCard(subject, id);
         }
     });
 }
@@ -1406,32 +1316,32 @@ function initEventListeners() {
 function initApp() {
     // 初始化数据存储
     initDataStorage();
-    
+    
     // 更新日期和时间
     updateDateTime();
     setInterval(updateDateTime, 1000);
-    
+    
     // 更新每日提示
     updateDailyTip();
-    
+    
     // 更新今日状态
     updateTodayStatus();
-    
+    
     // 创建各科模块
     createMathModules();
     createLogicModules();
     createEnglishModules();
     createWritingModules();
-    
+    
     // 更新首页进度
     updateProgress();
-    
+    
     // 更新最近活动
     updateRecentActivities();
-    
+    
     // 初始化事件监听
     initEventListeners();
-    
+    
     // 显示欢迎消息
     setTimeout(() => {
         showNotification('MBA备考学习系统已加载完成！');

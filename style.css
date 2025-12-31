@@ -7,21 +7,22 @@
 }
 
 :root {
-    --logic-color: #A7C7E7;
-    --math-color: #FFEAA7;
-    --english-color: #C1E1C1;
-    --writing-color: #F8C8DC;
-    --bg-color: #FAF9F6;
-    --sidebar-color: #2C3E50;
-    --text-dark: #333333;
-    --text-light: #666666;
-    --text-lighter: #999999;
-    --border-color: #E0E0E0;
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    --hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-    --success-color: #4CAF50;
-    --warning-color: #FF9800;
-    --danger-color: #F44336;
+    /* 莫兰迪色系 */
+    --logic-color: #9CAFBB;    /* 灰蓝色 */
+    --math-color: #D8B5A0;    /* 灰粉色 */
+    --english-color: #C4D8C7;  /* 灰绿色 */
+    --writing-color: #E3C8D8;  /* 淡紫色 */
+    --bg-color: #F5F3EF;       /* 米白色 */
+    --sidebar-color: #6D7B8C;  /* 深灰蓝色 */
+    --text-dark: #4A4A4A;      /* 深灰色 */
+    --text-light: #7A7A7A;     /* 中灰色 */
+    --text-lighter: #A0A0A0;   /* 浅灰色 */
+    --border-color: #D8D2C9;   /* 浅米灰色 */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    --hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    --success-color: #8DB596;  /* 莫兰迪绿 */
+    --warning-color: #D9A566;  /* 莫兰迪橙 */
+    --danger-color: #D19494;   /* 莫兰迪红 */
     --radius: 16px;
     --transition: all 0.3s ease;
 }
@@ -631,7 +632,7 @@ body {
 .unit-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 15px;
     flex-wrap: wrap;
     gap: 10px;
@@ -641,58 +642,6 @@ body {
     font-size: 16px;
     font-weight: 600;
     flex-grow: 1;
-}
-
-.unit-purpose {
-    color: var(--text-light);
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-/* 状态按钮样式 */
-.status-btn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    background-color: white;
-    font-size: 13px;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-}
-
-.status-btn i {
-    margin-right: 5px;
-    font-size: 12px;
-}
-
-.status-btn:hover {
-    background-color: #f5f5f5;
-}
-
-.status-btn.unknown {
-    color: var(--danger-color);
-    border-color: #ffcdd2;
-    background-color: #ffebee;
-}
-
-.status-btn.seen {
-    color: var(--warning-color);
-    border-color: #ffe0b2;
-    background-color: #fff3e0;
-}
-
-.status-btn.familiar {
-    color: #2196F3;
-    border-color: #bbdefb;
-    background-color: #e3f2fd;
-}
-
-.status-btn.mastered {
-    color: var(--success-color);
-    border-color: #c8e6c9;
-    background-color: #e8f5e9;
 }
 
 /* 学习阶段记录字段 */
@@ -731,9 +680,119 @@ body {
     color: var(--text-light);
 }
 
+/* 状态选择区域 */
+.status-section {
+    margin: 20px 0;
+}
+
+.status-section h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.status-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.status-option {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.status-option i {
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.status-option:hover {
+    background-color: #f5f5f5;
+}
+
+.status-option.selected {
+    font-weight: 600;
+}
+
+/* 数学和逻辑状态 */
+.status-option.unknown {
+    color: var(--danger-color);
+    border-color: #ffcdd2;
+    background-color: #ffebee;
+}
+
+.status-option.unknown.selected {
+    background-color: #ffcdd2;
+}
+
+.status-option.seen {
+    color: var(--warning-color);
+    border-color: #ffe0b2;
+    background-color: #fff3e0;
+}
+
+.status-option.seen.selected {
+    background-color: #ffe0b2;
+}
+
+.status-option.familiar {
+    color: #2196F3;
+    border-color: #bbdefb;
+    background-color: #e3f2fd;
+}
+
+.status-option.familiar.selected {
+    background-color: #bbdefb;
+}
+
+.status-option.mastered {
+    color: var(--success-color);
+    border-color: #c8e6c9;
+    background-color: #e8f5e9;
+}
+
+.status-option.mastered.selected {
+    background-color: #c8e6c9;
+}
+
+/* 英语和写作状态 */
+.status-option.english-seen,
+.status-option.writing-seen {
+    color: var(--english-color);
+    border-color: #c1e1c1;
+    background-color: #e8f5e9;
+}
+
+.status-option.english-seen.selected,
+.status-option.writing-seen.selected {
+    background-color: #c1e1c1;
+}
+
+.status-option.english-guess,
+.status-option.writing-replace {
+    color: var(--writing-color);
+    border-color: #f8c8dc;
+    background-color: #fce4ec;
+}
+
+.status-option.english-guess.selected,
+.status-option.writing-replace.selected {
+    background-color: #f8c8dc;
+}
+
 /* 笔记区域 */
 .notes-section {
-    margin-top: 15px;
+    margin: 20px 0;
 }
 
 .notes-section label {
@@ -761,151 +820,75 @@ body {
     box-shadow: 0 0 0 2px rgba(167, 199, 231, 0.2);
 }
 
-/* 模态框样式 */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-content {
-    background-color: white;
-    border-radius: var(--radius);
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: modalSlideIn 0.3s ease;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.modal-header {
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h3 {
-    font-size: 20px;
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-light);
-    transition: var(--transition);
-}
-
-.close-modal:hover {
-    color: var(--text-dark);
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-.modal-footer {
-    padding: 20px;
-    border-top: 1px solid var(--border-color);
+/* 保存按钮 */
+.save-section {
+    margin-top: 20px;
     text-align: right;
 }
 
-/* 状态选项 */
-.status-options {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 10px;
-    margin-bottom: 20px;
-}
-
-.status-option {
-    padding: 15px;
-    border-radius: 10px;
-    border: 2px solid transparent;
+.save-btn {
+    background-color: var(--logic-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    transition: var(--transition);
 }
 
-.status-option:hover {
-    transform: translateY(-2px);
+.save-btn:hover {
+    background-color: #8ab5e0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.status-option.selected {
-    border-color: var(--logic-color);
-    background-color: rgba(167, 199, 231, 0.1);
+.save-btn i {
+    margin-right: 8px;
 }
 
-.status-option i {
-    font-size: 20px;
-    margin-right: 12px;
-}
-
-.status-option-text h4 {
-    font-size: 16px;
-    margin-bottom: 4px;
-}
-
-.status-option-text p {
-    font-size: 13px;
-    color: var(--text-light);
-}
-
-.modal-notes label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: var(--text-light);
-    font-weight: 600;
-}
-
-.modal-notes textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
+/* 通知消息 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
     border-radius: 8px;
-    font-size: 14px;
-    resize: vertical;
-    min-height: 80px;
-    transition: var(--transition);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.modal-notes textarea:focus {
-    outline: none;
-    border-color: var(--logic-color);
-    box-shadow: 0 0 0 2px rgba(167, 199, 231, 0.2);
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.notification.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.notification.success i {
+    color: var(--success-color);
+}
+
+.notification.error {
+    border-left: 4px solid var(--danger-color);
+}
+
+.notification.error i {
+    color: var(--danger-color);
 }
 
 /* 响应式设计 */
@@ -1002,13 +985,12 @@ body {
         align-items: flex-start;
     }
     
-    .status-btn {
-        margin-top: 10px;
-        align-self: flex-start;
-    }
-    
     .checkbox-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .status-options {
+        flex-direction: column;
     }
 }
 
@@ -1036,10 +1018,6 @@ body {
     
     .subject-content, .today-tip, .progress-overview, .recent-activity, .motivation {
         padding: 15px;
-    }
-    
-    .modal-content {
-        width: 95%;
     }
 }
 
