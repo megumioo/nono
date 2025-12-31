@@ -754,13 +754,27 @@ function generateDailyPlan() {
 
 // 更新仪表盘
 function updateDashboard() {
-    // 检查关键元素是否存在
-    const overallProgressBar = document.getElementById('overall-progress-bar');
-    if (!overallProgressBar) {
-        console.warn('Dashboard elements not found, retrying...');
-        setTimeout(updateDashboard, 100); // 100ms后重试
+    // === 修复：添加元素存在检查 ===
+    const requiredElements = [
+        'completed-units', 'total-units', 'overall-progress',
+        'overall-progress-bar', 'today-study', 'streak-days',
+        'days-remaining'
+    ];
+    
+    let allElementsExist = true;
+    for (const id of requiredElements) {
+        if (!document.getElementById(id)) {
+            console.error(`关键元素不存在: ${id}`);
+            allElementsExist = false;
+        }
+    }
+    
+    if (!allElementsExist) {
+        console.log('仪表盘元素未加载，将在100ms后重试');
+        setTimeout(updateDashboard, 100);
         return;
     }
+    // === 修复结束 ===
     
     // 计算总体进度
     const totalCompleted = 
@@ -2016,4 +2030,5 @@ function exportMathRecords() {
     linkElement.click();
     
     showNotification('数学学习记录已导出', 'success');
+
 }
