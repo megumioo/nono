@@ -793,7 +793,7 @@
                         <i class="fas fa-sitemap"></i> 知识结构
                     </button>
                     <button class="module-control-btn" data-action="show-exercises">
-                        <i class="fas fa-dumbbell"></i> 基础练习
+                        <i class="fas fa-clipboard-list"></i> 学习记录
                     </button>
                 </div>
             </div>
@@ -865,78 +865,55 @@
                         <p>学习整数、分数、百分比等基础运算，这是所有数学应用的基础。</p>
                     </div>
                     
+                    <!-- 数学知识结构将在这里动态生成 -->
                     <div class="knowledge-cards">
-                        <!-- 整数与分数卡片 -->
-                        <div class="knowledge-card" data-topic="integers-fractions">
-                            <div class="card-header">
-                                <div class="card-icon">
-                                    <i class="fas fa-divide"></i>
-                                </div>
-                                <h5>整数与分数</h5>
-                                <div class="card-status">
-                                    <span class="status-badge beginner">初学者</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="concept-explanation">
-                                    <h6><i class="fas fa-info-circle"></i> 核心概念</h6>
-                                    <p><strong>整数</strong>包括正整数、负整数和零。<strong>分数</strong>表示整体的一部分，由分子和分母组成。</p>
-                                </div>
-                                
-                                <div class="plain-explanation">
-                                    <h6><i class="fas fa-comments"></i> 大白话解释</h6>
-                                    <p>整数就像完整的苹果，分数就像切开的苹果片。数学运算就是对这些"苹果"进行组合和分配。</p>
-                                </div>
-                                
-                                <div class="business-application">
-                                    <h6><i class="fas fa-briefcase"></i> 商业应用</h6>
-                                    <p>分配利润：公司利润100万，A部门贡献3/5，B部门贡献2/5，计算各部门应得利润。</p>
-                                </div>
-                                
-                                <div class="common-misconceptions">
-                                    <h6><i class="fas fa-exclamation-triangle"></i> 常见误解</h6>
-                                    <p>分数加减法时直接加减分子分母。正确方法是先通分，使分母相同后再计算。</p>
-                                </div>
-                                
-                                <div class="learning-resources">
-                                    <h6><i class="fas fa-book"></i> 学习资源</h6>
-                                    <ul>
-                                        <li><i class="fas fa-video"></i> 陈剑老师：数学基础课第1-2讲</li>
-                                        <li><i class="fas fa-book-open"></i> 《数学高分指南》第一章</li>
-                                        <li><i class="fas fa-clock"></i> 建议学习时间：3-4小时</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="study-btn" onclick="startStudying('数学', '整数与分数')">
-                                    <i class="fas fa-play-circle"></i> 开始学习
-                                </button>
-                                <button class="exercise-btn" onclick="showExercises('数学', '整数与分数')">
-                                    <i class="fas fa-dumbbell"></i> 基础练习
-                                </button>
-                                <div class="progress-indicator">
-                                    <div class="progress-fill" style="width: 60%;"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- 知识结构内容将由JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 代数部分 -->
+                <div class="structure-section" id="algebra">
+                    <div class="section-intro">
+                        <h4><i class="fas fa-superscript"></i> 代数</h4>
+                        <p>学习方程、函数和不等式的求解方法，这是量化分析的核心工具。</p>
+                    </div>
+                    
+                    <!-- 数学知识结构将在这里动态生成 -->
+                    <div class="knowledge-cards">
+                        <!-- 知识结构内容将由JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 几何部分 -->
+                <div class="structure-section" id="geometry">
+                    <div class="section-intro">
+                        <h4><i class="fas fa-shapes"></i> 几何</h4>
+                        <p>学习平面几何和立体几何的基本概念，应用于空间分析和设计优化。</p>
+                    </div>
+                    
+                    <!-- 数学知识结构将在这里动态生成 -->
+                    <div class="knowledge-cards">
+                        <!-- 知识结构内容将由JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 数据分析部分 -->
+                <div class="structure-section" id="data-analysis">
+                    <div class="section-intro">
+                        <h4><i class="fas fa-chart-bar"></i> 数据分析</h4>
+                        <p>学习统计、概率和数据分析方法，支持商业决策。</p>
+                    </div>
+                    
+                    <!-- 数学知识结构将在这里动态生成 -->
+                    <div class="knowledge-cards">
+                        <!-- 知识结构内容将由JavaScript动态生成 -->
                     </div>
                 </div>
             </div>
             
-            <!-- 基础练习区域（默认隐藏） -->
+            <!-- 学习记录区域（默认隐藏） -->
             <div class="module-exercises hidden">
-                <div class="exercises-header">
-                    <h3><i class="fas fa-dumbbell"></i> 基础练习</h3>
-                    <button class="back-to-structure-btn" onclick="backToStructure()">
-                        <i class="fas fa-arrow-left"></i> 返回知识结构
-                    </button>
-                </div>
-                
-                <div class="exercise-container" id="math-exercise-container">
-                    <!-- 练习内容将在这里动态生成 -->
-                </div>
+                <!-- 学习记录内容将由JavaScript动态生成 -->
             </div>
         </section>
 
@@ -1375,38 +1352,11 @@
             <div class="settings-section">
                 <h4><i class="fas fa-info-circle"></i> 关于</h4>
                 <p class="about-info">
-                    MBA学习伙伴 v2.0<br>
-                    专为MBA初学者设计的学习系统<br>
-                    最后更新：2024年1月
+航崽专属
                 </p>
             </div>
         </div>
     </div>
-
-    <!-- 底部信息 -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h5><i class="fas fa-book"></i> 学习资源参考</h5>
-                <p>逻辑：挑灯成硕·王诚《逻辑攻略》</p>
-                <p>数学：陈剑&朱曦《数学高分指南》</p>
-            </div>
-            <div class="footer-section">
-                <h5><i class="fas fa-laptop-code"></i> 技术支持</h5>
-                <p>纯前端实现，数据保存在本地浏览器</p>
-                <p>无需网络，随时随地学习</p>
-            </div>
-            <div class="footer-section">
-                <h5><i class="fas fa-heart"></i> 致MBA考生</h5>
-                <p>坚持是成功的关键，每天进步一点点！</p>
-                <p id="motivation-quote">"今日学习，明日领袖"</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>MBA可视化学习系统 © 2024 | 专为初学者设计的学习伙伴</p>
-        </div>
-    </footer>
-
     <script src="app.js"></script>
 </body>
 </html>
