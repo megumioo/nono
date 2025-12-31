@@ -148,34 +148,42 @@ const learningStages = [
     { id: "advanced_video", name: "提高题网课", color: "#c8e6c9", icon: "fa-video" },
     { id: "summary", name: "总结+思维导图", color: "#fce4ec", icon: "fa-sitemap" },
     { id: "conclusion", name: "二级结论总结", color: "#f3e5f5", icon: "fa-lightbulb" }
-];
-
-// 页面加载初始化
+];// 页面加载初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 加载用户数据
-    loadUserData();
-    updateDashboard();
-    
-    // 初始化导航按钮
-    initNavigation();
-    
-    // 初始化数学学习记录系统
-    initMathLearningSystem();
-    
-    // 初始化模块控制按钮
-    initModuleControls();
-    
-    // 初始化知识地图控制
-    initKnowledgeMap();
-    
-    // 初始化设置按钮
-    document.getElementById('settings-btn').addEventListener('click', openSettings);
-    
-    // 初始化主题切换
-    initThemeSwitcher();
-    
-    // 初始化数学学习记录
-    initMathLearningRecords();
+    // 等待DOM完全加载
+    setTimeout(function() {
+        // 加载用户数据
+        loadUserData();
+        
+        // 检查关键元素是否存在
+        if (!document.getElementById('overall-progress-bar')) {
+            console.error('Critical dashboard elements missing');
+            return;
+        }
+        
+        updateDashboard();
+        
+        // 初始化导航按钮
+        initNavigation();
+        
+        // 初始化数学学习记录系统
+        initMathLearningSystem();
+        
+        // 初始化模块控制按钮
+        initModuleControls();
+        
+        // 初始化知识地图控制
+        initKnowledgeMap();
+        
+        // 初始化设置按钮
+        document.getElementById('settings-btn').addEventListener('click', openSettings);
+        
+        // 初始化主题切换
+        initThemeSwitcher();
+        
+        // 初始化数学学习记录
+        initMathLearningRecords();
+    }, 100); // 延迟100ms确保DOM完全加载
 });
 
 // 初始化导航
@@ -746,6 +754,14 @@ function generateDailyPlan() {
 
 // 更新仪表盘
 function updateDashboard() {
+    // 检查关键元素是否存在
+    const overallProgressBar = document.getElementById('overall-progress-bar');
+    if (!overallProgressBar) {
+        console.warn('Dashboard elements not found, retrying...');
+        setTimeout(updateDashboard, 100); // 100ms后重试
+        return;
+    }
+    
     // 计算总体进度
     const totalCompleted = 
         userData.studyProgress.subjectProgress.logic.completed +
@@ -759,13 +775,13 @@ function updateDashboard() {
         userData.studyProgress.subjectProgress.english.total +
         userData.studyProgress.subjectProgress.writing.total;
     
-    const overallProgress = Math.round((totalCompleted / totalUnits) * 100);
+    const overallProgress = totalUnits > 0 ? Math.round((totalCompleted / totalUnits) * 100) : 0;
     
     // 更新显示
     document.getElementById('completed-units').textContent = `${totalCompleted}个`;
     document.getElementById('total-units').textContent = totalUnits;
     document.getElementById('overall-progress').textContent = `${overallProgress}%`;
-    document.getElementById('overall-progress-bar').style.width = `${overallProgress}%`;
+    overallProgressBar.style.width = `${overallProgress}%`;
     
     // 更新今日学习时间
     const todayMinutes = Math.floor(userData.studyProgress.todayStudyTime / 60);
