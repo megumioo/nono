@@ -21,6 +21,10 @@
                     <i class="fas fa-home"></i>
                     <span>首页概览</span>
                 </li>
+                <li class="nav-item" data-page="exercise-book">
+                    <i class="fas fa-book"></i>
+                    <span>习题本</span>
+                </li>
                 <li class="nav-item" data-page="logic">
                     <i class="fas fa-brain"></i>
                     <span>逻辑</span>
@@ -43,8 +47,8 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="user-details">
-                    <p class="username">备考学员</p>
-                    <p class="user-status">今日学习: <span id="today-study-status">未开始</span></p>
+                    <p class="username">航崽崽崽</p>
+                    <p class="user-status">今日学习: <span id="today-study-status" style="font-weight: 600;">未开始</span></p>
                 </div>
             </div>
         </nav>
@@ -62,21 +66,73 @@
                 </header>
                 
                 <div class="dashboard-content">
-                    <!-- 今日学习提示 -->
-                    <div class="today-tip">
-                        <div class="tip-header">
-                            <i class="fas fa-lightbulb"></i>
-                            <h3>今日学习提示</h3>
+                    <!-- 备考战略导航区 -->
+                    <div class="strategy-navigation">
+                        <div class="strategy-header">
+                            <i class="fas fa-compass"></i>
+                            <h3>备考战略导航</h3>
+                            <div class="current-stage" id="current-stage">基础构建期</div>
                         </div>
-                        <p id="daily-tip">今天也只学一会会，开始吧~</p>
-                        <div class="study-status">
-                            <div class="status-indicator" id="today-status-indicator">
-                                <div class="indicator-dot"></div>
-                                <span>今日学习状态: <strong id="today-status-text">未开始</strong></span>
+                        
+                        <div class="strategy-content">
+                            <div class="strategy-item">
+                                <h4><i class="fas fa-bullseye"></i> 本周聚焦</h4>
+                                <div class="task-list" id="weekly-focus">
+                                    <div class="task-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span class="task-text">完成数学第一章算术模块学习</span>
+                                    </div>
+                                    <div class="task-item">
+                                        <i class="far fa-circle"></i>
+                                        <span class="task-text">复习逻辑论证方法部分</span>
+                                    </div>
+                                    <div class="task-item">
+                                        <i class="far fa-circle"></i>
+                                        <span class="task-text">英语高频词群第一组记忆</span>
+                                    </div>
+                                </div>
                             </div>
-                            <button id="mark-studied-btn" class="btn-primary">
-                                <i class="fas fa-check-circle"></i> 标记今日已学习
-                            </button>
+                            
+                            <div class="strategy-item">
+                                <h4><i class="fas fa-flag-checkered"></i> 关键节点</h4>
+                                <div class="milestone-list">
+                                    <div class="milestone-item">
+                                        <div class="milestone-title">阶段模拟考</div>
+                                        <div class="milestone-date">
+                                            <i class="far fa-calendar"></i>
+                                            <span class="countdown" data-date="2026-04-15">-- 天</span>
+                                        </div>
+                                    </div>
+                                    <div class="milestone-item">
+                                        <div class="milestone-title">真题模考训练</div>
+                                        <div class="milestone-date">
+                                            <i class="far fa-calendar"></i>
+                                            <span class="countdown" data-date="2026-04-30">-- 天</span>
+                                        </div>
+                                    </div>
+                                    <div class="milestone-item">
+                                        <div class="milestone-title">正式考试</div>
+                                        <div class="milestone-date">
+                                            <i class="far fa-calendar"></i>
+                                            <span class="countdown" data-date="2026-06-30">-- 天</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="strategy-item">
+                                <h4><i class="fas fa-lightbulb"></i> 智能建议</h4>
+                                <div class="suggestion-list" id="intelligent-suggestions">
+                                    <div class="suggestion-item">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <span class="suggestion-text">根据错题分析，建议重点复习绝对值与不等式</span>
+                                    </div>
+                                    <div class="suggestion-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span class="suggestion-text">数学进度领先，可适当增加逻辑学习时间</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -142,26 +198,103 @@
                         </div>
                     </div>
                     
-                    <!-- 近期活动 -->
-                    <div class="recent-activity">
-                        <h3><i class="fas fa-history"></i> 近期学习活动</h3>
-                        <div class="activity-list" id="recent-activities">
-                            <div class="activity-item">
-                                <i class="fas fa-info-circle"></i>
-                                <p>暂无学习记录，开始你的第一项学习吧！</p>
-                                <span class="activity-time">--:--</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 心理安抚语 -->
+                    <!-- 今日学习状态 -->
                     <div class="motivation">
                         <div class="motivation-content">
                             <i class="fas fa-heart"></i>
                             <div>
                                 <h3>完成＞完美</h3>
                                 <p id="motivation-text">和宝宝一起，要越来越好，会越来越好！</p>
+                                <button id="mark-studied-btn" class="btn-primary" style="margin-top: 10px;">
+                                    <i class="fas fa-check-circle"></i> 标记今日已学习
+                                </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 习题本页面 -->
+            <section id="exercise-book" class="page">
+                <header class="page-header">
+                    <h2><i class="fas fa-book"></i> 习题本</h2>
+                    <div class="page-stats">
+                        <span id="exercise-count">0 道题</span>
+                        <span id="error-count">0 道错题</span>
+                    </div>
+                </header>
+                
+                <div class="subject-content">
+                    <!-- 科目切换标签 -->
+                    <div class="subject-tabs">
+                        <div class="tab active" data-subject="math">
+                            <i class="fas fa-calculator"></i> 数学
+                        </div>
+                        <div class="tab" data-subject="logic">
+                            <i class="fas fa-brain"></i> 逻辑
+                        </div>
+                    </div>
+                    
+                    <!-- 题型选择 -->
+                    <div class="question-type-selector">
+                        <div class="type-option active" data-type="all">全部题型</div>
+                        <div class="type-option" data-type="problem-solving">问题求解</div>
+                        <div class="type-option" data-type="condition-sufficiency">条件充分性判断</div>
+                        <div class="type-option" data-type="reasoning">逻辑推理</div>
+                    </div>
+                    
+                    <!-- 筛选和搜索 -->
+                    <div class="filter-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="question-search" placeholder="搜索题目或知识点...">
+                        </div>
+                        <div class="filter-options">
+                            <select id="topic-filter">
+                                <option value="">全部考点</option>
+                                <!-- 数学考点选项 -->
+                                <optgroup label="数学" class="math-options" style="display: none;">
+                                    <option value="算术">算术</option>
+                                    <option value="代数">代数</option>
+                                    <option value="几何">几何</option>
+                                    <option value="数列">数列</option>
+                                    <option value="排列组合">排列组合</option>
+                                    <option value="概率">概率</option>
+                                </optgroup>
+                                <!-- 逻辑考点选项 -->
+                                <optgroup label="逻辑" class="logic-options" style="display: none;">
+                                    <option value="形式逻辑">形式逻辑</option>
+                                    <option value="论证逻辑">论证逻辑</option>
+                                    <option value="综合推理">综合推理</option>
+                                </optgroup>
+                            </select>
+                            <select id="error-filter">
+                                <option value="">全部错因</option>
+                                <option value="审题错误">审题错误</option>
+                                <option value="思路错误">思路错误</option>
+                                <option value="计算错误">计算错误</option>
+                                <option value="概念模糊">概念模糊</option>
+                                <option value="记忆错误">记忆错误</option>
+                                <option value="粗心大意">粗心大意</option>
+                            </select>
+                            <select id="status-filter">
+                                <option value="all">全部状态</option>
+                                <option value="unreviewed">未复习</option>
+                                <option value="reviewed">已复习</option>
+                                <option value="mastered">已掌握</option>
+                            </select>
+                        </div>
+                        <button id="add-question-btn" class="btn-primary">
+                            <i class="fas fa-plus"></i> 添加题目
+                        </button>
+                    </div>
+                    
+                    <!-- 题目列表 -->
+                    <div class="question-list" id="question-list">
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>暂无题目</h3>
+                            <p>点击"添加题目"按钮开始记录错题</p>
                         </div>
                     </div>
                 </div>
@@ -253,10 +386,122 @@
         </main>
     </div>
 
+    <!-- 题目编辑弹窗 -->
+    <div id="question-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加/编辑题目</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="question-form">
+                    <div class="form-group">
+                        <label>科目</label>
+                        <div class="subject-radio">
+                            <label>
+                                <input type="radio" name="subject" value="math" checked> 数学
+                            </label>
+                            <label>
+                                <input type="radio" name="subject" value="logic"> 逻辑
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>题型</label>
+                        <select id="question-type" name="type">
+                            <option value="problem-solving">问题求解</option>
+                            <option value="condition-sufficiency">条件充分性判断</option>
+                            <option value="reasoning">逻辑推理</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>题目内容</label>
+                        <textarea id="question-content" name="content" rows="3" placeholder="输入题目内容..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>答案与解析</label>
+                        <textarea id="question-answer" name="answer" rows="4" placeholder="输入答案和解析..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>核心考点标签</label>
+                        <div class="tag-selector" id="topic-tags">
+                            <div class="math-tags">
+                                <span class="tag" data-value="算术">算术</span>
+                                <span class="tag" data-value="代数">代数</span>
+                                <span class="tag" data-value="几何">几何</span>
+                                <span class="tag" data-value="数列">数列</span>
+                                <span class="tag" data-value="排列组合">排列组合</span>
+                                <span class="tag" data-value="概率">概率</span>
+                            </div>
+                            <div class="logic-tags" style="display: none;">
+                                <span class="tag" data-value="形式逻辑">形式逻辑</span>
+                                <span class="tag" data-value="论证逻辑">论证逻辑</span>
+                                <span class="tag" data-value="综合推理">综合推理</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selected-topic" name="topic">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>错因标签</label>
+                        <div class="tag-selector" id="error-tags">
+                            <span class="tag" data-value="审题错误">审题错误</span>
+                            <span class="tag" data-value="思路错误">思路错误</span>
+                            <span class="tag" data-value="计算错误">计算错误</span>
+                            <span class="tag" data-value="概念模糊">概念模糊</span>
+                            <span class="tag" data-value="记忆错误">记忆错误</span>
+                            <span class="tag" data-value="粗心大意">粗心大意</span>
+                        </div>
+                        <input type="hidden" id="selected-error" name="error">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>图片上传（可选）</label>
+                        <div class="image-upload">
+                            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                            <button type="button" id="upload-btn" class="btn-secondary">
+                                <i class="fas fa-upload"></i> 上传图片
+                            </button>
+                            <div id="image-preview"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>难度</label>
+                        <div class="difficulty-selector">
+                            <span class="difficulty-btn" data-level="1">简单</span>
+                            <span class="difficulty-btn" data-level="2">中等</span>
+                            <span class="difficulty-btn active" data-level="3">困难</span>
+                        </div>
+                        <input type="hidden" id="difficulty-level" name="difficulty" value="3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>复习状态</label>
+                        <select name="status">
+                            <option value="unreviewed">未复习</option>
+                            <option value="reviewed">已复习</option>
+                            <option value="mastered">已掌握</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" id="question-id" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary delete-btn" id="delete-question-btn">删除</button>
+                <button class="btn-primary" id="save-question-btn">保存题目</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 通知消息 -->
     <div id="notification-container"></div>
 
     <script src="app.js"></script>
 </body>
 </html>
-
