@@ -177,7 +177,7 @@
                                     <div class="progress-fill" id="english-progress"></div>
                                 </div>
                                 <div class="card-details">
-                                    <p>已完成: <span id="english-completed">0</span>/14 单元卡</p>
+                                    <p>已完成: <span id="english-completed">0</span>/26 单元</p>
                                     <p class="stage-info">当前阶段: <span id="english-stage">认识结构</span></p>
                                 </div>
                             </div>
@@ -347,18 +347,179 @@
                 <header class="page-header">
                     <h2><i class="fas fa-language"></i> 英语学习进度</h2>
                     <div class="page-stats">
-                        <span><i class="fas fa-layer-group"></i> 3个模块</span>
-                        <span><i class="fas fa-sticky-note"></i> 14个单元卡</span>
+                        <span><i class="fas fa-layer-group"></i> 词汇学习（26单元）</span>
+                        <span><i class="fas fa-sticky-note"></i> 词库管理 + 长难句 + 作文模板</span>
                     </div>
                 </header>
                 
                 <div class="subject-content">
                     <div class="instructions">
-                        <p><i class="fas fa-info-circle"></i> 点击模块标题展开/收起，每个单元卡包含2项勾选状态（见过/能猜意思或能替换）。</p>
+                        <p><i class="fas fa-info-circle"></i> 英语模块包含词汇学习、词库管理、长难句分析和作文模板四个部分。使用选项卡切换不同功能。</p>
                     </div>
                     
-                    <div id="english-modules-container" class="modules-container">
-                        <!-- 英语模块将通过JavaScript动态生成 -->
+                    <!-- 英语选项卡 -->
+                    <div class="english-tabs">
+                        <div class="english-tab active" data-tab="vocabulary">
+                            <i class="fas fa-book"></i> 词汇学习
+                        </div>
+                        <div class="english-tab" data-tab="sentences">
+                            <i class="fas fa-quote-right"></i> 长难句
+                        </div>
+                        <div class="english-tab" data-tab="essay">
+                            <i class="fas fa-file-alt"></i> 作文模板
+                        </div>
+                    </div>
+                    
+                    <!-- 词汇学习选项卡 -->
+                    <div id="vocabulary-tab" class="english-tab-content active">
+                        <div class="vocabulary-container">
+                            <!-- 左侧：词汇学习列表 -->
+                            <div class="vocabulary-section">
+                                <h3><i class="fas fa-list"></i> 单词课 & 单词带背课 (共26单元)</h3>
+                                <div class="vocabulary-lessons" id="vocabulary-lessons">
+                                    <!-- 词汇学习列表将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <!-- 右侧：词库管理 -->
+                            <div class="vocabulary-section">
+                                <h3><i class="fas fa-bookmark"></i> 词库管理</h3>
+                                
+                                <!-- 分类管理 -->
+                                <div class="word-categories" id="word-categories-list">
+                                    <!-- 分类列表将通过JavaScript动态生成 -->
+                                </div>
+                                
+                                <!-- 添加分类 -->
+                                <div class="form-row" style="margin-top: 15px;">
+                                    <div class="form-group">
+                                        <input type="text" id="new-category-name" placeholder="新分类名称">
+                                    </div>
+                                    <button id="add-category-btn" class="btn-primary">
+                                        <i class="fas fa-plus"></i> 添加分类
+                                    </button>
+                                </div>
+                                
+                                <!-- 当前分类单词列表 -->
+                                <div style="margin-top: 20px;">
+                                    <h4>当前分类: <span id="current-category-name">长难句生词</span></h4>
+                                    <div class="word-list" id="word-list">
+                                        <!-- 单词列表将通过JavaScript动态生成 -->
+                                    </div>
+                                    
+                                    <!-- 添加单词 -->
+                                    <div class="form-row" style="margin-top: 15px;">
+                                        <div class="form-group">
+                                            <input type="text" id="new-word" placeholder="新单词">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="new-meaning" placeholder="释义">
+                                        </div>
+                                        <div class="form-group">
+                                            <select id="add-word-category">
+                                                <!-- 分类选项将通过JavaScript动态生成 -->
+                                            </select>
+                                        </div>
+                                        <button id="add-word-btn" class="btn-primary">
+                                            <i class="fas fa-plus"></i> 添加单词
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- 今日复习 -->
+                                <div class="today-review" style="margin-top: 25px;">
+                                    <h4><i class="fas fa-calendar-check"></i> 今日复习</h4>
+                                    <div id="today-review">
+                                        <!-- 今日复习列表将通过JavaScript动态生成 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 长难句选项卡 -->
+                    <div id="sentences-tab" class="english-tab-content">
+                        <div class="long-sentences-container">
+                            <!-- 长难句列表 -->
+                            <div class="vocabulary-section">
+                                <h3><i class="fas fa-quote-right"></i> 长难句库</h3>
+                                <div id="long-sentences-list">
+                                    <!-- 长难句列表将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <!-- 添加长难句 -->
+                            <div class="vocabulary-section">
+                                <h3><i class="fas fa-plus-circle"></i> 添加长难句</h3>
+                                <div class="form-group">
+                                    <label>原文:</label>
+                                    <textarea id="sentence-content" rows="4" placeholder="输入长难句原文..."></textarea>
+                                    <small style="color: var(--text-light);">提示: 选中文本后可以提取生词</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>解析:</label>
+                                    <textarea id="sentence-analysis" rows="3" placeholder="输入句子解析..."></textarea>
+                                </div>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <button id="add-sentence-btn" class="btn-primary">
+                                        <i class="fas fa-plus"></i> 添加长难句
+                                    </button>
+                                    <button id="extract-word-btn" class="btn-secondary" style="display: none;">
+                                        <i class="fas fa-highlighter"></i> 提取选中文本为生词
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 作文模板选项卡 -->
+                    <div id="essay-tab" class="english-tab-content">
+                        <div class="essay-templates-container">
+                            <!-- 模板列表 -->
+                            <div class="vocabulary-section">
+                                <div class="template-controls">
+                                    <h3 style="margin: 0; flex-grow: 1;"><i class="fas fa-file-alt"></i> 作文模板库</h3>
+                                    <div class="form-group" style="margin: 0; min-width: 150px;">
+                                        <select id="template-paragraph">
+                                            <option value="1">第一段</option>
+                                            <option value="2">第二段</option>
+                                            <option value="3">第三段</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="essay-templates-list">
+                                    <!-- 作文模板列表将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <!-- 添加模板 -->
+                            <div class="vocabulary-section">
+                                <h3><i class="fas fa-plus-circle"></i> 添加作文模板</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <input type="text" id="template-name" placeholder="模板名称">
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="template-paragraph-add">
+                                            <option value="1">第一段</option>
+                                            <option value="2">第二段</option>
+                                            <option value="3">第三段</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>模板内容:</label>
+                                    <textarea id="template-content" rows="5" placeholder="输入模板内容..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>标签 (用逗号分隔):</label>
+                                    <input type="text" id="template-tags" placeholder="例如: 开头, 议论文, 万能">
+                                </div>
+                                <button id="add-template-btn" class="btn-primary">
+                                    <i class="fas fa-plus"></i> 添加模板
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

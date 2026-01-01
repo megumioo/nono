@@ -1340,26 +1340,22 @@ body {
 }
 
 /* 英语和写作状态 */
-.status-option.english-seen,
 .status-option.writing-seen {
     color: #98FB98;
     border-color: #C1FFC1;
     background-color: #F0FFF0;
 }
 
-.status-option.english-seen.selected,
 .status-option.writing-seen.selected {
     background-color: #C1FFC1;
 }
 
-.status-option.english-guess,
 .status-option.writing-replace {
     color: #DDA0DD;
     border-color: #E6C2E6;
     background-color: #F8F0FF;
 }
 
-.status-option.english-guess.selected,
 .status-option.writing-replace.selected {
     background-color: #E6C2E6;
 }
@@ -1420,6 +1416,440 @@ body {
 
 .save-btn i {
     margin-right: 8px;
+}
+
+/* 英语模块样式 */
+.english-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.english-tab {
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    border: 1px solid transparent;
+}
+
+.english-tab.active {
+    background-color: #FFFAFA;
+    border-color: var(--border-color);
+    color: #5D5D5D;
+    font-weight: 600;
+    border-top: 3px solid var(--english-color);
+}
+
+.english-tab:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.english-tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.english-tab-content.active {
+    display: block;
+}
+
+/* 词汇学习模块 */
+.vocabulary-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+@media (max-width: 992px) {
+    .vocabulary-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vocabulary-section {
+    background-color: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.vocabulary-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #5D5D5D;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid var(--english-color);
+    padding-bottom: 8px;
+}
+
+.vocabulary-lessons {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.vocabulary-lesson {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.vocabulary-lesson:hover {
+    background-color: #FFFAFA;
+}
+
+.vocabulary-lesson:last-child {
+    border-bottom: none;
+}
+
+.lesson-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.lesson-title {
+    font-weight: 600;
+    color: #5D5D5D;
+}
+
+.lesson-type {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background-color: #F0FFF0;
+    color: var(--english-color);
+}
+
+.lesson-checkboxes {
+    display: flex;
+    gap: 15px;
+}
+
+.lesson-checkboxes .checkbox-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.lesson-checkboxes input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* 词库管理 */
+.word-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.word-category {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.word-category:hover {
+    background-color: #FFFAFA;
+}
+
+.word-category.selected {
+    background-color: #F0FFF0;
+    border-color: var(--english-color);
+}
+
+.word-category.fixed {
+    border-left: 4px solid var(--english-color);
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-name {
+    font-weight: 600;
+    color: #5D5D5D;
+}
+
+.word-count {
+    font-size: 12px;
+    color: var(--text-light);
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.category-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.category-actions .action-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* 单词列表 */
+.word-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.word-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.word-item:hover {
+    background-color: #FFFAFA;
+}
+
+.word-item:last-child {
+    border-bottom: none;
+}
+
+.word-content {
+    flex-grow: 1;
+}
+
+.word-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.word-text strong {
+    color: #5D5D5D;
+}
+
+.word-meaning {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.word-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-lighter);
+}
+
+.review-badge {
+    background-color: var(--warning-color);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.word-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* 今日复习 */
+.today-review {
+    margin-top: 20px;
+}
+
+.review-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.review-item:hover {
+    background-color: #FFFAFA;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-word-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.review-meaning {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.review-category {
+    font-size: 12px;
+    color: var(--text-lighter);
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    align-self: flex-start;
+}
+
+/* 长难句模块 */
+.long-sentences-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.long-sentence {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.long-sentence:hover {
+    box-shadow: var(--card-shadow);
+}
+
+.sentence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.sentence-content {
+    flex-grow: 1;
+    line-height: 1.5;
+    color: #5D5D5D;
+}
+
+.sentence-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.sentence-details {
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 10px;
+}
+
+.sentence-full, .sentence-analysis, .sentence-words {
+    margin-bottom: 10px;
+}
+
+.sentence-full strong, .sentence-analysis strong, .sentence-words strong {
+    color: #5D5D5D;
+    margin-right: 5px;
+}
+
+.word-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.word-tag {
+    padding: 4px 8px;
+    background-color: #F0FFF0;
+    color: var(--english-color);
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/* 作文模板模块 */
+.essay-templates-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.template-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.essay-template {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.essay-template:hover {
+    box-shadow: var(--card-shadow);
+}
+
+.template-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.template-name {
+    font-weight: 600;
+    color: #5D5D5D;
+}
+
+.template-content {
+    line-height: 1.5;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.template-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.template-tag {
+    padding: 3px 8px;
+    background-color: #F0FFF0;
+    color: var(--english-color);
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+/* 表单样式 */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
 }
 
 /* 通知消息 */
@@ -1530,6 +1960,14 @@ body {
     .strategy-navigation, .progress-overview, .motivation {
         grid-column: span 1;
     }
+    
+    .vocabulary-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1593,6 +2031,21 @@ body {
     .status-options {
         flex-direction: column;
     }
+    
+    .lesson-checkboxes {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .word-item, .review-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .word-actions {
+        align-self: flex-end;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1623,6 +2076,14 @@ body {
     
     .modal-content {
         width: 95%;
+    }
+    
+    .english-tabs {
+        flex-direction: column;
+    }
+    
+    .english-tab {
+        justify-content: center;
     }
 }
 

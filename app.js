@@ -174,7 +174,7 @@ const logicData = [
             { id: 13, name: "不相容选言命题", purpose: "不相容选言命题" }
         ]
     },
-    {
+{
         chapter: "第五章 假言命题",
         units: [
             { id: 14, name: "假言命题的分类", purpose: "假言命题的分类" },
@@ -216,38 +216,68 @@ const logicData = [
     }
 ];
 
-// 英语数据
-const englishData = [
-    {
-        chapter: "高频词群",
-        units: [
-            { id: 1, name: "转折关系词群", purpose: "掌握however, but, yet等转折词" },
-            { id: 2, name: "因果关系词群", purpose: "掌握because, therefore, thus等因果词" },
-            { id: 3, name: "对比关系词群", purpose: "掌握while, whereas, on the contrary等对比词" },
-            { id: 4, name: "递进关系词群", purpose: "掌握furthermore, moreover, in addition等递进词" },
-            { id: 5, name: "举例关系词群", purpose: "掌握for example, such as, for instance等举例词" }
-        ]
-    },
-    {
-        chapter: "阅读关键句",
-        units: [
-            { id: 6, name: "主旨句", purpose: "识别文章主旨句" },
-            { id: 7, name: "转折句", purpose: "识别but, however等转折句" },
-            { id: 8, name: "因果句", purpose: "识别because, therefore等因果句" },
-            { id: 9, name: "例证句", purpose: "识别for example, for instance等例证句" },
-            { id: 10, name: "结论句", purpose: "识别in conclusion, to sum up等结论句" }
-        ]
-    },
-    {
-        chapter: "写作模板",
-        units: [
-            { id: 11, name: "议论文开头", purpose: "议论文开头模板" },
-            { id: 12, name: "论证段", purpose: "论证段模板" },
-            { id: 13, name: "结尾段", purpose: "议论文结尾模板" },
-            { id: 14, name: "图表描述模板", purpose: "图表描述模板" }
-        ]
-    }
-];
+// 英语数据 - 重构后的结构
+const englishData = {
+    // 单词课（14讲）和单词带背课（12节）- 共26个单元
+    vocabularyLessons: [
+        // 单词课 1-14
+        { id: 1, type: "单词课", name: "单词课第1讲", studied: false, notes: false, memorized: false },
+        { id: 2, type: "单词课", name: "单词课第2讲", studied: false, notes: false, memorized: false },
+        { id: 3, type: "单词课", name: "单词课第3讲", studied: false, notes: false, memorized: false },
+        { id: 4, type: "单词课", name: "单词课第4讲", studied: false, notes: false, memorized: false },
+        { id: 5, type: "单词课", name: "单词课第5讲", studied: false, notes: false, memorized: false },
+        { id: 6, type: "单词课", name: "单词课第6讲", studied: false, notes: false, memorized: false },
+        { id: 7, type: "单词课", name: "单词课第7讲", studied: false, notes: false, memorized: false },
+        { id: 8, type: "单词课", name: "单词课第8讲", studied: false, notes: false, memorized: false },
+        { id: 9, type: "单词课", name: "单词课第9讲", studied: false, notes: false, memorized: false },
+        { id: 10, type: "单词课", name: "单词课第10讲", studied: false, notes: false, memorized: false },
+        { id: 11, type: "单词课", name: "单词课第11讲", studied: false, notes: false, memorized: false },
+        { id: 12, type: "单词课", name: "单词课第12讲", studied: false, notes: false, memorized: false },
+        { id: 13, type: "单词课", name: "单词课第13讲", studied: false, notes: false, memorized: false },
+        { id: 14, type: "单词课", name: "单词课第14讲", studied: false, notes: false, memorized: false },
+        // 单词带背课 1-12
+        { id: 15, type: "单词带背课", name: "单词带背课第1节", studied: false, notes: false, memorized: false },
+        { id: 16, type: "单词带背课", name: "单词带背课第2节", studied: false, notes: false, memorized: false },
+        { id: 17, type: "单词带背课", name: "单词带背课第3节", studied: false, notes: false, memorized: false },
+        { id: 18, type: "单词带背课", name: "单词带背课第4节", studied: false, notes: false, memorized: false },
+        { id: 19, type: "单词带背课", name: "单词带背课第5节", studied: false, notes: false, memorized: false },
+        { id: 20, type: "单词带背课", name: "单词带背课第6节", studied: false, notes: false, memorized: false },
+        { id: 21, type: "单词带背课", name: "单词带背课第7节", studied: false, notes: false, memorized: false },
+        { id: 22, type: "单词带背课", name: "单词带背课第8节", studied: false, notes: false, memorized: false },
+        { id: 23, type: "单词带背课", name: "单词带背课第9节", studied: false, notes: false, memorized: false },
+        { id: 24, type: "单词带背课", name: "单词带背课第10节", studied: false, notes: false, memorized: false },
+        { id: 25, type: "单词带背课", name: "单词带背课第11节", studied: false, notes: false, memorized: false },
+        { id: 26, type: "单词带背课", name: "单词带背课第12节", studied: false, notes: false, memorized: false }
+    ],
+    // 词库管理
+    wordCategories: [
+        // 用户可自定义分类，至少包含一个固定分类
+        { 
+            id: 1, 
+            name: "长难句生词",  // 固定分类，不可删除
+            custom: false,
+            words: []  // 每个单词：{id, word, meaning, addedDate, reviewDates: []}
+        }
+        // 用户可添加自定义分类：{id: 2, name: "自定义分类名", custom: true, words: []}
+    ],
+    // 长难句库
+    longSentences: [
+        // 每个长难句：{id, content, analysis, words: [], createdAt}
+    ],
+    // 作文模板库
+    essayTemplates: [
+        // 按段落分组
+        { id: 1, paragraph: 1, name: "开头段模板1", content: "", tags: [] },
+        { id: 2, paragraph: 2, name: "论证段模板1", content: "", tags: [] },
+        { id: 3, paragraph: 3, name: "结尾段模板1", content: "", tags: [] }
+    ],
+    // 遗忘曲线复习间隔（天）
+    reviewIntervals: [1, 3, 7, 14, 30],
+    // 下一个ID
+    nextWordId: 1,
+    nextSentenceId: 1,
+    nextTemplateId: 4
+};
 
 // 写作数据
 const writingData = [
@@ -336,7 +366,7 @@ function initDataStorage() {
         const initialData = {
             math: {},
             logic: {},
-            english: {},
+            english: englishData, // 使用新的英语数据结构
             writing: {},
             exerciseBook: exerciseBookData,
             todayStudied: false,
@@ -384,18 +414,6 @@ function initDataStorage() {
             });
         });
         
-        // 初始化英语数据
-        englishData.forEach(chapter => {
-            chapter.units.forEach(unit => {
-                initialData.english[unit.id] = {
-                    seen: false,
-                    guess: false,
-                    note: "",
-                    lastUpdated: null
-                };
-            });
-        });
-        
         // 初始化写作数据
         writingData.forEach(chapter => {
             chapter.units.forEach(unit => {
@@ -416,6 +434,14 @@ function initDataStorage() {
         ];
         
         localStorage.setItem('mbaStudyData', JSON.stringify(initialData));
+    } else {
+        // 迁移旧数据到新结构
+        const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
+        if (!storedData.english || !storedData.english.vocabularyLessons) {
+            // 如果英语数据是旧结构，迁移到新结构
+            storedData.english = englishData;
+            localStorage.setItem('mbaStudyData', JSON.stringify(storedData));
+        }
     }
     
     // 加载应用状态
@@ -430,6 +456,21 @@ function initDataStorage() {
         data.todayStudied = false;
         localStorage.setItem('mbaStudyData', JSON.stringify(data));
     }
+}
+
+// 保存英语数据
+function saveEnglishData() {
+    const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
+    storedData.english = englishData;
+    localStorage.setItem('mbaStudyData', JSON.stringify(storedData));
+    
+    // 更新备考战略
+    updateStrategyData();
+    
+    // 更新首页进度
+    updateProgress();
+    
+    return true;
 }
 
 // 保存数据
@@ -533,14 +574,13 @@ function calculateSubjectProgress(subject) {
             });
         });
     } else if (subject === 'english') {
-        englishData.forEach(chapter => {
-            total += chapter.units.length;
-            chapter.units.forEach(unit => {
-                const unitData = storedData.english[unit.id];
-                if (unitData && (unitData.seen || unitData.guess)) {
-                    completed++;
-                }
-            });
+        // 计算词汇学习进度
+        const englishData = storedData.english;
+        total = englishData.vocabularyLessons.length;
+        englishData.vocabularyLessons.forEach(lesson => {
+            if (lesson.studied) {
+                completed++;
+            }
         });
     } else if (subject === 'writing') {
         writingData.forEach(chapter => {
@@ -834,32 +874,31 @@ function updateProgress() {
     document.getElementById('logic-stage').textContent = logicStage;
     
     // 计算英语进度
-    let englishCompleted = 0;
-    let englishTotal = 0;
-    let englishStage = "认识结构";
-    
-    englishData.forEach(chapter => {
-        englishTotal += chapter.units.length;
-        chapter.units.forEach(unit => {
-            const unitData = storedData.english[unit.id];
-            if (unitData && (unitData.seen || unitData.guess)) {
-                englishCompleted++;
-            }
-        });
+const englishData = storedData.english || { vocabularyLessons: [] };
+let englishCompleted = 0;
+let englishTotal = englishData.vocabularyLessons ? englishData.vocabularyLessons.length : 0;
+let englishStage = "认识结构";
+
+if (englishData.vocabularyLessons) {
+    englishData.vocabularyLessons.forEach(lesson => {
+        if (lesson.studied) {
+            englishCompleted++;
+        }
     });
-    
-    const englishPercent = englishTotal > 0 ? Math.round((englishCompleted / englishTotal) * 100) : 0;
-    
-    // 确定英语阶段
-    if (englishPercent >= 80) englishStage = "稳定刷题";
-    else if (englishPercent >= 50) englishStage = "流程熟悉";
-    else if (englishPercent > 0) englishStage = "认识结构";
-    
-    // 更新英语进度显示
-    document.getElementById('english-percent').textContent = `${englishPercent}%`;
-    document.getElementById('english-progress').style.width = `${englishPercent}%`;
-    document.getElementById('english-completed').textContent = englishCompleted;
-    document.getElementById('english-stage').textContent = englishStage;
+}
+
+const englishPercent = englishTotal > 0 ? Math.round((englishCompleted / englishTotal) * 100) : 0;
+
+// 确定英语阶段
+if (englishPercent >= 80) englishStage = "稳定刷题";
+else if (englishPercent >= 50) englishStage = "流程熟悉";
+else if (englishPercent > 0) englishStage = "认识结构";
+
+// 更新英语进度显示
+document.getElementById('english-percent').textContent = `${englishPercent}%`;
+document.getElementById('english-progress').style.width = `${englishPercent}%`;
+document.getElementById('english-completed').textContent = englishCompleted;
+document.getElementById('english-stage').textContent = englishStage;
     
     // 计算写作进度
     let writingCompleted = 0;
@@ -1046,7 +1085,7 @@ function saveUnitCard(subject, id) {
             status,
             note
         };
-    } else if (subject === 'english' || subject === 'writing') {
+    } else if (subject === 'writing') {
         // 获取状态选择
         const selectedOptions = unitCard.querySelectorAll('.status-option.selected');
         const seen = Array.from(selectedOptions).some(option => option.getAttribute('data-type') === 'seen');
@@ -1062,13 +1101,8 @@ function saveUnitCard(subject, id) {
             note
         };
         
-        if (subject === 'english') {
-            dataToSave.seen = seen;
-            dataToSave.guess = guessOrReplace;
-        } else if (subject === 'writing') {
-            dataToSave.seen = seen;
-            dataToSave.replace = guessOrReplace;
-        }
+        dataToSave.seen = seen;
+        dataToSave.replace = guessOrReplace;
     }
     
     // 保存数据
@@ -1112,11 +1146,6 @@ function updateSectionHeader(subject, id, data) {
         if (stats) {
             stats.innerHTML = `<span>${stageCount}/${totalStages} 阶段 | ${statusName}</span>`;
         }
-    } else if (subject === 'english') {
-        const statusText = data.seen ? (data.guess ? "已见过且能猜意思" : "已见过") : "未见过";
-        if (stats) {
-            stats.innerHTML = `<span>${statusText}</span>`;
-        }
     } else if (subject === 'writing') {
         const statusText = data.seen ? (data.replace ? "已见过且能替换" : "已见过") : "未见过";
         if (stats) {
@@ -1136,8 +1165,6 @@ function updateModuleStats(subject, unitId) {
     } else if (subject === 'logic') {
         chapterData = logicData;
         stageFields = logicStageFields;
-    } else if (subject === 'english') {
-        chapterData = englishData;
     } else if (subject === 'writing') {
         chapterData = writingData;
     } else {
@@ -1160,8 +1187,8 @@ function updateModuleStats(subject, unitId) {
                     if (unitData && unitData.status !== "unknown") {
                         completedCount++;
                     }
-                } else if (subject === 'english' || subject === 'writing') {
-                    if (unitData && (unitData.seen || unitData.guess || unitData.replace)) {
+                } else if (subject === 'writing') {
+                    if (unitData && (unitData.seen || unitData.replace)) {
                         completedCount++;
                     }
                 }
@@ -1486,114 +1513,6 @@ function createLogicUnitCard(unit, unitData) {
     `;
 }
 
-// 创建英语模块
-function createEnglishModules() {
-    const container = document.getElementById('english-modules-container');
-    container.innerHTML = '';
-    
-    englishData.forEach((chapter, chapterIndex) => {
-        const moduleElement = document.createElement('div');
-        moduleElement.className = 'module english-module';
-        
-        // 计算本章节完成情况
-        const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
-        let completedCount = 0;
-        chapter.units.forEach(unit => {
-            const unitData = storedData.english[unit.id];
-            if (unitData && (unitData.seen || unitData.guess)) {
-                completedCount++;
-            }
-        });
-        
-        moduleElement.innerHTML = `
-            <div class="module-header" data-chapter-index="${chapterIndex}">
-                <div class="module-title">
-                    <i class="fas fa-chevron-right"></i>
-                    <span>${chapter.chapter}</span>
-                </div>
-                <div class="module-stats">
-                    <span>${completedCount}/${chapter.units.length} 完成</span>
-                </div>
-            </div>
-            <div class="module-content">
-                ${chapter.units.map(unit => createEnglishUnitHeader(unit)).join('')}
-            </div>
-        `;
-        
-        container.appendChild(moduleElement);
-    });
-    
-    // 绑定模块展开/收起事件
-    bindModuleToggleEvents();
-}
-
-// 创建英语小节标题
-function createEnglishUnitHeader(unit) {
-    const unitData = getData('english', unit.id) || {
-        seen: false,
-        guess: false,
-        note: ""
-    };
-    
-    const statusText = unitData.seen ? (unitData.guess ? "已见过且能猜意思" : "已见过") : "未见过";
-    
-    return `
-        <div class="section" data-subject="english" data-id="${unit.id}">
-            <div class="section-header">
-                <div class="section-title">
-                    <i class="fas fa-chevron-right"></i>
-                    <span>${unit.id}. ${unit.name}</span>
-                </div>
-                <div class="section-stats">
-                    <span>${statusText}</span>
-                </div>
-            </div>
-            <div class="section-content">
-                ${createEnglishUnitCard(unit, unitData)}
-            </div>
-        </div>
-    `;
-}
-
-// 创建英语单元卡
-function createEnglishUnitCard(unit, unitData) {
-    return `
-        <div class="unit-card">
-            <div class="unit-header">
-                <div class="unit-name">${unit.id}. ${unit.name}</div>
-            </div>
-            
-            <div class="status-section">
-                <h4>学习状态选择</h4>
-                <div class="status-options">
-                    <div class="status-option english-seen ${unitData.seen ? 'selected' : ''}" 
-                         data-type="seen">
-                        <i class="fas ${unitData.seen ? 'fa-eye' : 'fa-eye-slash'}"></i>
-                        ${unitData.seen ? '已见过' : '未见过'}
-                    </div>
-                    <div class="status-option english-guess ${unitData.guess ? 'selected' : ''}" 
-                         data-type="guess">
-                        <i class="fas ${unitData.guess ? 'fa-lightbulb' : 'fa-question'}"></i>
-                        ${unitData.guess ? '能猜意思' : '不能猜'}
-                    </div>
-                </div>
-            </div>
-            
-            <div class="notes-section">
-                <label for="english-note-${unit.id}">一句话记录：</label>
-                <textarea class="note-input" id="english-note-${unit.id}" 
-                          placeholder="记录学习心得...">${unitData.note || ''}</textarea>
-            </div>
-            
-            <div class="save-section">
-                <button class="save-btn" data-subject="english" data-id="${unit.id}">
-                    <i class="fas fa-save"></i> 保存状态
-                </button>
-            </div>
-        </div>
-    `;
-}
-
 // 创建写作模块
 function createWritingModules() {
     const container = document.getElementById('writing-modules-container');
@@ -1700,6 +1619,832 @@ function createWritingUnitCard(unit, unitData) {
             </div>
         </div>
     `;
+}
+
+// 英语模块功能
+// 初始化英语模块
+function initEnglishModule() {
+    const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
+    englishData = storedData.english || englishData;
+    
+    // 加载词汇学习模块
+    loadVocabularyLessons();
+    
+    // 加载词库管理
+    loadWordCategories();
+    loadTodayReview();
+    
+    // 加载长难句
+    loadLongSentences();
+    
+    // 加载作文模板
+    loadEssayTemplates();
+}
+
+// 加载词汇学习模块
+function loadVocabularyLessons() {
+    const container = document.getElementById('vocabulary-lessons');
+    if (!container) return;
+    
+    const lessons = englishData.vocabularyLessons;
+    
+    container.innerHTML = '';
+    
+    lessons.forEach(lesson => {
+        const lessonElement = document.createElement('div');
+        lessonElement.className = 'vocabulary-lesson';
+        lessonElement.dataset.id = lesson.id;
+        
+        lessonElement.innerHTML = `
+            <div class="lesson-header">
+                <div class="lesson-title">
+                    <span>${lesson.name}</span>
+                    <span class="lesson-type">${lesson.type}</span>
+                </div>
+            </div>
+            <div class="lesson-checkboxes">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="lesson-${lesson.id}-studied" ${lesson.studied ? 'checked' : ''}>
+                    <label for="lesson-${lesson.id}-studied">已学习</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="lesson-${lesson.id}-notes" ${lesson.notes ? 'checked' : ''}>
+                    <label for="lesson-${lesson.id}-notes">有笔记</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="lesson-${lesson.id}-memorized" ${lesson.memorized ? 'checked' : ''}>
+                    <label for="lesson-${lesson.id}-memorized">已掌握</label>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(lessonElement);
+    });
+    
+    // 绑定复选框事件
+    container.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const id = parseInt(this.closest('.vocabulary-lesson').dataset.id);
+            const type = this.id.split('-')[2];
+            const lesson = englishData.vocabularyLessons.find(l => l.id === id);
+            
+            if (lesson) {
+                lesson[type] = this.checked;
+                saveEnglishData();
+                updateProgress();
+            }
+        });
+    });
+}
+
+// 加载词库管理
+function loadWordCategories() {
+    const container = document.getElementById('word-categories-list');
+    const wordListContainer = document.getElementById('word-list');
+    if (!container || !wordListContainer) return;
+    
+    const categories = englishData.wordCategories;
+    
+    // 更新分类列表
+    container.innerHTML = '';
+    
+    categories.forEach(category => {
+        const categoryElement = document.createElement('div');
+        categoryElement.className = `word-category ${category.id === 1 ? 'fixed' : ''}`;
+        categoryElement.dataset.id = category.id;
+        
+        categoryElement.innerHTML = `
+            <div class="category-header">
+                <span class="category-name">${category.name}</span>
+                <span class="word-count">${category.words.length} 词</span>
+            </div>
+            <div class="category-actions">
+                ${category.custom ? `
+                    <button class="action-btn edit-category" title="编辑分类">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-category" title="删除分类">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                ` : ''}
+            </div>
+        `;
+        
+        container.appendChild(categoryElement);
+    });
+    
+    // 绑定分类点击事件
+    container.querySelectorAll('.word-category').forEach(category => {
+        category.addEventListener('click', function() {
+            const categoryId = parseInt(this.dataset.id);
+            selectWordCategory(categoryId);
+        });
+    });
+    
+    // 绑定编辑和删除按钮事件
+    container.querySelectorAll('.edit-category').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const categoryId = parseInt(this.closest('.word-category').dataset.id);
+            editWordCategory(categoryId);
+        });
+    });
+    
+    container.querySelectorAll('.delete-category').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const categoryId = parseInt(this.closest('.word-category').dataset.id);
+            deleteWordCategory(categoryId);
+        });
+    });
+    
+    // 默认选择第一个分类
+    if (categories.length > 0) {
+        selectWordCategory(categories[0].id);
+    }
+}
+
+// 选择词库分类
+function selectWordCategory(categoryId) {
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category) return;
+    
+    // 更新选中状态
+    document.querySelectorAll('.word-category').forEach(cat => {
+        cat.classList.remove('selected');
+    });
+    document.querySelector(`.word-category[data-id="${categoryId}"]`).classList.add('selected');
+    
+    // 更新单词列表
+    loadWordList(categoryId);
+    
+    // 更新当前分类名称
+    document.getElementById('current-category-name').textContent = category.name;
+}
+
+// 加载单词列表
+function loadWordList(categoryId) {
+    const container = document.getElementById('word-list');
+    if (!container) return;
+    
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category) return;
+    
+    container.innerHTML = '';
+    
+    if (category.words.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-book"></i>
+                <p>暂无单词，点击"添加单词"按钮开始记录</p>
+            </div>
+        `;
+        return;
+    }
+    
+    category.words.forEach(word => {
+        const wordElement = document.createElement('div');
+        wordElement.className = 'word-item';
+        wordElement.dataset.id = word.id;
+        
+        // 检查是否需要复习
+        const needsReview = checkWordReview(word);
+        
+        wordElement.innerHTML = `
+            <div class="word-content">
+                <div class="word-text">
+                    <strong>${word.word}</strong>
+                    <span class="word-meaning">${word.meaning}</span>
+                </div>
+                <div class="word-meta">
+                    <span class="word-date">添加: ${formatDateShort(word.addedDate)}</span>
+                    <span class="word-review-count">复习: ${word.reviewDates?.length || 0}次</span>
+                    ${needsReview ? '<span class="review-badge">需复习</span>' : ''}
+                </div>
+            </div>
+            <div class="word-actions">
+                <button class="action-btn review-word" title="标记为已复习">
+                    <i class="fas fa-check-circle"></i>
+                </button>
+                <button class="action-btn delete-word" title="删除单词">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        
+        container.appendChild(wordElement);
+    });
+    
+    // 绑定单词操作事件
+    container.querySelectorAll('.review-word').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const wordId = parseInt(this.closest('.word-item').dataset.id);
+            markWordAsReviewed(categoryId, wordId);
+        });
+    });
+    
+    container.querySelectorAll('.delete-word').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const wordId = parseInt(this.closest('.word-item').dataset.id);
+            deleteWord(categoryId, wordId);
+        });
+    });
+}
+
+// 检查单词是否需要复习
+function checkWordReview(word) {
+    if (!word.reviewDates || word.reviewDates.length === 0) {
+        // 从未复习过，按添加日期计算
+        const addedDate = new Date(word.addedDate);
+        const today = new Date();
+        const daysSinceAdded = Math.floor((today - addedDate) / (1000 * 60 * 60 * 24));
+        
+        // 检查是否达到第一个复习间隔
+        return daysSinceAdded >= englishData.reviewIntervals[0];
+    }
+    
+    // 获取最后一次复习日期
+    const lastReview = new Date(word.reviewDates[word.reviewDates.length - 1]);
+    const today = new Date();
+    const daysSinceLastReview = Math.floor((today - lastReview) / (1000 * 60 * 60 * 24));
+    
+    // 根据复习次数确定下一个间隔
+    const reviewIndex = Math.min(word.reviewDates.length, englishData.reviewIntervals.length - 1);
+    const nextInterval = englishData.reviewIntervals[reviewIndex];
+    
+    return daysSinceLastReview >= nextInterval;
+}
+
+// 标记单词为已复习
+function markWordAsReviewed(categoryId, wordId) {
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category) return;
+    
+    const word = category.words.find(w => w.id === wordId);
+    if (!word) return;
+    
+    if (!word.reviewDates) {
+        word.reviewDates = [];
+    }
+    
+    word.reviewDates.push(new Date().toISOString());
+    saveEnglishData();
+    loadWordList(categoryId);
+    loadTodayReview();
+    
+    showNotification('单词已标记为已复习！');
+}
+
+// 删除单词
+function deleteWord(categoryId, wordId) {
+    if (!confirm('确定要删除这个单词吗？')) return;
+    
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category) return;
+    
+    const wordIndex = category.words.findIndex(w => w.id === wordId);
+    if (wordIndex !== -1) {
+        category.words.splice(wordIndex, 1);
+        saveEnglishData();
+        loadWordList(categoryId);
+        loadWordCategories();
+        
+        showNotification('单词已删除！');
+    }
+}
+
+// 添加新单词
+function addNewWord() {
+    const wordInput = document.getElementById('new-word');
+    const meaningInput = document.getElementById('new-meaning');
+    const categorySelect = document.getElementById('add-word-category');
+    
+    const word = wordInput.value.trim();
+    const meaning = meaningInput.value.trim();
+    const categoryId = parseInt(categorySelect.value);
+    
+    if (!word || !meaning) {
+        showNotification('请填写单词和释义！', 'error');
+        return;
+    }
+    
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category) {
+        showNotification('未找到分类！', 'error');
+        return;
+    }
+    
+    const newWord = {
+        id: englishData.nextWordId++,
+        word: word,
+        meaning: meaning,
+        addedDate: new Date().toISOString(),
+        reviewDates: []
+    };
+    
+    category.words.push(newWord);
+    saveEnglishData();
+    
+    // 清空输入框
+    wordInput.value = '';
+    meaningInput.value = '';
+    
+    // 重新加载
+    loadWordList(categoryId);
+    loadWordCategories();
+    loadTodayReview();
+    
+    showNotification('单词添加成功！');
+}
+
+// 添加新分类
+function addNewCategory() {
+    const categoryNameInput = document.getElementById('new-category-name');
+    const name = categoryNameInput.value.trim();
+    
+    if (!name) {
+        showNotification('请输入分类名称！', 'error');
+        return;
+    }
+    
+    // 检查是否已存在同名分类
+    const exists = englishData.wordCategories.some(c => c.name === name);
+    if (exists) {
+        showNotification('分类名称已存在！', 'error');
+        return;
+    }
+    
+    const newCategory = {
+        id: Date.now(), // 简单起见，使用时间戳作为ID
+        name: name,
+        custom: true,
+        words: []
+    };
+    
+    englishData.wordCategories.push(newCategory);
+    saveEnglishData();
+    
+    // 清空输入框
+    categoryNameInput.value = '';
+    
+    // 重新加载
+    loadWordCategories();
+    selectWordCategory(newCategory.id);
+    
+    // 更新添加单词的分类选项
+    updateAddWordCategoryOptions();
+    
+    showNotification('分类添加成功！');
+}
+
+// 编辑分类
+function editWordCategory(categoryId) {
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category || !category.custom) return;
+    
+    const newName = prompt('请输入新的分类名称：', category.name);
+    if (!newName || newName.trim() === '') return;
+    
+    category.name = newName.trim();
+    saveEnglishData();
+    loadWordCategories();
+    
+    // 更新添加单词的分类选项
+    updateAddWordCategoryOptions();
+    
+    showNotification('分类名称已更新！');
+}
+
+// 删除分类
+function deleteWordCategory(categoryId) {
+    const category = englishData.wordCategories.find(c => c.id === categoryId);
+    if (!category || !category.custom) return;
+    
+    if (category.words.length > 0) {
+        if (!confirm(`分类"${category.name}"中包含${category.words.length}个单词，确定要删除吗？`)) {
+            return;
+        }
+    }
+    
+    const categoryIndex = englishData.wordCategories.findIndex(c => c.id === categoryId);
+    if (categoryIndex !== -1) {
+        englishData.wordCategories.splice(categoryIndex, 1);
+        saveEnglishData();
+        loadWordCategories();
+        
+        // 更新添加单词的分类选项
+        updateAddWordCategoryOptions();
+        
+        showNotification('分类已删除！');
+    }
+}
+
+// 更新添加单词的分类选项
+function updateAddWordCategoryOptions() {
+    const select = document.getElementById('add-word-category');
+    if (!select) return;
+    
+    select.innerHTML = '';
+    
+    englishData.wordCategories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        select.appendChild(option);
+    });
+}
+
+// 加载今日复习
+function loadTodayReview() {
+    const container = document.getElementById('today-review');
+    if (!container) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    const wordsToReview = [];
+    
+    // 收集所有需要复习的单词
+    englishData.wordCategories.forEach(category => {
+        category.words.forEach(word => {
+            if (checkWordReview(word)) {
+                wordsToReview.push({
+                    ...word,
+                    categoryName: category.name,
+                    categoryId: category.id
+                });
+            }
+        });
+    });
+    
+    container.innerHTML = '';
+    
+    if (wordsToReview.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-check-circle"></i>
+                <p>今日没有需要复习的单词</p>
+            </div>
+        `;
+        return;
+    }
+    
+    wordsToReview.forEach(word => {
+        const wordElement = document.createElement('div');
+        wordElement.className = 'review-item';
+        wordElement.dataset.id = word.id;
+        wordElement.dataset.categoryId = word.categoryId;
+        
+        wordElement.innerHTML = `
+            <div class="review-word-content">
+                <strong>${word.word}</strong>
+                <span class="review-meaning">${word.meaning}</span>
+                <span class="review-category">${word.categoryName}</span>
+            </div>
+            <button class="action-btn review-now">
+                <i class="fas fa-check-circle"></i> 已复习
+            </button>
+        `;
+        
+        container.appendChild(wordElement);
+    });
+    
+    // 绑定复习按钮事件
+    container.querySelectorAll('.review-now').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const wordId = parseInt(this.closest('.review-item').dataset.id);
+            const categoryId = parseInt(this.closest('.review-item').dataset.categoryId);
+            markWordAsReviewed(categoryId, wordId);
+        });
+    });
+}
+
+// 加载长难句
+function loadLongSentences() {
+    const container = document.getElementById('long-sentences-list');
+    if (!container) return;
+    
+    const sentences = englishData.longSentences;
+    
+    container.innerHTML = '';
+    
+    if (sentences.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-quote-right"></i>
+                <p>暂无长难句，点击"添加长难句"按钮开始记录</p>
+            </div>
+        `;
+        return;
+    }
+    
+    sentences.forEach(sentence => {
+        const sentenceElement = document.createElement('div');
+        sentenceElement.className = 'long-sentence';
+        sentenceElement.dataset.id = sentence.id;
+        
+        sentenceElement.innerHTML = `
+            <div class="sentence-header">
+                <div class="sentence-content">
+                    ${sentence.content.substring(0, 100)}${sentence.content.length > 100 ? '...' : ''}
+                </div>
+                <div class="sentence-actions">
+                    <button class="action-btn expand-sentence" title="展开/收起">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <button class="action-btn delete-sentence" title="删除">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="sentence-details" style="display: none;">
+                <div class="sentence-full">
+                    <strong>原文：</strong>
+                    <p>${sentence.content}</p>
+                </div>
+                <div class="sentence-analysis">
+                    <strong>解析：</strong>
+                    <p>${sentence.analysis || '暂无解析'}</p>
+                </div>
+                ${sentence.words && sentence.words.length > 0 ? `
+                    <div class="sentence-words">
+                        <strong>生词：</strong>
+                        <div class="word-tags">
+                            ${sentence.words.map(word => `<span class="word-tag">${word}</span>`).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        
+        container.appendChild(sentenceElement);
+    });
+    
+    // 绑定长难句事件
+    container.querySelectorAll('.expand-sentence').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const details = this.closest('.long-sentence').querySelector('.sentence-details');
+            const icon = this.querySelector('i');
+            
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                icon.className = 'fas fa-chevron-up';
+            } else {
+                details.style.display = 'none';
+                icon.className = 'fas fa-chevron-down';
+            }
+        });
+    });
+    
+    container.querySelectorAll('.delete-sentence').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const sentenceId = parseInt(this.closest('.long-sentence').dataset.id);
+            deleteLongSentence(sentenceId);
+        });
+    });
+}
+
+// 添加长难句
+function addLongSentence() {
+    const contentInput = document.getElementById('sentence-content');
+    const analysisInput = document.getElementById('sentence-analysis');
+    
+    const content = contentInput.value.trim();
+    const analysis = analysisInput.value.trim();
+    
+    if (!content) {
+        showNotification('请输入长难句内容！', 'error');
+        return;
+    }
+    
+    const newSentence = {
+        id: englishData.nextSentenceId++,
+        content: content,
+        analysis: analysis,
+        words: [],
+        createdAt: new Date().toISOString()
+    };
+    
+    englishData.longSentences.push(newSentence);
+    saveEnglishData();
+    
+    // 清空输入框
+    contentInput.value = '';
+    analysisInput.value = '';
+    
+    // 重新加载
+    loadLongSentences();
+    
+    showNotification('长难句添加成功！');
+}
+
+// 删除长难句
+function deleteLongSentence(sentenceId) {
+    if (!confirm('确定要删除这个长难句吗？')) return;
+    
+    const sentenceIndex = englishData.longSentences.findIndex(s => s.id === sentenceId);
+    if (sentenceIndex !== -1) {
+        englishData.longSentences.splice(sentenceIndex, 1);
+        saveEnglishData();
+        loadLongSentences();
+        
+        showNotification('长难句已删除！');
+    }
+}
+
+// 从长难句中提取生词
+function extractWordFromSentence() {
+    const contentInput = document.getElementById('sentence-content');
+    const selectedText = window.getSelection().toString().trim();
+    
+    if (!selectedText) {
+        showNotification('请先选择文本！', 'error');
+        return;
+    }
+    
+    // 弹出添加生词对话框
+    const meaning = prompt(`为"${selectedText}"添加释义：`);
+    if (!meaning || meaning.trim() === '') return;
+    
+    // 添加到"长难句生词"分类
+    const longSentenceCategory = englishData.wordCategories.find(c => c.id === 1);
+    if (!longSentenceCategory) return;
+    
+    // 检查是否已存在相同单词
+    const existingWord = longSentenceCategory.words.find(w => w.word.toLowerCase() === selectedText.toLowerCase());
+    if (existingWord) {
+        showNotification('该单词已存在！', 'error');
+        return;
+    }
+    
+    const newWord = {
+        id: englishData.nextWordId++,
+        word: selectedText,
+        meaning: meaning.trim(),
+        addedDate: new Date().toISOString(),
+        reviewDates: []
+    };
+    
+    longSentenceCategory.words.push(newWord);
+    saveEnglishData();
+    
+    // 重新加载词库
+    loadWordCategories();
+    loadWordList(1);
+    loadTodayReview();
+    
+    showNotification('生词已添加到"长难句生词"分类！');
+}
+
+// 加载作文模板
+function loadEssayTemplates() {
+    const container = document.getElementById('essay-templates-list');
+    const paragraphSelect = document.getElementById('template-paragraph');
+    if (!container || !paragraphSelect) return;
+    
+    const selectedParagraph = parseInt(paragraphSelect.value);
+    const templates = englishData.essayTemplates.filter(t => t.paragraph === selectedParagraph);
+    
+    container.innerHTML = '';
+    
+    if (templates.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-file-alt"></i>
+                <p>暂无模板，点击"添加模板"按钮开始创建</p>
+            </div>
+        `;
+        return;
+    }
+    
+    templates.forEach(template => {
+        const templateElement = document.createElement('div');
+        templateElement.className = 'essay-template';
+        templateElement.dataset.id = template.id;
+        
+        templateElement.innerHTML = `
+            <div class="template-header">
+                <div class="template-name">${template.name}</div>
+                <div class="template-actions">
+                    <button class="action-btn edit-template" title="编辑">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-template" title="删除">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="template-content">
+                ${template.content.substring(0, 150)}${template.content.length > 150 ? '...' : ''}
+            </div>
+            ${template.tags && template.tags.length > 0 ? `
+                <div class="template-tags">
+                    ${template.tags.map(tag => `<span class="template-tag">${tag}</span>`).join('')}
+                </div>
+            ` : ''}
+        `;
+        
+        container.appendChild(templateElement);
+    });
+    
+    // 绑定模板事件
+    container.querySelectorAll('.edit-template').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const templateId = parseInt(this.closest('.essay-template').dataset.id);
+            editEssayTemplate(templateId);
+        });
+    });
+    
+    container.querySelectorAll('.delete-template').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const templateId = parseInt(this.closest('.essay-template').dataset.id);
+            deleteEssayTemplate(templateId);
+        });
+    });
+}
+
+// 添加作文模板
+function addEssayTemplate() {
+    const nameInput = document.getElementById('template-name');
+    const contentInput = document.getElementById('template-content');
+    const paragraphSelect = document.getElementById('template-paragraph');
+    const tagsInput = document.getElementById('template-tags');
+    
+    const name = nameInput.value.trim();
+    const content = contentInput.value.trim();
+    const paragraph = parseInt(paragraphSelect.value);
+    const tags = tagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag);
+    
+    if (!name || !content) {
+        showNotification('请填写模板名称和内容！', 'error');
+        return;
+    }
+    
+    const newTemplate = {
+        id: englishData.nextTemplateId++,
+        name: name,
+        content: content,
+        paragraph: paragraph,
+        tags: tags
+    };
+    
+    englishData.essayTemplates.push(newTemplate);
+    saveEnglishData();
+    
+    // 清空输入框
+    nameInput.value = '';
+    contentInput.value = '';
+    tagsInput.value = '';
+    
+    // 重新加载
+    loadEssayTemplates();
+    
+    showNotification('模板添加成功！');
+}
+
+// 编辑作文模板
+function editEssayTemplate(templateId) {
+    const template = englishData.essayTemplates.find(t => t.id === templateId);
+    if (!template) return;
+    
+    // 使用弹出窗口编辑
+    const newName = prompt('请输入模板名称：', template.name);
+    if (!newName || newName.trim() === '') return;
+    
+    const newContent = prompt('请输入模板内容：', template.content);
+    if (newContent === null) return;
+    
+    const newTags = prompt('请输入标签（用逗号分隔）：', template.tags.join(','));
+    if (newTags === null) return;
+    
+    template.name = newName.trim();
+    template.content = newContent.trim();
+    template.tags = newTags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    
+    saveEnglishData();
+    loadEssayTemplates();
+    
+    showNotification('模板已更新！');
+}
+
+// 删除作文模板
+function deleteEssayTemplate(templateId) {
+    if (!confirm('确定要删除这个模板吗？')) return;
+    
+    const templateIndex = englishData.essayTemplates.findIndex(t => t.id === templateId);
+    if (templateIndex !== -1) {
+        englishData.essayTemplates.splice(templateIndex, 1);
+        saveEnglishData();
+        loadEssayTemplates();
+        
+        showNotification('模板已删除！');
+    }
+}
+
+// 格式化日期（短格式）
+function formatDateShort(dateString) {
+    if (!dateString) return '未知日期';
+    
+    const date = new Date(dateString);
+    return date.toLocaleDateString('zh-CN');
 }
 
 // 习题本功能
@@ -2356,6 +3101,88 @@ function applyFilters() {
     loadQuestions(currentSubject, filters);
 }
 
+// 初始化英语模块事件监听
+function initEnglishListeners() {
+    // 英语选项卡切换
+    const englishTabs = document.querySelectorAll('.english-tab');
+    if (englishTabs.length > 0) {
+        englishTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // 更新选项卡状态
+                englishTabs.forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // 显示对应内容
+                document.querySelectorAll('.english-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // 如果是词汇学习选项卡，重新加载今日复习
+                if (tabId === 'vocabulary') {
+                    loadTodayReview();
+                }
+            });
+        });
+    }
+    
+    // 添加单词按钮
+    const addWordBtn = document.getElementById('add-word-btn');
+    if (addWordBtn) {
+        addWordBtn.addEventListener('click', addNewWord);
+    }
+    
+    // 添加分类按钮
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    if (addCategoryBtn) {
+        addCategoryBtn.addEventListener('click', addNewCategory);
+    }
+    
+    // 添加长难句按钮
+    const addSentenceBtn = document.getElementById('add-sentence-btn');
+    if (addSentenceBtn) {
+        addSentenceBtn.addEventListener('click', addLongSentence);
+    }
+    
+    // 添加模板按钮
+    const addTemplateBtn = document.getElementById('add-template-btn');
+    if (addTemplateBtn) {
+        addTemplateBtn.addEventListener('click', addEssayTemplate);
+    }
+    
+    // 作文模板段落选择
+    const templateParagraphSelect = document.getElementById('template-paragraph');
+    if (templateParagraphSelect) {
+        templateParagraphSelect.addEventListener('change', loadEssayTemplates);
+    }
+    
+    // 长难句生词提取（文本选择事件）
+    const sentenceContentInput = document.getElementById('sentence-content');
+    if (sentenceContentInput) {
+        sentenceContentInput.addEventListener('mouseup', function() {
+            // 延迟检查是否有选中文本
+            setTimeout(() => {
+                const selectedText = window.getSelection().toString().trim();
+                if (selectedText && selectedText.length > 1) {
+                    // 显示提取生词按钮
+                    const extractBtn = document.getElementById('extract-word-btn');
+                    if (extractBtn) {
+                        extractBtn.style.display = 'inline-block';
+                        extractBtn.onclick = extractWordFromSentence;
+                    }
+                }
+            }, 100);
+        });
+    }
+    
+    // 更新添加单词的分类选项
+    updateAddWordCategoryOptions();
+}
+
 // 初始化事件监听
 function initEventListeners() {
     // 导航菜单点击事件
@@ -2379,9 +3206,16 @@ function initEventListeners() {
             document.title = `MBA备考 - ${this.querySelector('span').textContent}`;
             
             // 如果切换到学科页面，重新绑定模块事件
-            if (page !== 'dashboard' && page !== 'exercise-book') {
+            if (page === 'math' || page === 'logic' || page === 'writing') {
                 setTimeout(() => {
                     bindModuleToggleEvents();
+                }, 100);
+            }
+            
+            // 如果切换到英语页面，初始化英语模块
+            if (page === 'english') {
+                setTimeout(() => {
+                    initEnglishModule();
                 }, 100);
             }
             
@@ -2416,8 +3250,8 @@ function initEventListeners() {
             option.classList.add('selected');
         }
         
-        // 英语和写作状态选项（可以多选）
-        if (e.target.closest('.status-option.english-seen, .status-option.english-guess, .status-option.writing-seen, .status-option.writing-replace')) {
+        // 写作状态选项（可以多选）
+        if (e.target.closest('.status-option.writing-seen, .status-option.writing-replace')) {
             const option = e.target.closest('.status-option');
             option.classList.toggle('selected');
         }
@@ -2434,6 +3268,9 @@ function initEventListeners() {
     
     // 习题本事件监听
     initExerciseBookListeners();
+    
+    // 英语模块事件监听
+    initEnglishListeners();
 }
 
 // 初始化应用
@@ -2454,7 +3291,6 @@ function initApp() {
     // 创建各科模块
     createMathModules();
     createLogicModules();
-    createEnglishModules();
     createWritingModules();
     
     // 初始化习题本
