@@ -450,25 +450,29 @@
                             
                             <!-- 添加长难句 -->
                             <div class="vocabulary-section">
-                                <h3><i class="fas fa-plus-circle"></i> 添加长难句</h3>
-                                <div class="form-group">
-                                    <label>原文:</label>
-                                    <textarea id="sentence-content" rows="4" placeholder="输入长难句原文..."></textarea>
-                                    <small style="color: var(--text-light);">提示: 选中文本后可以提取生词</small>
-                                </div>
-                                <div class="form-group">
-                                    <label>解析:</label>
-                                    <textarea id="sentence-analysis" rows="3" placeholder="输入句子解析..."></textarea>
-                                </div>
-                                <div style="display: flex; gap: 10px; align-items: center;">
-                                    <button id="add-sentence-btn" class="btn-primary">
-                                        <i class="fas fa-plus"></i> 添加长难句
-                                    </button>
-                                    <button id="extract-word-btn" class="btn-secondary" style="display: none;">
-                                        <i class="fas fa-highlighter"></i> 提取选中文本为生词
-                                    </button>
-                                </div>
-                            </div>
+    <h3><i class="fas fa-plus-circle"></i> 添加长难句</h3>
+    <div class="form-group">
+        <label>标题:</label>
+        <input type="text" id="sentence-title" placeholder="输入长难句标题（必填）">
+    </div>
+    <div class="form-group">
+        <label>原文:</label>
+        <textarea id="sentence-content" rows="3" placeholder="输入长难句原文（必填）..."></textarea>
+        <small style="color: var(--text-light);">提示: 选中文本后可以提取生词</small>
+    </div>
+    <div class="form-group">
+        <label>解析 (可选):</label>
+        <textarea id="sentence-analysis" rows="2" placeholder="后续可补充解析..."></textarea>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <button id="add-sentence-btn" class="btn-primary">
+            <i class="fas fa-plus"></i> 添加长难句
+        </button>
+        <button id="extract-word-btn" class="btn-secondary" style="display: none;">
+            <i class="fas fa-highlighter"></i> 提取选中文本为生词
+        </button>
+    </div>
+</div>
                         </div>
                     </div>
                     

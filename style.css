@@ -1781,6 +1781,34 @@ body {
     border-radius: 12px;
     font-size: 12px;
 }
+/* 长难句标题样式 */
+.sentence-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.sentence-title strong {
+    font-size: 16px;
+    color: #5D5D5D;
+}
+
+.sentence-date {
+    font-size: 12px;
+    color: var(--text-lighter);
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* 长难句内容预览 */
+.sentence-content-preview {
+    margin: 8px 0;
+    line-height: 1.5;
+    color: var(--text-light);
+    font-size: 14px;
+}
 
 /* 作文模板模块 */
 .essay-templates-container {
@@ -1816,20 +1844,37 @@ body {
 }
 
 .template-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.template-paragraph-badge {
+    font-size: 12px;
+    color: var(--english-color);
+    background-color: #F0FFF0;
+    padding: 2px 8px;
+    border-radius: 10px;
     font-weight: 600;
-    color: #5D5D5D;
+}
+
+.template-details {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
 }
 
 .template-content {
-    line-height: 1.5;
+    line-height: 1.6;
     color: var(--text-light);
-    margin-bottom: 10px;
+    white-space: pre-line;
 }
 
 .template-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: 10px;
 }
 
 .template-tag {
@@ -1839,7 +1884,6 @@ body {
     border-radius: 10px;
     font-size: 11px;
 }
-
 /* 表单样式 */
 .form-row {
     display: flex;
