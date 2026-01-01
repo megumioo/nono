@@ -498,19 +498,19 @@ function updateRecentActivities() {
         switch(activity.subject) {
             case "math":
                 subjectIcon = "fas fa-calculator";
-                subjectColor = "#FFEAA7";
+                subjectColor = "#87CEEB";
                 break;
             case "logic":
                 subjectIcon = "fas fa-brain";
-                subjectColor = "#A7C7E7";
+                subjectColor = "#FFB6C1";
                 break;
             case "english":
                 subjectIcon = "fas fa-language";
-                subjectColor = "#C1E1C1";
+                subjectColor = "#98FB98";
                 break;
             case "writing":
                 subjectIcon = "fas fa-pen-fancy";
-                subjectColor = "#F8C8DC";
+                subjectColor = "#DDA0DD";
                 break;
             default:
                 subjectIcon = "fas fa-book";
@@ -671,14 +671,14 @@ function updateTodayStatus() {
     
     if (appState.todayStudied) {
         todayStatusElement.textContent = "已学习";
-        indicatorDot.style.backgroundColor = "#4CAF50";
+        indicatorDot.style.backgroundColor = "#7BCCB5";
         studyStatusElement.textContent = "已学习";
         document.getElementById('mark-studied-btn').innerHTML = '<i class="fas fa-check-circle"></i> 今日已学习';
         document.getElementById('mark-studied-btn').classList.add('disabled');
         document.getElementById('mark-studied-btn').disabled = true;
     } else {
         todayStatusElement.textContent = "未开始";
-        indicatorDot.style.backgroundColor = "#F44336";
+        indicatorDot.style.backgroundColor = "#FF6961";
         studyStatusElement.textContent = "未开始";
         document.getElementById('mark-studied-btn').innerHTML = '<i class="fas fa-check-circle"></i> 标记今日已学习';
         document.getElementById('mark-studied-btn').classList.remove('disabled');
@@ -748,7 +748,7 @@ function createMathModules() {
                 </div>
             </div>
             <div class="module-content">
-                ${chapter.units.map(unit => createMathUnitCard(unit)).join('')}
+                ${chapter.units.map(unit => createMathUnitHeader(unit)).join('')}
             </div>
         `;
         
@@ -759,8 +759,8 @@ function createMathModules() {
     bindModuleToggleEvents();
 }
 
-// 创建数学单元卡
-function createMathUnitCard(unit) {
+// 创建数学小节标题
+function createMathUnitHeader(unit) {
     const unitData = getData('math', unit.id) || {
         status: "unknown",
         stages: mathStageFields.reduce((obj, field) => {
@@ -772,10 +772,34 @@ function createMathUnitCard(unit) {
     
     // 计算阶段完成数量
     const stageCount = Object.values(unitData.stages).filter(v => v).length;
+    const statusName = mathStatuses.find(s => s.id === unitData.status)?.name || "未接触";
     
     return `
-        <div class="unit-card" data-subject="math" data-id="${unit.id}">
-                        <div class="unit-header">
+        <div class="section" data-subject="math" data-id="${unit.id}">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>${unit.id}. ${unit.name}</span>
+                </div>
+                <div class="section-stats">
+                    <span>${stageCount}/${mathStageFields.length} 阶段 | ${statusName}</span>
+                </div>
+            </div>
+            <div class="section-content">
+                ${createMathUnitCard(unit, unitData)}
+            </div>
+        </div>
+    `;
+}
+
+// 创建数学单元卡
+function createMathUnitCard(unit, unitData) {
+    // 计算阶段完成数量
+    const stageCount = Object.values(unitData.stages).filter(v => v).length;
+    
+    return `
+        <div class="unit-card">
+            <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
             </div>
             
@@ -851,7 +875,7 @@ function createLogicModules() {
                 </div>
             </div>
             <div class="module-content">
-                ${chapter.units.map(unit => createLogicUnitCard(unit)).join('')}
+                ${chapter.units.map(unit => createLogicUnitHeader(unit)).join('')}
             </div>
         `;
         
@@ -862,8 +886,8 @@ function createLogicModules() {
     bindModuleToggleEvents();
 }
 
-// 创建逻辑单元卡
-function createLogicUnitCard(unit) {
+// 创建逻辑小节标题
+function createLogicUnitHeader(unit) {
     const unitData = getData('logic', unit.id) || {
         status: "unknown",
         stages: logicStageFields.reduce((obj, field) => {
@@ -875,10 +899,34 @@ function createLogicUnitCard(unit) {
     
     // 计算阶段完成数量
     const stageCount = Object.values(unitData.stages).filter(v => v).length;
+    const statusName = logicStatuses.find(s => s.id === unitData.status)?.name || "未接触";
     
     return `
-        <div class="unit-card" data-subject="logic" data-id="${unit.id}">
-                        <div class="unit-header">
+        <div class="section" data-subject="logic" data-id="${unit.id}">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>${unit.id}. ${unit.name}</span>
+                </div>
+                <div class="section-stats">
+                    <span>${stageCount}/${logicStageFields.length} 阶段 | ${statusName}</span>
+                </div>
+            </div>
+            <div class="section-content">
+                ${createLogicUnitCard(unit, unitData)}
+            </div>
+        </div>
+    `;
+}
+
+// 创建逻辑单元卡
+function createLogicUnitCard(unit, unitData) {
+    // 计算阶段完成数量
+    const stageCount = Object.values(unitData.stages).filter(v => v).length;
+    
+    return `
+        <div class="unit-card">
+            <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
             </div>
             
@@ -954,7 +1002,7 @@ function createEnglishModules() {
                 </div>
             </div>
             <div class="module-content">
-                ${chapter.units.map(unit => createEnglishUnitCard(unit)).join('')}
+                ${chapter.units.map(unit => createEnglishUnitHeader(unit)).join('')}
             </div>
         `;
         
@@ -965,17 +1013,39 @@ function createEnglishModules() {
     bindModuleToggleEvents();
 }
 
-// 创建英语单元卡
-function createEnglishUnitCard(unit) {
+// 创建英语小节标题
+function createEnglishUnitHeader(unit) {
     const unitData = getData('english', unit.id) || {
         seen: false,
         guess: false,
         note: ""
     };
     
+    const statusText = unitData.seen ? (unitData.guess ? "已见过且能猜意思" : "已见过") : "未见过";
+    
     return `
-        <div class="unit-card" data-subject="english" data-id="${unit.id}">
-                        <div class="unit-header">
+        <div class="section" data-subject="english" data-id="${unit.id}">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>${unit.id}. ${unit.name}</span>
+                </div>
+                <div class="section-stats">
+                    <span>${statusText}</span>
+                </div>
+            </div>
+            <div class="section-content">
+                ${createEnglishUnitCard(unit, unitData)}
+            </div>
+        </div>
+    `;
+}
+
+// 创建英语单元卡
+function createEnglishUnitCard(unit, unitData) {
+    return `
+        <div class="unit-card">
+            <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
             </div>
             
@@ -1040,7 +1110,7 @@ function createWritingModules() {
                 </div>
             </div>
             <div class="module-content">
-                ${chapter.units.map(unit => createWritingUnitCard(unit)).join('')}
+                ${chapter.units.map(unit => createWritingUnitHeader(unit)).join('')}
             </div>
         `;
         
@@ -1051,17 +1121,39 @@ function createWritingModules() {
     bindModuleToggleEvents();
 }
 
-// 创建写作单元卡
-function createWritingUnitCard(unit) {
+// 创建写作小节标题
+function createWritingUnitHeader(unit) {
     const unitData = getData('writing', unit.id) || {
         seen: false,
         replace: false,
         note: ""
     };
     
+    const statusText = unitData.seen ? (unitData.replace ? "已见过且能替换" : "已见过") : "未见过";
+    
     return `
-        <div class="unit-card" data-subject="writing" data-id="${unit.id}">
-                        <div class="unit-header">
+        <div class="section" data-subject="writing" data-id="${unit.id}">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>${unit.id}. ${unit.name}</span>
+                </div>
+                <div class="section-stats">
+                    <span>${statusText}</span>
+                </div>
+            </div>
+            <div class="section-content">
+                ${createWritingUnitCard(unit, unitData)}
+            </div>
+        </div>
+    `;
+}
+
+// 创建写作单元卡
+function createWritingUnitCard(unit, unitData) {
+    return `
+        <div class="unit-card">
+            <div class="unit-header">
                 <div class="unit-name">${unit.id}. ${unit.name}</div>
             </div>
             
@@ -1107,6 +1199,22 @@ function bindModuleToggleEvents() {
     document.querySelectorAll('.module-header').forEach(header => {
         header.addEventListener('click', handleModuleToggle);
     });
+    
+    // 绑定小节展开/收起事件
+    bindSectionToggleEvents();
+}
+
+// 绑定小节展开/收起事件
+function bindSectionToggleEvents() {
+    // 移除现有的事件监听器
+    document.querySelectorAll('.section-header').forEach(header => {
+        header.removeEventListener('click', handleSectionToggle);
+    });
+    
+    // 添加新的事件监听器
+    document.querySelectorAll('.section-header').forEach(header => {
+        header.addEventListener('click', handleSectionToggle);
+    });
 }
 
 // 处理模块展开/收起
@@ -1123,12 +1231,47 @@ function handleModuleToggle(e) {
     } else {
         content.classList.remove('expanded');
         icon.style.transform = 'rotate(0deg)';
+        
+        // 收起所有小节内容
+        const sections = content.querySelectorAll('.section-content');
+        const sectionIcons = content.querySelectorAll('.section-title i');
+        sections.forEach(section => {
+            section.classList.remove('expanded');
+        });
+        sectionIcons.forEach(icon => {
+            icon.style.transform = 'rotate(0deg)';
+        });
+        content.querySelectorAll('.section-header').forEach(h => {
+            h.classList.remove('active');
+        });
+    }
+}
+
+// 处理小节展开/收起
+function handleSectionToggle(e) {
+    e.stopPropagation(); // 阻止事件冒泡，避免触发模块的点击事件
+    
+    const header = e.currentTarget;
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('.section-title i');
+    
+    header.classList.toggle('active');
+    
+    if (header.classList.contains('active')) {
+        content.classList.add('expanded');
+        icon.style.transform = 'rotate(90deg)';
+    } else {
+        content.classList.remove('expanded');
+        icon.style.transform = 'rotate(0deg)';
     }
 }
 
 // 保存单元卡状态
 function saveUnitCard(subject, id) {
-    const unitCard = document.querySelector(`.unit-card[data-subject="${subject}"][data-id="${id}"]`);
+    const section = document.querySelector(`.section[data-subject="${subject}"][data-id="${id}"]`);
+    if (!section) return false;
+    
+    const unitCard = section.querySelector('.unit-card');
     if (!unitCard) return false;
     
     let dataToSave = {};
@@ -1187,21 +1330,103 @@ function saveUnitCard(subject, id) {
     if (success) {
         showNotification('状态已保存成功！');
         
-        // 更新单元卡的显示
-        if (subject === 'math') {
-            // 更新阶段计数
-            const stageCount = Object.values(dataToSave.stages || {}).filter(v => v).length;
-            const totalStages = subject === 'math' ? mathStageFields.length : logicStageFields.length;
-            const stageTitle = unitCard.querySelector('.stage-fields h4');
-            if (stageTitle) {
-                stageTitle.textContent = `学习阶段记录 (${stageCount}/${totalStages})`;
-            }
-        }
+        // 更新小节标题的显示
+        updateSectionHeader(subject, id, dataToSave);
+        
+        // 更新模块的完成计数
+        updateModuleStats(subject, id);
         
         return true;
     } else {
         showNotification('保存失败，请重试！', 'error');
         return false;
+    }
+}
+
+// 更新小节标题显示
+function updateSectionHeader(subject, id, data) {
+    const section = document.querySelector(`.section[data-subject="${subject}"][data-id="${id}"]`);
+    if (!section) return;
+    
+    const header = section.querySelector('.section-header');
+    const stats = section.querySelector('.section-stats');
+    
+    if (subject === 'math') {
+        const stageCount = Object.values(data.stages || {}).filter(v => v).length;
+        const totalStages = mathStageFields.length;
+        const statusName = mathStatuses.find(s => s.id === data.status)?.name || "未接触";
+        if (stats) {
+            stats.innerHTML = `<span>${stageCount}/${totalStages} 阶段 | ${statusName}</span>`;
+        }
+    } else if (subject === 'logic') {
+        const stageCount = Object.values(data.stages || {}).filter(v => v).length;
+        const totalStages = logicStageFields.length;
+        const statusName = logicStatuses.find(s => s.id === data.status)?.name || "未接触";
+        if (stats) {
+            stats.innerHTML = `<span>${stageCount}/${totalStages} 阶段 | ${statusName}</span>`;
+        }
+    } else if (subject === 'english') {
+        const statusText = data.seen ? (data.guess ? "已见过且能猜意思" : "已见过") : "未见过";
+        if (stats) {
+            stats.innerHTML = `<span>${statusText}</span>`;
+        }
+    } else if (subject === 'writing') {
+        const statusText = data.seen ? (data.replace ? "已见过且能替换" : "已见过") : "未见过";
+        if (stats) {
+            stats.innerHTML = `<span>${statusText}</span>`;
+        }
+    }
+}
+
+// 更新模块统计
+function updateModuleStats(subject, unitId) {
+    let chapterData, stageFields;
+    
+    // 确定所属章节
+    if (subject === 'math') {
+        chapterData = mathData;
+        stageFields = mathStageFields;
+    } else if (subject === 'logic') {
+        chapterData = logicData;
+        stageFields = logicStageFields;
+    } else if (subject === 'english') {
+        chapterData = englishData;
+    } else if (subject === 'writing') {
+        chapterData = writingData;
+    } else {
+        return;
+    }
+    
+    // 找到单元所在的章节
+    for (let i = 0; i < chapterData.length; i++) {
+        const chapter = chapterData[i];
+        const unit = chapter.units.find(u => u.id === unitId);
+        
+        if (unit) {
+            // 重新计算本章节完成情况
+            const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
+            let completedCount = 0;
+            
+            chapter.units.forEach(u => {
+                const unitData = storedData[subject][u.id];
+                if (subject === 'math' || subject === 'logic') {
+                    if (unitData && unitData.status !== "unknown") {
+                        completedCount++;
+                    }
+                } else if (subject === 'english' || subject === 'writing') {
+                    if (unitData && (unitData.seen || unitData.guess || unitData.replace)) {
+                        completedCount++;
+                    }
+                }
+            });
+            
+            // 更新模块统计显示
+            const moduleHeader = document.querySelector(`.module[data-chapter-index="${i}"] .module-stats`);
+            if (moduleHeader) {
+                moduleHeader.innerHTML = `<span>${completedCount}/${chapter.units.length} 完成</span>`;
+            }
+            break;
+        }
     }
 }
 
