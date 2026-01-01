@@ -665,108 +665,25 @@ function markTodayStudied() {
 
 // 更新今日状态显示
 function updateTodayStatus() {
+    const todayStatusElement = document.getElementById('today-status-text');
+    const indicatorDot = document.querySelector('.indicator-dot');
     const studyStatusElement = document.getElementById('today-study-status');
     
     if (appState.todayStudied) {
+        todayStatusElement.textContent = "已学习";
+        indicatorDot.style.backgroundColor = "#7BCCB5";
         studyStatusElement.textContent = "已学习";
-        studyStatusElement.style.color = "#7BCCB5";
+        document.getElementById('mark-studied-btn').innerHTML = '<i class="fas fa-check-circle"></i> 今日已学习';
+        document.getElementById('mark-studied-btn').classList.add('disabled');
+        document.getElementById('mark-studied-btn').disabled = true;
     } else {
+        todayStatusElement.textContent = "未开始";
+        indicatorDot.style.backgroundColor = "#FF6961";
         studyStatusElement.textContent = "未开始";
-        studyStatusElement.style.color = "#FF6961";
+        document.getElementById('mark-studied-btn').innerHTML = '<i class="fas fa-check-circle"></i> 标记今日已学习';
+        document.getElementById('mark-studied-btn').classList.remove('disabled');
+        document.getElementById('mark-studied-btn').disabled = false;
     }
-}
-
-// 标记今日已学习（从首页移除，但在其他地方可能需要）
-function markTodayStudied() {
-    const storedData = JSON.parse(localStorage.getItem('mbaStudyData'));
-    const today = new Date().toDateString();
-    
-    storedData.todayStudied = true;
-    storedData.lastStudyDate = today;
-    
-    localStorage.setItem('mbaStudyData', JSON.stringify(storedData));
-    
-    appState.todayStudied = true;
-    appState.lastStudyDate = today;
-    
-    updateTodayStatus();
-    
-    // 显示确认消息
-    showNotification("今日学习状态已更新！");
-}
-
-// 初始化事件监听
-function initEventListeners() {
-    // 导航菜单点击事件
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const page = this.getAttribute('data-page');
-            
-            // 更新导航状态
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            // 显示对应页面
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-            });
-            document.getElementById(page).classList.add('active');
-            
-            // 更新页面标题
-            document.title = `MBA备考 - ${this.querySelector('span').textContent}`;
-            
-            // 如果切换到学科页面，重新绑定模块事件
-            if (page !== 'dashboard' && page !== 'exercise-book') {
-                setTimeout(() => {
-                    bindModuleToggleEvents();
-                }, 100);
-            }
-            
-            // 如果切换到习题本页面，重新加载题目
-            if (page === 'exercise-book') {
-                const currentSubject = document.querySelector('.tab.active').dataset.subject;
-                loadQuestions(currentSubject);
-            }
-        });
-    });
-    
-    // 状态选项点击事件（单选）
-    document.addEventListener('click', function(e) {
-        // 数学和逻辑状态选项（单选）
-        if (e.target.closest('.status-option.unknown, .status-option.seen, .status-option.familiar, .status-option.mastered')) {
-            const option = e.target.closest('.status-option');
-            const unitCard = option.closest('.unit-card');
-            
-            // 移除同一组中其他选项的选中状态
-            const statusOptions = unitCard.querySelectorAll('.status-option.unknown, .status-option.seen, .status-option.familiar, .status-option.mastered');
-            statusOptions.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // 选中当前选项
-            option.classList.add('selected');
-        }
-        
-        // 英语和写作状态选项（可以多选）
-        if (e.target.closest('.status-option.english-seen, .status-option.english-guess, .status-option.writing-seen, .status-option.writing-replace')) {
-            const option = e.target.closest('.status-option');
-            option.classList.toggle('selected');
-        }
-        
-        // 保存按钮点击事件
-        if (e.target.closest('.save-btn')) {
-            const saveBtn = e.target.closest('.save-btn');
-            const subject = saveBtn.getAttribute('data-subject');
-            const id = parseInt(saveBtn.getAttribute('data-id'));
-            
-            saveUnitCard(subject, id);
-        }
-    });
-    
-    // 习题本事件监听
-    initExerciseBookListeners();
 }
 
 // 显示通知
@@ -1658,4 +1575,3 @@ function initApp() {
 
 // 页面加载完成后初始化应用
 document.addEventListener('DOMContentLoaded', initApp);
-
